@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
+import '../../../../view_model/followers_view_model.dart';
+import '../../../../view_model/following_view_model.dart';
 
 class UserProfile extends StatefulWidget {
   final String? name;
@@ -15,14 +18,15 @@ class UserProfile extends StatefulWidget {
   final String? image;
   final List? language;
   final String? about;
-
+  final int? userId;
   const UserProfile(
       {super.key,
       this.name,
       this.joinDate,
       this.image,
       this.language,
-      this.about});
+      this.about,
+      this.userId});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -144,19 +148,21 @@ class _UserProfileState extends State<UserProfile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FollowersScreen()),
+                          builder: (context) =>
+                              FollowersScreen(userId: widget.userId)),
                     );
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
                       CustomText(
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data: '325K',
+                        data:
+                            '${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0}',
                       ),
                       size,
-                      CustomText(
+                      const CustomText(
                         fSize: 12,
                         fweight: FontWeight.w500,
                         fontColor: AppColors.splashTextColor,
@@ -172,19 +178,22 @@ class _UserProfileState extends State<UserProfile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FollowingScreen()),
+                        builder: (context) =>
+                            FollowingScreen(userId: widget.userId),
+                      ),
                     );
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
                       CustomText(
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data: '3214',
+                        data:
+                            '${Provider.of<FollowingViewModel>(context).followingData.data?.data?.length ?? 0}',
                       ),
                       size,
-                      CustomText(
+                      const CustomText(
                         fSize: 12,
                         fweight: FontWeight.w500,
                         fontColor: AppColors.splashTextColor,

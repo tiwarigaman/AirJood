@@ -9,7 +9,9 @@ import 'package:airjood/view_model/auth_view_model.dart';
 import 'package:airjood/view_model/comment_view_model.dart';
 import 'package:airjood/view_model/delete_experiance_view_model.dart';
 import 'package:airjood/view_model/facilities_view_model.dart';
+import 'package:airjood/view_model/follow_view_model.dart';
 import 'package:airjood/view_model/followers_view_model.dart';
+import 'package:airjood/view_model/following_view_model.dart';
 import 'package:airjood/view_model/get_experiance_list_view_model.dart';
 import 'package:airjood/view_model/get_reels_view_model.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
@@ -68,7 +70,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => GetExperianceListViewModel()),
         ChangeNotifierProvider(create: (context) => AddExperianceViewModel()),
+        ChangeNotifierProvider(create: (context) => FollowingViewModel()),
         ChangeNotifierProvider(create: (context) => FollowersViewModel()),
+        ChangeNotifierProvider(create: (context) => FollowViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

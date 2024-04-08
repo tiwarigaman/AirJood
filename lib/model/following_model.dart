@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-FollowersModel followersModelFromJson(String str) =>
-    FollowersModel.fromJson(json.decode(str));
+FollowingModel followersModelFromJson(String str) =>
+    FollowingModel.fromJson(json.decode(str));
 
-String followersModelToJson(FollowersModel data) => json.encode(data.toJson());
+String followersModelToJson(FollowingModel data) => json.encode(data.toJson());
 
-class FollowersModel {
+class FollowingModel {
   int? currentPage;
   List<Datum>? data;
   String? firstPageUrl;
@@ -24,7 +24,7 @@ class FollowersModel {
   int? to;
   int? total;
 
-  FollowersModel({
+  FollowingModel({
     this.currentPage,
     this.data,
     this.firstPageUrl,
@@ -40,7 +40,7 @@ class FollowersModel {
     this.total,
   });
 
-  factory FollowersModel.fromJson(Map<String, dynamic> json) => FollowersModel(
+  factory FollowingModel.fromJson(Map<String, dynamic> json) => FollowingModel(
         currentPage: json["current_page"],
         data: json["data"] == null
             ? []

@@ -160,6 +160,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
           guide: widget.guide,
           item: data,
           screen: widget.screen,
+          userId: widget.userId,
           list: data2,
         ),
       ),

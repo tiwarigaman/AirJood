@@ -1,10 +1,6 @@
 import 'package:airjood/repository/add_remove_like_repository.dart';
-import 'package:airjood/view_model/user_view_model.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import '../utils/utils.dart';
-import 'comment_view_model.dart';
-import 'home_reels_view_model.dart';
 
 class AddRemoveLikeViewModel extends ChangeNotifier {
   final myRepo = AddRemoveLikeRepository();

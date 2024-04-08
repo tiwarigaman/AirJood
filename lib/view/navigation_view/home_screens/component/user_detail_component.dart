@@ -18,6 +18,7 @@ class UserDetails extends StatefulWidget {
   final List? language;
   final bool? guide;
   final String? screen;
+  final int? userId;
   final List<ReelsData>? item;
   final List<Datum>? list;
   const UserDetails({
@@ -33,6 +34,7 @@ class UserDetails extends StatefulWidget {
     this.item,
     this.list,
     this.screen,
+    this.userId,
   });
 
   @override
@@ -65,6 +67,7 @@ class _UserDetailsState extends State<UserDetails> {
             joinDate: widget.createdAt,
             about: widget.about,
             language: widget.language,
+            userId: widget.userId,
           ),
         ),
         const SizedBox(

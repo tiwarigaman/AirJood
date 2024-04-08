@@ -727,3 +727,71 @@ class ReelShimmer extends StatelessWidget {
     );
   }
 }
+
+class FollowersShimmer extends StatelessWidget {
+  const FollowersShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Color shimmerColor = Colors.white70;
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade400,
+      highlightColor: Colors.grey.shade300,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 9,
+        itemBuilder: (context, index) {
+          return ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: Container(
+              height: 55,
+              width: 55,
+              decoration: BoxDecoration(
+                color: shimmerColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  height: 10,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: shimmerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Container(
+                  height: 10,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: shimmerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ],
+            ),
+            subtitle: Container(
+              height: 10,
+              width: 100,
+              decoration: BoxDecoration(
+                color: shimmerColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            trailing: Container(
+              height: 35,
+              width: 90,
+              decoration: BoxDecoration(
+                color: shimmerColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

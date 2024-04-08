@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
+import '../../../../view_model/followers_view_model.dart';
+import '../../../../view_model/following_view_model.dart';
 import '../../../../view_model/get_reels_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 
@@ -36,6 +38,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       about = value?.about;
       language = value?.languages;
       guide = value?.is_upgrade;
+      userId = value?.id;
       setState(() {});
     });
     UserViewModel().getToken().then((value) {
@@ -49,7 +52,18 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   int currentPage = 0;
   bool isLoading = false;
-
+  String? token;
+  String? image;
+  String? name;
+  List? language;
+  String? about;
+  DateTime? createdAt;
+  String? number;
+  String? email;
+  String? gender;
+  DateTime? dob;
+  bool? guide;
+  int? userId;
   void _onPageChanged() {
     final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
     if (_pageController.page == _pageController.page!.toInt()) {
@@ -89,18 +103,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     _pageController.dispose();
     super.dispose();
   }
-
-  String? token;
-  String? image;
-  String? name;
-  List? language;
-  String? about;
-  DateTime? createdAt;
-  String? number;
-  String? email;
-  String? gender;
-  DateTime? dob;
-  bool? guide;
 
   @override
   Widget build(BuildContext context) {
@@ -214,6 +216,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           about: about,
           language: language,
           guide: guide,
+          userId: userId,
           item: reelsProvider.laqtaData,
           list: experianceProvider.data2,
           // userData: userData,

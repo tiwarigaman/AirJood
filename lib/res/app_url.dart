@@ -19,7 +19,9 @@ class AppUrl {
   static var getComment = '$baseUrl/api/v1/comment';
   static var addComment = '$baseUrl/api/v1/comment';
   static var addRemoveLike = '$baseUrl/api/v1/comment';
+  static var follow = '$baseUrl/api/v1/followingAction';
   static var addReelsRemoveLike = '$baseUrl/api/v1/reels';
   static var getShareReels = '$baseUrl/api/v1/reels/detail';
-  static var getFollowers = '$baseUrl/api/v1/following';
+  static var getFollowing = '$baseUrl/api/v1/following';
+  static var getFollower = '$baseUrl/api/v1/follower';
 }

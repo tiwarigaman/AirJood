@@ -1,4 +1,5 @@
 import 'package:airjood/res/components/maintextfild.dart';
+import 'package:airjood/view_model/follow_view_model.dart';
 import 'package:airjood/view_model/followers_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,11 @@ import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/custom_shimmer.dart';
 import '../../../../view_model/user_view_model.dart';
-import '../component/reels_user.dart';
 import 'experience_screens/reels_user_detail_screen.dart';
 
 class FollowersScreen extends StatefulWidget {
   final int? userId;
+
   const FollowersScreen({super.key, this.userId});
 
   @override
@@ -25,9 +26,29 @@ class _FollowersScreenState extends State<FollowersScreen> {
   void initState() {
     UserViewModel().getToken().then((value) {
       Provider.of<FollowersViewModel>(context, listen: false)
-          .followersGetApi(value!, 102);
+          .followerGetApi(value!, widget.userId!);
     });
     super.initState();
+  }
+
+  bool follow = false;
+  Map<int, bool> followStates = {};
+  handleFollowers(int userId) {
+    bool isFollowing =
+        followStates[userId] ?? false; // Get current follow state
+    bool newFollowState = !isFollowing; // Toggle the follow state
+    UserViewModel().getToken().then((token) async {
+      await Provider.of<FollowViewModel>(context, listen: false).followApi(
+        token!,
+        userId,
+        newFollowState,
+        context,
+      );
+      setState(() {
+        followStates[userId] =
+            newFollowState; // Update follow state for this user
+      });
+    });
   }
 
   @override
@@ -50,8 +71,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
               weight: 2,
             ),
           ),
-          const CustomText(
-            data: 'Followers (325K)',
+          CustomText(
+            data:
+                'Followers (${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0})',
             fSize: 20,
             fweight: FontWeight.w700,
             fontColor: AppColors.blackColor,
@@ -76,18 +98,21 @@ class _FollowersScreenState extends State<FollowersScreen> {
               ),
               Consumer<FollowersViewModel>(
                 builder: (context, value, child) {
-                  switch (value.followersData.status) {
+                  switch (value.followerData.status) {
                     case Status.LOADING:
-                      return const ChatShimmer();
+                      return const FollowersShimmer();
                     case Status.ERROR:
-                      return const ChatShimmer();
+                      return const FollowersShimmer();
                     case Status.COMPLETED:
                       return ListView.builder(
-                        itemCount: value.followersData.data?.data?.length,
+                        itemCount: value.followerData.data?.data?.length,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          var data = value.followersData.data?.data?[index];
+                          var data = value.followerData.data?.data?[index];
+                          int userId = data?.createdBy?.id ?? 0; // Get user ID
+
+                          bool isFollowing = followStates[userId] ?? false;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: InkWell(
@@ -96,16 +121,15 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ReelsUserDetailScreen(
-                                      about: data?.followedUser?.about,
-                                      image:
-                                          data?.followedUser?.profileImageUrl,
-                                      email: data?.followedUser?.email,
-                                      number: data?.followedUser?.contactNo,
-                                      name: data?.followedUser?.name,
-                                      guide: data?.followedUser?.isUpgrade,
-                                      createdAt: data?.followedUser?.createdAt,
-                                      language: data?.followedUser?.languages,
-                                      userId: data?.followedUser?.id,
+                                      about: data?.createdBy?.about,
+                                      image: data?.createdBy?.profileImageUrl,
+                                      email: data?.createdBy?.email,
+                                      number: data?.createdBy?.contactNo,
+                                      name: data?.createdBy?.name,
+                                      guide: data?.createdBy?.isUpgrade,
+                                      createdAt: data?.createdBy?.createdAt,
+                                      language: data?.createdBy?.languages,
+                                      userId: data?.createdBy?.id,
                                       screen: 'UserDetails',
                                     ),
                                   ),
@@ -115,29 +139,17 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 borderRadius: BorderRadius.circular(100),
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                      '${data?.followedUser?.profileImageUrl}',
+                                      '${data?.createdBy?.profileImageUrl}',
+                                  height: 55,
+                                  width: 55,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            // leading: ReelsUser(
-                            //   image: data?.followedUser?.profileImageUrl,
-                            //   name: data?.followedUser?.name,
-                            //   createdAt: data?.followedUser?.createdAt,
-                            //   number: data?.followedUser?.contactNo,
-                            //   email: data?.followedUser?.email,
-                            //   about: data?.followedUser?.about,
-                            //   language: data?.followedUser?.languages,
-                            //   guide: data?.followedUser?.isUpgrade,
-                            //   userId: data?.followedUser?.id,
-                            //   dateTime: data?.followedUser?.createdAt,
-                            //   discription: data?.followedUser?.about,
-                            //   screen: 'UserDetails',
-                            //   // userData: userData,
-                            // ),
                             title: Row(
                               children: [
                                 CustomText(
-                                  data: '${data?.followedUser?.name}',
+                                  data: '${data?.createdBy?.name}',
                                   fontColor: AppColors.blackTextColor,
                                   fSize: 14,
                                   fweight: FontWeight.w500,
@@ -145,16 +157,23 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const CustomText(
-                                  data: '+ Follow',
-                                  fontColor: AppColors.blueShadeColor,
-                                  fSize: 14,
-                                  fweight: FontWeight.w500,
+                                InkWell(
+                                  onTap: () {
+                                    handleFollowers(
+                                        data?.createdBy?.id! as int);
+                                    setState(() {});
+                                  },
+                                  child: CustomText(
+                                    data: isFollowing ? "unfollow" : "+ Follow",
+                                    fontColor: AppColors.blueShadeColor,
+                                    fSize: 14,
+                                    fweight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
                             subtitle: CustomText(
-                              data: '${data?.followedUser?.email}',
+                              data: '${data?.createdBy?.email}',
                               fontColor: AppColors.greyTextColor,
                               fSize: 14,
                               fweight: FontWeight.w500,

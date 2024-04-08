@@ -1,27 +1,28 @@
-import 'package:airjood/model/followers_model.dart';
-import 'package:airjood/repository/followers_repository.dart';
+import 'package:airjood/model/follower_model.dart';
+import 'package:airjood/model/following_model.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../data/response/api_response.dart';
 
+import '../repository/follower_repository.dart';
 import '../utils/utils.dart';
 
 class FollowersViewModel with ChangeNotifier {
-  final myRepo = FollowersRepository();
+  final myRepo = FollowerRepository();
 
-  ApiResponse<FollowersModel> followersData = ApiResponse.loading();
-  setFollowersList(ApiResponse<FollowersModel> response) {
-    followersData = response;
+  ApiResponse<FollowersModel> followerData = ApiResponse.loading();
+  setFollowerList(ApiResponse<FollowersModel> response) {
+    followerData = response;
     notifyListeners();
   }
 
-  Future<void> followersGetApi(String token, int reelId) async {
-    setFollowersList(ApiResponse.loading());
-    myRepo.getFollowers(token, reelId).then((value) {
-      setFollowersList(ApiResponse.completed(value));
+  Future<void> followerGetApi(String token, int userId) async {
+    setFollowerList(ApiResponse.loading());
+    myRepo.getFollower(token, userId).then((value) {
+      setFollowerList(ApiResponse.completed(value));
       //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
-      setFollowersList(ApiResponse.error(error.toString()));
+      setFollowerList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');
     });
   }
