@@ -345,6 +345,9 @@ class User {
   bool? isUpgrade;
   bool? isFollowing;
   bool? isFollower;
+  int? followersCount;
+  int? followingsCount;
+
   User({
     this.id,
     this.languages,
@@ -363,6 +366,8 @@ class User {
     this.isUpgrade,
     this.isFollowing,
     this.isFollower,
+    this.followersCount,
+    this.followingsCount,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -389,6 +394,8 @@ class User {
         isUpgrade: json["is_upgrade"],
         isFollowing: json["is_following"],
         isFollower: json["is_follower"],
+        followersCount: json["followers_count"],
+        followingsCount: json["followings_count"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -412,6 +419,8 @@ class User {
         "is_upgrade": isUpgrade,
         "is_following": isFollowing,
         "is_follower": isFollower,
+        "followers_count": followersCount,
+        "followings_count": followingsCount,
       };
 
   @override

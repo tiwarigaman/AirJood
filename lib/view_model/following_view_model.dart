@@ -20,7 +20,6 @@ class FollowingViewModel with ChangeNotifier {
     setFollowingList(ApiResponse.loading());
     myRepo.getFollowing(token, reelId, search: search).then((value) {
       setFollowingList(ApiResponse.completed(value));
-      //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
       setFollowingList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

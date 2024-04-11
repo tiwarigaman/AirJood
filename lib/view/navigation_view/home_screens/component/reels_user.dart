@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../view_model/follow_view_model.dart';
+import '../../../../view_model/home_reels_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 
 class ReelsUser extends StatefulWidget {
@@ -25,6 +26,8 @@ class ReelsUser extends StatefulWidget {
   final String? screen;
   final int? experienceId;
   final bool? isFollow;
+final int? followerCount;
+final int? followingCount;
   const ReelsUser(
       {super.key,
       this.dateTime,
@@ -40,38 +43,19 @@ class ReelsUser extends StatefulWidget {
       this.userId,
       this.screen,
       this.experienceId,
-      this.isFollow});
+      this.isFollow, this.followerCount, this.followingCount});
 
   @override
   State<ReelsUser> createState() => _ReelsUserState();
 }
 
 class _ReelsUserState extends State<ReelsUser> {
-  Map<int, bool> followStates = {};
-  handleFollowers(int userId) {
-    bool isFollowing =
-        followStates[userId] ?? false; // Get current follow state
-    bool newFollowState = !isFollowing; // Toggle the follow state
-    UserViewModel().getToken().then((token) async {
-      await Provider.of<FollowViewModel>(context, listen: false).followApi(
-        token!,
-        userId,
-        newFollowState == true ? '1' : '0',
-        context,
-      );
-      setState(() {
-        followStates[userId] =
-            newFollowState; // Update follow state for this user
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
     String? formattedDate =
         '${widget.dateTime?.day ?? 02}.${widget.dateTime?.month ?? 05}.${widget.dateTime?.year ?? 2024}';
-    int userId = widget.userId ?? 0; // Get user ID
-    bool isFollowing = (followStates[userId] ?? widget.isFollow) ?? false;
+    bool isFollowing = widget.isFollow ?? false;
     return Align(
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
@@ -98,6 +82,8 @@ class _ReelsUserState extends State<ReelsUser> {
                         userId: widget.userId,
                         screen: widget.screen,
                         isFollow: widget.isFollow,
+                        followingCount: widget.followingCount,
+                        followerCount: widget.followerCount,
                       ),
                     ),
                   );
@@ -172,7 +158,8 @@ class _ReelsUserState extends State<ReelsUser> {
                             ),
                       InkWell(
                         onTap: () {
-                          handleFollowers(widget.userId!);
+                          homeReelsProvider.handleFollowers(context,
+                              widget.userId!, widget.isFollow ?? false);
                         },
                         child: Text(
                           isFollowing ? "" : "Follow",

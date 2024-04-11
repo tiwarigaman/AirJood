@@ -22,7 +22,9 @@ class UserDetails extends StatefulWidget {
   final int? userId;
   final List<ReelsData>? item;
   final List<Datum>? list;
-  final List<Data>? bookingList;
+  final int? followerCount;
+  final int? followingCount;
+  // final List<Data>? bookingList;
   const UserDetails({
     super.key,
     this.name,
@@ -36,8 +38,8 @@ class UserDetails extends StatefulWidget {
     this.item,
     this.list,
     this.screen,
-    this.userId,
-    this.bookingList,
+    this.userId, this.followerCount, this.followingCount,
+    // this.bookingList,
   });
 
   @override
@@ -51,6 +53,7 @@ class _UserDetailsState extends State<UserDetails> {
   );
 
   String? result;
+
   @override
   Widget build(BuildContext context) {
     result = widget.language?.join(',');
@@ -71,6 +74,9 @@ class _UserDetailsState extends State<UserDetails> {
             about: widget.about,
             language: widget.language,
             userId: widget.userId,
+            screen: widget.screen,
+            followerCount: widget.followerCount,
+            followingCount: widget.followingCount,
           ),
         ),
         const SizedBox(
@@ -178,7 +184,7 @@ class _UserDetailsState extends State<UserDetails> {
             : ExperianceTabData(
                 items: widget.item,
                 list: widget.list,
-                bookingList: widget.bookingList,
+                // bookingList: widget.bookingList,
                 screen: widget.screen,
               ),
         const SizedBox(

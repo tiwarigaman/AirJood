@@ -2,13 +2,12 @@ import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiServices.dart';
 import '../res/app_url.dart';
 
-class DeleteFollowerRepository {
+class DeleteExperianceRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future deleteFollower(String token, int id) async {
-    print('${AppUrl.deleteFollower}/$id');
+  Future deleteExperiance(String token, int id) async {
     try {
-      dynamic response = await apiAServices.followPostApiResponse(
-          '${AppUrl.deleteFollower}/$id', token);
+      dynamic response = await apiAServices.getDeleteApiResponse(
+          '${AppUrl.deleteExperiance}/$id', token);
       return response;
     } catch (e) {
       rethrow;

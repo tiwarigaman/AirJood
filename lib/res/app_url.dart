@@ -23,7 +23,7 @@ class AppUrl {
   static var addReelsRemoveLike = '$baseUrl/api/v1/reels';
   static var getShareReels = '$baseUrl/api/v1/reels/detail';
   static var getFollowing = '$baseUrl/api/v1/following';
-  static var deleteFollower = '$baseUrl/api/v1/booking';
+  static var deleteFollower = '$baseUrl/api/v1/removeFollower';
   static var getFollower = '$baseUrl/api/v1/follower';
   static var getBookingList = '$baseUrl/api/v1/booking';
 }

@@ -18,7 +18,6 @@ class FollowViewModel extends ChangeNotifier {
     followLoading(true);
     myRepo.followApi(token, userId, follow).then((value) {
       followLoading(false);
-      //Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       followLoading(false);
       Utils.tostMessage('$error');

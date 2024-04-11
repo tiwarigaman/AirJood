@@ -16,14 +16,14 @@ import '../sub_home_screens/show_upload_reels.dart';
 class ExperianceTabData extends StatefulWidget {
   final List<ReelsData>? items;
   final List<Datum>? list;
-  final List<Data>? bookingList;
+  // final List<Data>? bookingList;
   final String? screen;
   const ExperianceTabData({
     super.key,
     this.items,
     this.list,
     this.screen,
-    this.bookingList,
+    // this.bookingList,
   });
 
   @override
@@ -122,7 +122,9 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
             child: [
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: DashBoardWidget(bookingList: widget.bookingList),
+                child: DashBoardWidget(
+                    // bookingList: widget.bookingList,
+                ),
               ),
               TabData(
                 item: widget.items,

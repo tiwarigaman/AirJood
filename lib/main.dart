@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FollowersViewModel()),
         ChangeNotifierProvider(create: (context) => FollowViewModel()),
         ChangeNotifierProvider(create: (context) => DeleteFollowerViewModel()),
-        ChangeNotifierProvider(create: (context) => GetBookingListViewModel()),
+        // ChangeNotifierProvider(create: (context) => GetBookingListViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

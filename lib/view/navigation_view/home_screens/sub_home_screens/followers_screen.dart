@@ -10,13 +10,15 @@ import '../../../../data/response/status.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/custom_shimmer.dart';
+import '../../../../view_model/home_reels_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 import 'experience_screens/reels_user_detail_screen.dart';
 
 class FollowersScreen extends StatefulWidget {
   final int? userId;
+  final String? screen;
 
-  const FollowersScreen({super.key, this.userId});
+  const FollowersScreen({super.key, this.userId, this.screen});
 
   @override
   State<FollowersScreen> createState() => _FollowersScreenState();
@@ -51,16 +53,18 @@ class _FollowersScreenState extends State<FollowersScreen> {
     });
   }
 
-  handleRemoveFollowers(int userId) {
+  handleRemoveFollowers(int userId,int loginUserId) {
     UserViewModel().getToken().then((value) {
       Provider.of<DeleteFollowerViewModel>(context, listen: false)
-          .deleteFollowerApi(value!, userId, context);
+          .deleteFollowerApi(value!, userId, loginUserId,context);
     });
   }
 
   final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -135,9 +139,12 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var data = value.followerData.data?.data?[index];
-                          int userId = data?.createdBy?.id ?? 0; // Get user ID
+                          // bool isFollowing =
+                          //     data?.isFollowingByFollowedUser ?? false;
+                          int userId =
+                              data?.createdBy?.id ?? 0;
                           bool isFollowing =
-                              data?.isFollowingByFollowedUser ?? false;
+                              followStates[userId] ?? false;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: GestureDetector(
@@ -155,7 +162,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                       createdAt: data?.createdBy?.createdAt,
                                       language: data?.createdBy?.languages,
                                       userId: data?.createdBy?.id,
-                                      screen: 'UserDetails',
+                                      isFollow: data?.isFollowingByFollowedUser,
+                                      screen: 'Follow',
                                     ),
                                   ),
                                 );
@@ -165,6 +173,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       '${data?.createdBy?.profileImageUrl}',
+                                  errorWidget: (context, url, error) {
+                                    return const Icon(Icons.error);
+                                  },
                                   height: 55,
                                   width: 55,
                                   fit: BoxFit.cover,
@@ -182,19 +193,25 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    handleFollowers(
-                                        data?.createdBy?.id! as int);
-                                    setState(() {});
-                                  },
-                                  child: CustomText(
-                                    data: isFollowing ? "" : "+ Follow",
-                                    fontColor: AppColors.blueShadeColor,
-                                    fSize: 14,
-                                    fweight: FontWeight.w500,
-                                  ),
-                                ),
+                                widget.screen == 'MyScreen'
+                                    ? InkWell(
+                                        onTap: () {
+                                          // homeReelsProvider.handleFollowers(
+                                          //     context,
+                                          //     data?.createdBy!.id! as int,
+                                          //     data!.isFollowingByFollowedUser
+                                          //         as bool);
+                                          handleFollowers(data?.createdBy!.id! as int);
+                                          setState(() {});
+                                        },
+                                        child: CustomText(
+                                          data: isFollowing || data?.isFollowingByFollowedUser == true ? "" : "+ Follow",
+                                          fontColor: AppColors.blueShadeColor,
+                                          fSize: 14,
+                                          fweight: FontWeight.w500,
+                                        ),
+                                      )
+                                    : const SizedBox(),
                               ],
                             ),
                             subtitle: CustomText(
@@ -203,27 +220,32 @@ class _FollowersScreenState extends State<FollowersScreen> {
                               fSize: 14,
                               fweight: FontWeight.w500,
                             ),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                handleRemoveFollowers(data!.followedUserId!);
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: Colors.red.shade50,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Center(
-                                  child: CustomText(
-                                    data: 'Remove',
-                                    fontColor: Color(0xFFD43672),
-                                    fSize: 13,
-                                    fweight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            trailing: widget.screen == 'MyScreen'
+                                ? GestureDetector(
+                                    onTap: () {
+                                      UserViewModel().getUser().then((values) {
+                                        handleRemoveFollowers(
+                                          data?.createdBy!.id as int,values!.id!);
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red.shade50,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Center(
+                                        child: CustomText(
+                                          data: 'Remove',
+                                          fontColor: Color(0xFFD43672),
+                                          fSize: 13,
+                                          fweight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
                           );
                         },
                       );

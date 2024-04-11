@@ -10,6 +10,7 @@ import '../../../../../res/components/color.dart';
 import '../../../../../view_model/follow_view_model.dart';
 import '../../../../../view_model/get_experiance_list_view_model.dart';
 import '../../../../../view_model/get_reels_view_model.dart';
+import '../../../../../view_model/home_reels_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
 import '../../component/user_detail_component.dart';
 
@@ -25,6 +26,8 @@ class ReelsUserDetailScreen extends StatefulWidget {
   final int? userId;
   final String? screen;
   final bool? isFollow;
+  final int? followerCount;
+  final int? followingCount;
   const ReelsUserDetailScreen(
       {super.key,
       this.image,
@@ -37,7 +40,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
       this.guide,
       this.userId,
       this.screen,
-      this.isFollow});
+      this.isFollow, this.followerCount, this.followingCount});
 
   @override
   State<ReelsUserDetailScreen> createState() => _ReelsUserDetailScreenState();
@@ -45,6 +48,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
 
 class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
   final PageController _pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -55,25 +59,6 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     fetchData();
     fetchExperianceData();
     _pageController.addListener(_onPageChanged);
-  }
-
-  Map<int, bool> followStates = {};
-  handleFollowers(int userId) {
-    bool isFollowing =
-        followStates[userId] ?? false; // Get current follow state
-    bool newFollowState = !isFollowing; // Toggle the follow state
-    UserViewModel().getToken().then((token) async {
-      await Provider.of<FollowViewModel>(context, listen: false).followApi(
-        token!,
-        userId,
-        newFollowState == true ? '1' : '0',
-        context,
-      );
-      setState(() {
-        followStates[userId] =
-            newFollowState; // Update follow state for this user
-      });
-    });
   }
 
   void _onPageChanged() {
@@ -90,6 +75,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
 
   List<ReelsData> data = [];
   List<Datum> data2 = [];
+
   Future<void> fetchData() async {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
@@ -124,11 +110,14 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: AppColors.mainColor,
-        statusBarIconBrightness: Brightness.light));
-    int userId = widget.userId ?? 0;
-    bool isFollowing = (followStates[userId] ?? widget.isFollow) ?? false;
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+    bool isFollowing = widget.isFollow ?? false;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -162,10 +151,14 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
                 ),
           InkWell(
             onTap: () {
-              handleFollowers(widget.userId!);
+              homeReelsProvider.handleFollowers(
+                  context, widget.userId!, widget.isFollow ?? false);
+              setState(() {
+
+              });
             },
             child: Text(
-              isFollowing ? "" : "Follow",
+              isFollowing  ? "" : "Follow",
               style: GoogleFonts.inter(
                 color: AppColors.mainColor,
                 fontSize: 16,

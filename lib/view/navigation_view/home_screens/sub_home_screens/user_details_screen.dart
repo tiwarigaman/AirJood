@@ -94,13 +94,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     });
   }
 
-  Future<void> fetchBookingListData() async {
-    UserViewModel().getToken().then((value) async {
-      final bookingProvider =
-          Provider.of<GetBookingListViewModel>(context, listen: false);
-      await bookingProvider.getBookingListApi(value!);
-    });
-  }
+  // Future<void> fetchBookingListData() async {
+  //   UserViewModel().getToken().then((value) async {
+  //     final bookingProvider =
+  //         Provider.of<GetBookingListViewModel>(context, listen: false);
+  //     await bookingProvider.getBookingListApi(value!);
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -116,7 +116,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         statusBarIconBrightness: Brightness.light));
     final reelsProvider = Provider.of<ReelsViewModel>(context);
     final experianceProvider = Provider.of<GetExperianceListViewModel>(context);
-    final bookingProvider = Provider.of<GetBookingListViewModel>(context);
+    // final bookingProvider = Provider.of<GetBookingListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -229,7 +229,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           userId: userId,
           item: reelsProvider.laqtaData,
           list: experianceProvider.data2,
-          bookingList: bookingProvider.data3,
+          screen: widget.screen,
+          // bookingList: bookingProvider.data3,
           // userData: userData,
         ),
       ),

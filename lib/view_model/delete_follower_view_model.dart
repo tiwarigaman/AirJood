@@ -11,14 +11,12 @@ class DeleteFollowerViewModel with ChangeNotifier {
   final myRepo = DeleteFollowerRepository();
 
   Future<void> deleteFollowerApi(
-      String token, int id, BuildContext context) async {
+      String token, int id, int loginUserId,BuildContext context) async {
     myRepo.deleteFollower(token, id).then((value) {
-      Utils.tostMessage('${value['message']}');
       UserViewModel().getToken().then((value) {
         Provider.of<FollowersViewModel>(context, listen: false)
-            .followerGetApi(value!, id);
+            .followerGetApi(value!, loginUserId);
       });
-      Navigator.pop(context);
     }).onError((error, stackTrace) {
       Utils.tostMessage('$error');
     });

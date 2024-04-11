@@ -14,7 +14,9 @@ import 'experience_screens/reels_user_detail_screen.dart';
 
 class FollowingScreen extends StatefulWidget {
   final int? userId;
-  const FollowingScreen({super.key, this.userId});
+  final String? screen;
+
+  const FollowingScreen({super.key, this.userId, this.screen});
 
   @override
   State<FollowingScreen> createState() => _FollowingScreenState();
@@ -32,6 +34,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
 
   bool follow = false;
   Map<int, bool> followStates = {};
+
   handleFollowers(int userId) {
     bool isFollowing =
         followStates[userId] ?? false; // Get current follow state
@@ -149,6 +152,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                       createdAt: data?.followedUser?.createdAt,
                                       language: data?.followedUser?.languages,
                                       userId: data?.followedUser?.id,
+                                      isFollow: data?.isFollowingByFollowedUser,
                                       screen: 'UserDetails',
                                     ),
                                   ),
@@ -159,6 +163,9 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       '${data?.followedUser?.profileImageUrl}',
+                                  errorWidget: (context, url, error) {
+                                    return const Icon(Icons.error);
+                                  },
                                   height: 50,
                                   width: 50,
                                   fit: BoxFit.fill,
@@ -182,26 +189,30 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                 handleFollowers(data?.followedUser?.id as int);
                                 setState(() {});
                               },
-                              child: Container(
-                                height: 40,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: isFollowing
-                                      ? Colors.grey.shade100
-                                      : Colors.blue.shade50,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Center(
-                                  child: CustomText(
-                                    data: isFollowing ? 'Follow' : 'Following',
-                                    fontColor: isFollowing
-                                        ? AppColors.blackColor
-                                        : const Color(0xFF14C7FF),
-                                    fSize: 13,
-                                    fweight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
+                              child: widget.screen == "MyScreen"
+                                  ? Container(
+                                      height: 40,
+                                      width: 80,
+                                      decoration: BoxDecoration(
+                                        color: isFollowing
+                                            ? Colors.grey.shade100
+                                            : Colors.blue.shade50,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Center(
+                                        child: CustomText(
+                                          data: isFollowing
+                                              ? 'Follow'
+                                              : 'Following',
+                                          fontColor: isFollowing
+                                              ? AppColors.blackColor
+                                              : const Color(0xFF14C7FF),
+                                          fSize: 13,
+                                          fweight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
                             ),
                           );
                         },

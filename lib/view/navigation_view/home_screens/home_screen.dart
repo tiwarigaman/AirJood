@@ -90,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
-
     return RefreshIndicator(
       onRefresh: fetchData,
       child: Scaffold(

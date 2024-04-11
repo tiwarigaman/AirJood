@@ -27,7 +27,6 @@ class UpdateUserModel with ChangeNotifier {
     }).onError((error, stackTrace) {
       updateUserPremiumLoading(false);
       Utils.tostMessage('$error');
-      print(error);
     });
   }
 }

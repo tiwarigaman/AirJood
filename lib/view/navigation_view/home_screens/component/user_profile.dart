@@ -19,6 +19,9 @@ class UserProfile extends StatefulWidget {
   final List? language;
   final String? about;
   final int? userId;
+  final String? screen;
+  final int? followerCount;
+  final int? followingCount;
   const UserProfile(
       {super.key,
       this.name,
@@ -26,7 +29,7 @@ class UserProfile extends StatefulWidget {
       this.image,
       this.language,
       this.about,
-      this.userId});
+      this.userId,  this.screen, this.followerCount, this.followingCount});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -149,7 +152,7 @@ class _UserProfileState extends State<UserProfile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              FollowersScreen(userId: widget.userId)),
+                              FollowersScreen(userId: widget.userId,screen: widget.screen,)),
                     );
                   },
                   child: Row(
@@ -159,7 +162,7 @@ class _UserProfileState extends State<UserProfile> {
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
                         data:
-                            '${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0}',
+                            '${widget.followerCount ?? 0}',
                       ),
                       size,
                       const CustomText(
@@ -179,7 +182,7 @@ class _UserProfileState extends State<UserProfile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            FollowingScreen(userId: widget.userId),
+                            FollowingScreen(userId: widget.userId,screen: widget.screen,),
                       ),
                     );
                   },
@@ -190,7 +193,7 @@ class _UserProfileState extends State<UserProfile> {
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
                         data:
-                            '${Provider.of<FollowingViewModel>(context).followingData.data?.data?.length ?? 0}',
+                            '${widget.followingCount ?? 0}',
                       ),
                       size,
                       const CustomText(

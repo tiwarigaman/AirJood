@@ -2,10 +2,13 @@ import 'package:airjood/model/home_reels_model.dart';
 import 'package:airjood/model/reels_model.dart';
 import 'package:airjood/repository/home_reels_repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../data/response/api_response.dart';
 
 import '../utils/utils.dart';
+import 'follow_view_model.dart';
+import 'user_view_model.dart';
 
 class HomeReelsViewModel with ChangeNotifier {
   final myRepo = HomeReelsRepository();
@@ -55,6 +58,23 @@ class HomeReelsViewModel with ChangeNotifier {
         element.reel?.commentCount = (element.reel?.commentCount ?? 0) + 1;
       }
     }
+    notifyListeners();
+  }
+
+  void handleFollowers(BuildContext context, int userId, bool isFollow) {
+    for (var element in mainReelsData) {
+      if (userId == element.user?.id) {
+        element.user?.isFollower = !(element.user?.isFollower ?? false);
+      }
+    }
+    UserViewModel().getToken().then((token) async {
+      await Provider.of<FollowViewModel>(context, listen: false).followApi(
+        token!,
+        userId,
+        isFollow ? '0' : '1',
+        context,
+      );
+    });
     notifyListeners();
   }
 
