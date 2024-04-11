@@ -2,6 +2,7 @@ import 'package:airjood/view/navigation_view/home_screens/component/cutom_tab_da
 import 'package:airjood/view/navigation_view/home_screens/component/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/CustomText.dart';
@@ -21,6 +22,7 @@ class UserDetails extends StatefulWidget {
   final int? userId;
   final List<ReelsData>? item;
   final List<Datum>? list;
+  final List<Data>? bookingList;
   const UserDetails({
     super.key,
     this.name,
@@ -35,6 +37,7 @@ class UserDetails extends StatefulWidget {
     this.list,
     this.screen,
     this.userId,
+    this.bookingList,
   });
 
   @override
@@ -175,6 +178,7 @@ class _UserDetailsState extends State<UserDetails> {
             : ExperianceTabData(
                 items: widget.item,
                 list: widget.list,
+                bookingList: widget.bookingList,
                 screen: widget.screen,
               ),
         const SizedBox(

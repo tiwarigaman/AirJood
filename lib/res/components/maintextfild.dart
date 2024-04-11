@@ -14,7 +14,7 @@ class MainTextFild extends StatefulWidget {
   final GestureTapCallback? onTap;
   final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
-
+  final ValueChanged<String>? onFieldSubmitted;
   final String? initialValue;
   const MainTextFild({
     super.key,
@@ -29,6 +29,7 @@ class MainTextFild extends StatefulWidget {
     this.onTap,
     this.keyboardType,
     this.onChanged,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -51,6 +52,7 @@ class _MainTextFildState extends State<MainTextFild> {
       maxLines: widget.maxLines,
       readOnly: widget.readOnly ?? false,
       onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onFieldSubmitted,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.textFildBGColor,

@@ -7,6 +7,7 @@ import '../../../../../model/get_experiance_model.dart';
 import '../../../../../model/reels_model.dart';
 import '../../../../../res/components/CustomText.dart';
 import '../../../../../res/components/color.dart';
+import '../../../../../view_model/follow_view_model.dart';
 import '../../../../../view_model/get_experiance_list_view_model.dart';
 import '../../../../../view_model/get_reels_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
@@ -23,6 +24,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
   final bool? guide;
   final int? userId;
   final String? screen;
+  final bool? isFollow;
   const ReelsUserDetailScreen(
       {super.key,
       this.image,
@@ -34,7 +36,8 @@ class ReelsUserDetailScreen extends StatefulWidget {
       this.language,
       this.guide,
       this.userId,
-      this.screen});
+      this.screen,
+      this.isFollow});
 
   @override
   State<ReelsUserDetailScreen> createState() => _ReelsUserDetailScreenState();
@@ -52,6 +55,25 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     fetchData();
     fetchExperianceData();
     _pageController.addListener(_onPageChanged);
+  }
+
+  Map<int, bool> followStates = {};
+  handleFollowers(int userId) {
+    bool isFollowing =
+        followStates[userId] ?? false; // Get current follow state
+    bool newFollowState = !isFollowing; // Toggle the follow state
+    UserViewModel().getToken().then((token) async {
+      await Provider.of<FollowViewModel>(context, listen: false).followApi(
+        token!,
+        userId,
+        newFollowState == true ? '1' : '0',
+        context,
+      );
+      setState(() {
+        followStates[userId] =
+            newFollowState; // Update follow state for this user
+      });
+    });
   }
 
   void _onPageChanged() {
@@ -105,6 +127,8 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: AppColors.mainColor,
         statusBarIconBrightness: Brightness.light));
+    int userId = widget.userId ?? 0;
+    bool isFollowing = (followStates[userId] ?? widget.isFollow) ?? false;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -130,17 +154,24 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
             fontColor: AppColors.blackColor,
           ),
           const Spacer(),
-          const Icon(
-            Icons.add,
-            color: AppColors.mainColor,
-          ),
-          Text(
-            'Follow',
-            style: GoogleFonts.inter(
-              color: AppColors.mainColor,
-              fontSize: 16,
-              // fontFamily: 'Inter',
-              fontWeight: FontWeight.w500,
+          isFollowing
+              ? const SizedBox()
+              : const Icon(
+                  Icons.add,
+                  color: AppColors.mainColor,
+                ),
+          InkWell(
+            onTap: () {
+              handleFollowers(widget.userId!);
+            },
+            child: Text(
+              isFollowing ? "" : "Follow",
+              style: GoogleFonts.inter(
+                color: AppColors.mainColor,
+                fontSize: 16,
+                // fontFamily: 'Inter',
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           const SizedBox(

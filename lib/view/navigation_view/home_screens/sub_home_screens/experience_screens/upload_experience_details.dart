@@ -448,7 +448,9 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                         width:
                                             MediaQuery.of(context).size.width),
                                     isScrollControlled: true,
-                                    builder: (_) => const BookNowMainScreen(),
+                                    builder: (_) => BookNowMainScreen(
+                                      experienceId: widget.id,
+                                    ),
                                   );
                                 },
                                 child: const MainButton(

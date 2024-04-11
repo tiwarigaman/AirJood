@@ -1,13 +1,13 @@
 // To parse this JSON data, do
 //
-//     final followersModel = followersModelFromJson(jsonString);
+//     final followingModel = followingModelFromJson(jsonString);
 
 import 'dart:convert';
 
-FollowingModel followersModelFromJson(String str) =>
+FollowingModel followingModelFromJson(String str) =>
     FollowingModel.fromJson(json.decode(str));
 
-String followersModelToJson(FollowingModel data) => json.encode(data.toJson());
+String followingModelToJson(FollowingModel data) => json.encode(data.toJson());
 
 class FollowingModel {
   int? currentPage;
@@ -87,6 +87,8 @@ class Datum {
   int? createdBy;
   DateTime? updatedAt;
   DateTime? createdAt;
+  bool? isFollowing;
+  bool? isFollowingByFollowedUser;
   FollowedUser? followedUser;
 
   Datum({
@@ -95,6 +97,8 @@ class Datum {
     this.createdBy,
     this.updatedAt,
     this.createdAt,
+    this.isFollowing,
+    this.isFollowingByFollowedUser,
     this.followedUser,
   });
 
@@ -108,6 +112,8 @@ class Datum {
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
+        isFollowing: json["is_following"],
+        isFollowingByFollowedUser: json["is_following_by_followed_user"],
         followedUser: json["followed_user"] == null
             ? null
             : FollowedUser.fromJson(json["followed_user"]),
@@ -119,6 +125,8 @@ class Datum {
         "created_by": createdBy,
         "updated_at": updatedAt?.toIso8601String(),
         "created_at": createdAt?.toIso8601String(),
+        "is_following": isFollowing,
+        "is_following_by_followed_user": isFollowingByFollowedUser,
         "followed_user": followedUser?.toJson(),
       };
 }

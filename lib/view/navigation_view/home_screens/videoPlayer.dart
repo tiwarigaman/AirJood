@@ -137,6 +137,8 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                         image: widget.data[widget.index].user?.profileImageUrl,
                         discription: widget.data[widget.index].description,
                         about: widget.data[widget.index].user?.about,
+                        experienceId: widget.data[widget.index].id,
+                        isFollow: widget.data[widget.index].user?.isFollower,
                         screen: 'UserDetails',
                       ),
                       const SizedBox(

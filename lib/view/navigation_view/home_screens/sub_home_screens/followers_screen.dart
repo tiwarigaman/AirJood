@@ -1,4 +1,5 @@
 import 'package:airjood/res/components/maintextfild.dart';
+import 'package:airjood/view_model/delete_follower_view_model.dart';
 import 'package:airjood/view_model/follow_view_model.dart';
 import 'package:airjood/view_model/followers_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -31,7 +32,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
     super.initState();
   }
 
-  bool follow = false;
   Map<int, bool> followStates = {};
   handleFollowers(int userId) {
     bool isFollowing =
@@ -41,7 +41,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
       await Provider.of<FollowViewModel>(context, listen: false).followApi(
         token!,
         userId,
-        newFollowState,
+        newFollowState == true ? '1' : '0',
         context,
       );
       setState(() {
@@ -51,6 +51,14 @@ class _FollowersScreenState extends State<FollowersScreen> {
     });
   }
 
+  handleRemoveFollowers(int userId) {
+    UserViewModel().getToken().then((value) {
+      Provider.of<DeleteFollowerViewModel>(context, listen: false)
+          .deleteFollowerApi(value!, userId, context);
+    });
+  }
+
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,9 +94,26 @@ class _FollowersScreenState extends State<FollowersScreen> {
           padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
           child: Column(
             children: [
-              const MainTextFild(
+              MainTextFild(
+                controller: searchController,
+                onChanged: (values) {
+                  if (values.length == 3 || values.isEmpty) {
+                    UserViewModel().getToken().then((value) {
+                      Provider.of<FollowersViewModel>(context, listen: false)
+                          .followerGetApi(value!, widget.userId!,
+                              search: values);
+                    });
+                  }
+                },
+                onFieldSubmitted: (values) {
+                  UserViewModel().getToken().then((value) {
+                    Provider.of<FollowersViewModel>(context, listen: false)
+                        .followerGetApi(value!, widget.userId!, search: values);
+                  });
+                },
                 hintText: 'Search People...',
-                prefixIcon: Icon(
+                maxLines: 1,
+                prefixIcon: const Icon(
                   Icons.search_sharp,
                   color: AppColors.textFildHintColor,
                 ),
@@ -111,11 +136,11 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         itemBuilder: (context, index) {
                           var data = value.followerData.data?.data?[index];
                           int userId = data?.createdBy?.id ?? 0; // Get user ID
-
-                          bool isFollowing = followStates[userId] ?? false;
+                          bool isFollowing =
+                              data?.isFollowingByFollowedUser ?? false;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
-                            leading: InkWell(
+                            leading: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -164,7 +189,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                     setState(() {});
                                   },
                                   child: CustomText(
-                                    data: isFollowing ? "unfollow" : "+ Follow",
+                                    data: isFollowing ? "" : "+ Follow",
                                     fontColor: AppColors.blueShadeColor,
                                     fSize: 14,
                                     fweight: FontWeight.w500,
@@ -178,19 +203,24 @@ class _FollowersScreenState extends State<FollowersScreen> {
                               fSize: 14,
                               fweight: FontWeight.w500,
                             ),
-                            trailing: Container(
-                              height: 40,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: Colors.red.shade50,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Center(
-                                child: CustomText(
-                                  data: 'Remove',
-                                  fontColor: Color(0xFFD43672),
-                                  fSize: 13,
-                                  fweight: FontWeight.w600,
+                            trailing: GestureDetector(
+                              onTap: () {
+                                handleRemoveFollowers(data!.followedUserId!);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade50,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Center(
+                                  child: CustomText(
+                                    data: 'Remove',
+                                    fontColor: Color(0xFFD43672),
+                                    fSize: 13,
+                                    fweight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),

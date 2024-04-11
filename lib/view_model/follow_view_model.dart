@@ -14,7 +14,7 @@ class FollowViewModel extends ChangeNotifier {
   }
 
   Future<void> followApi(
-      dynamic token, int userId, bool follow, BuildContext context) async {
+      dynamic token, int userId, String follow, BuildContext context) async {
     followLoading(true);
     myRepo.followApi(token, userId, follow).then((value) {
       followLoading(false);

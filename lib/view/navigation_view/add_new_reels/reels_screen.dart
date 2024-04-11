@@ -17,6 +17,7 @@ import '../../../res/components/upload_button.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../view_model/user_view_model.dart';
 import '../home_screens/component/login_user.dart';
+import '../home_screens/sub_home_screens/user_details_screen.dart';
 
 class ReelsScreen extends StatefulWidget {
   final Function? getImage;
@@ -171,8 +172,22 @@ class _ReelsScreenState extends State<ReelsScreen> {
             const Spacer(),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.userDetail)
-                    .then((value) {
+                // Navigator.pushNamed(context, RoutesName.userDetail)
+                //     .then((value) {
+                //   UserViewModel().getUser().then((value) {
+                //     images = value?.profileImageUrl;
+                //     widget.getImage!(value?.profileImageUrl);
+                //     setState(() {});
+                //   });
+                // });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserDetailsScreen(
+                      screen: 'MyScreen',
+                    ),
+                  ),
+                ).then((value) {
                   UserViewModel().getUser().then((value) {
                     images = value?.profileImageUrl;
                     widget.getImage!(value?.profileImageUrl);

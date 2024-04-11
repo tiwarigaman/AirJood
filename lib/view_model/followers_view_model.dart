@@ -1,5 +1,4 @@
 import 'package:airjood/model/follower_model.dart';
-import 'package:airjood/model/following_model.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../data/response/api_response.dart';
@@ -16,9 +15,10 @@ class FollowersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> followerGetApi(String token, int userId) async {
+  Future<void> followerGetApi(String token, int userId,
+      {String? search}) async {
     setFollowerList(ApiResponse.loading());
-    myRepo.getFollower(token, userId).then((value) {
+    myRepo.getFollower(token, userId, search: search).then((value) {
       setFollowerList(ApiResponse.completed(value));
       //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {

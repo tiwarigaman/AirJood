@@ -15,9 +15,10 @@ class FollowingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> followingGetApi(String token, int reelId) async {
+  Future<void> followingGetApi(String token, int reelId,
+      {String? search}) async {
     setFollowingList(ApiResponse.loading());
-    myRepo.getFollowing(token, reelId).then((value) {
+    myRepo.getFollowing(token, reelId, search: search).then((value) {
       setFollowingList(ApiResponse.completed(value));
       //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {

@@ -8,7 +8,7 @@ class FollowRepository {
   Future<dynamic> followApi(
     dynamic token,
     int userId,
-    bool follow,
+    String follow,
   ) async {
     print('${AppUrl.follow}/$userId/$follow');
     try {

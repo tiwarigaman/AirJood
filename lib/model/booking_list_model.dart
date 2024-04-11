@@ -1,17 +1,18 @@
 // To parse this JSON data, do
 //
-//     final homeReelsModel = homeReelsModelFromJson(jsonString);
+//     final bookingListModel = bookingListModelFromJson(jsonString);
 
 import 'dart:convert';
 
-HomeReelsModel homeReelsModelFromJson(String str) =>
-    HomeReelsModel.fromJson(json.decode(str));
+BookingListModel bookingListModelFromJson(String str) =>
+    BookingListModel.fromJson(json.decode(str));
 
-String homeReelsModelToJson(HomeReelsModel data) => json.encode(data.toJson());
+String bookingListModelToJson(BookingListModel data) =>
+    json.encode(data.toJson());
 
-class HomeReelsModel {
+class BookingListModel {
   int? currentPage;
-  List<Datum>? data;
+  List<Data>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -24,7 +25,7 @@ class HomeReelsModel {
   int? to;
   int? total;
 
-  HomeReelsModel({
+  BookingListModel({
     this.currentPage,
     this.data,
     this.firstPageUrl,
@@ -40,11 +41,12 @@ class HomeReelsModel {
     this.total,
   });
 
-  factory HomeReelsModel.fromJson(Map<String, dynamic> json) => HomeReelsModel(
+  factory BookingListModel.fromJson(Map<String, dynamic> json) =>
+      BookingListModel(
         currentPage: json["current_page"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Data>.from(json["data"]!.map((x) => Data.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -81,7 +83,78 @@ class HomeReelsModel {
       };
 }
 
-class Datum {
+class Data {
+  int? id;
+  int? experienceId;
+  DateTime? date;
+  String? addons;
+  String? facilityId;
+  int? noOfGuests;
+  int? bookingCharges;
+  dynamic comment;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  int? createdBy;
+  String? time;
+  Experience? experience;
+
+  Data({
+    this.id,
+    this.experienceId,
+    this.date,
+    this.addons,
+    this.facilityId,
+    this.noOfGuests,
+    this.bookingCharges,
+    this.comment,
+    this.updatedAt,
+    this.createdAt,
+    this.createdBy,
+    this.time,
+    this.experience,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        id: json["id"],
+        experienceId: json["experience_id"],
+        date: json["date"] == null ? null : DateTime.parse(json["date"]),
+        addons: json["addons"],
+        facilityId: json["facility_id"],
+        noOfGuests: json["no_of_guests"],
+        bookingCharges: json["booking_charges"],
+        comment: json["comment"],
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        createdBy: json["created_by"],
+        time: json["time"],
+        experience: json["experience"] == null
+            ? null
+            : Experience.fromJson(json["experience"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "experience_id": experienceId,
+        "date":
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+        "addons": addons,
+        "facility_id": facilityId,
+        "no_of_guests": noOfGuests,
+        "booking_charges": bookingCharges,
+        "comment": comment,
+        "updated_at": updatedAt?.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "created_by": createdBy,
+        "time": time,
+        "experience": experience?.toJson(),
+      };
+}
+
+class Experience {
   int? id;
   int? relatedToMyPlan;
   int? reelId;
@@ -108,10 +181,9 @@ class Datum {
   String? fridgetMagnetUrl;
   List<Facility>? mood;
   List<Facility>? facility;
-  Reel? reel;
   User? user;
 
-  Datum({
+  Experience({
     this.id,
     this.relatedToMyPlan,
     this.reelId,
@@ -138,11 +210,10 @@ class Datum {
     this.fridgetMagnetUrl,
     this.mood,
     this.facility,
-    this.reel,
     this.user,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Experience.fromJson(Map<String, dynamic> json) => Experience(
         id: json["id"],
         relatedToMyPlan: json["related_to_my_plan"],
         reelId: json["reel_id"],
@@ -182,7 +253,6 @@ class Datum {
             ? []
             : List<Facility>.from(
                 json["facility"]!.map((x) => Facility.fromJson(x))),
-        reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
@@ -217,42 +287,8 @@ class Datum {
         "facility": facility == null
             ? []
             : List<dynamic>.from(facility!.map((x) => x.toJson())),
-        "reel": reel?.toJson(),
         "user": user?.toJson(),
       };
-
-  @override
-  String toString() {
-    return 'Datum{'
-        'id: $id, '
-        'relatedToMyPlan: $relatedToMyPlan, '
-        'reelId: $reelId, '
-        'latitude: $latitude, '
-        'longitude: $longitude, '
-        'availabilityForPersonFrom: $availabilityForPersonFrom, '
-        'availabilityForPersonTo: $availabilityForPersonTo, '
-        'city: $city, '
-        'country: $country, '
-        'state: $state, '
-        'createdAt: $createdAt, '
-        'createdBy: $createdBy, '
-        'description: $description, '
-        'endDate: $endDate, '
-        'file: $file, '
-        'location: $location, '
-        'maxPerson: $maxPerson, '
-        'minPerson: $minPerson, '
-        'name: $name, '
-        'price: $price, '
-        'priceType: $priceType, '
-        'startDate: $startDate, '
-        'updatedAt: $updatedAt, '
-        'fridgetMagnetUrl: $fridgetMagnetUrl, '
-        'mood: $mood, '
-        'facility: $facility, '
-        'reel: $reel, '
-        'user: $user}';
-  }
 }
 
 class Facility {
@@ -291,42 +327,6 @@ class Facility {
       };
 }
 
-class Reel {
-  int? id;
-  String? videoUrl;
-  String? videoThumbnailUrl;
-  int? likeCount;
-  bool? liked;
-  int? commentCount;
-
-  Reel({
-    this.id,
-    this.videoUrl,
-    this.videoThumbnailUrl,
-    this.likeCount,
-    this.liked,
-    this.commentCount,
-  });
-
-  factory Reel.fromJson(Map<String, dynamic> json) => Reel(
-        id: json["id"],
-        videoUrl: json["video_url"],
-        videoThumbnailUrl: json["video_thumbnail_url"],
-        likeCount: json["like_count"],
-        liked: json["liked"],
-        commentCount: json["comment_count"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "video_url": videoUrl,
-        "video_thumbnail_url": videoThumbnailUrl,
-        "like_count": likeCount,
-        "liked": liked,
-        "comment_count": commentCount,
-      };
-}
-
 class User {
   int? id;
   List<String>? languages;
@@ -343,8 +343,7 @@ class User {
   dynamic deletedAt;
   String? profileImageUrl;
   bool? isUpgrade;
-  bool? isFollowing;
-  bool? isFollower;
+
   User({
     this.id,
     this.languages,
@@ -361,8 +360,6 @@ class User {
     this.deletedAt,
     this.profileImageUrl,
     this.isUpgrade,
-    this.isFollowing,
-    this.isFollower,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -387,8 +384,6 @@ class User {
         deletedAt: json["deleted_at"],
         profileImageUrl: json["profile_image_url"],
         isUpgrade: json["is_upgrade"],
-        isFollowing: json["is_following"],
-        isFollower: json["is_follower"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -410,31 +405,7 @@ class User {
         "deleted_at": deletedAt,
         "profile_image_url": profileImageUrl,
         "is_upgrade": isUpgrade,
-        "is_following": isFollowing,
-        "is_follower": isFollower,
       };
-
-  @override
-  String toString() {
-    return 'User{'
-        'id: $id, '
-        'languages: $languages, '
-        'about: $about, '
-        'contactNo: $contactNo, '
-        'dob: $dob, '
-        'gender: $gender, '
-        'name: $name, '
-        'role: $role, '
-        'email: $email, '
-        'emailVerifiedAt: $emailVerifiedAt, '
-        'createdAt: $createdAt, '
-        'updatedAt: $updatedAt, '
-        'deletedAt: $deletedAt, '
-        'profileImageUrl: $profileImageUrl, '
-        'isUpgrade: $isUpgrade,'
-        'isFollowing: $isFollowing,'
-        'isFollower: $isFollower}';
-  }
 }
 
 class Link {

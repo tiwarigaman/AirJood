@@ -3,9 +3,12 @@ import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/exper
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
+import '../../../../view_model/follow_view_model.dart';
+import '../../../../view_model/user_view_model.dart';
 
 class ReelsUser extends StatefulWidget {
   final String? image;
@@ -20,6 +23,8 @@ class ReelsUser extends StatefulWidget {
   final DateTime? dateTime;
   final String? discription;
   final String? screen;
+  final int? experienceId;
+  final bool? isFollow;
   const ReelsUser(
       {super.key,
       this.dateTime,
@@ -33,18 +38,40 @@ class ReelsUser extends StatefulWidget {
       this.language,
       this.guide,
       this.userId,
-      this.screen});
+      this.screen,
+      this.experienceId,
+      this.isFollow});
 
   @override
   State<ReelsUser> createState() => _ReelsUserState();
 }
 
 class _ReelsUserState extends State<ReelsUser> {
+  Map<int, bool> followStates = {};
+  handleFollowers(int userId) {
+    bool isFollowing =
+        followStates[userId] ?? false; // Get current follow state
+    bool newFollowState = !isFollowing; // Toggle the follow state
+    UserViewModel().getToken().then((token) async {
+      await Provider.of<FollowViewModel>(context, listen: false).followApi(
+        token!,
+        userId,
+        newFollowState == true ? '1' : '0',
+        context,
+      );
+      setState(() {
+        followStates[userId] =
+            newFollowState; // Update follow state for this user
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String? formattedDate =
         '${widget.dateTime?.day ?? 02}.${widget.dateTime?.month ?? 05}.${widget.dateTime?.year ?? 2024}';
-
+    int userId = widget.userId ?? 0; // Get user ID
+    bool isFollowing = (followStates[userId] ?? widget.isFollow) ?? false;
     return Align(
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
@@ -70,6 +97,7 @@ class _ReelsUserState extends State<ReelsUser> {
                         language: widget.language,
                         userId: widget.userId,
                         screen: widget.screen,
+                        isFollow: widget.isFollow,
                       ),
                     ),
                   );
@@ -136,17 +164,24 @@ class _ReelsUserState extends State<ReelsUser> {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Icon(
-                        Icons.add,
-                        color: AppColors.blueColor,
-                      ),
-                      Text(
-                        'Follow',
-                        style: GoogleFonts.inter(
-                          color: AppColors.blueColor,
-                          fontSize: 12,
-                          // fontFamily: 'Inter',
-                          fontWeight: FontWeight.w500,
+                      isFollowing
+                          ? const SizedBox()
+                          : const Icon(
+                              Icons.add,
+                              color: AppColors.blueColor,
+                            ),
+                      InkWell(
+                        onTap: () {
+                          handleFollowers(widget.userId!);
+                        },
+                        child: Text(
+                          isFollowing ? "" : "Follow",
+                          style: GoogleFonts.inter(
+                            color: AppColors.blueColor,
+                            fontSize: 14,
+                            // fontFamily: 'Inter',
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       )
                     ],
@@ -165,7 +200,9 @@ class _ReelsUserState extends State<ReelsUser> {
                         height: MediaQuery.of(context).size.height * 0.90,
                         width: MediaQuery.of(context).size.width),
                     isScrollControlled: true,
-                    builder: (_) => const BookNowMainScreen(),
+                    builder: (_) => BookNowMainScreen(
+                      experienceId: widget.experienceId,
+                    ),
                   );
                 },
                 child: Container(

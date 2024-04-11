@@ -7,6 +7,7 @@ import '../../../../data/response/status.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/custom_shimmer.dart';
+import '../../../../view_model/follow_view_model.dart';
 import '../../../../view_model/following_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 import 'experience_screens/reels_user_detail_screen.dart';
@@ -36,12 +37,12 @@ class _FollowingScreenState extends State<FollowingScreen> {
         followStates[userId] ?? false; // Get current follow state
     bool newFollowState = !isFollowing; // Toggle the follow state
     UserViewModel().getToken().then((token) async {
-      // await Provider.of<FollowingViewModel>(context, listen: false).followApi(
-      //   token!,
-      //   userId,
-      //   newFollowState,
-      //   context,
-      // );
+      await Provider.of<FollowViewModel>(context, listen: false).followApi(
+        token!,
+        userId,
+        newFollowState == true ? '0' : '1',
+        context,
+      );
       setState(() {
         followStates[userId] =
             newFollowState; // Update follow state for this user
@@ -85,9 +86,26 @@ class _FollowingScreenState extends State<FollowingScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MainTextFild(
+              MainTextFild(
                 hintText: 'Search People...',
-                prefixIcon: Icon(
+                onChanged: (values) {
+                  if (values.length == 3 || values.isEmpty) {
+                    UserViewModel().getToken().then((value) {
+                      Provider.of<FollowingViewModel>(context, listen: false)
+                          .followingGetApi(value!, widget.userId!,
+                              search: values);
+                    });
+                  }
+                },
+                onFieldSubmitted: (values) {
+                  UserViewModel().getToken().then((value) {
+                    Provider.of<FollowingViewModel>(context, listen: false)
+                        .followingGetApi(value!, widget.userId!,
+                            search: values);
+                  });
+                },
+                maxLines: 1,
+                prefixIcon: const Icon(
                   Icons.search_sharp,
                   color: AppColors.textFildHintColor,
                 ),

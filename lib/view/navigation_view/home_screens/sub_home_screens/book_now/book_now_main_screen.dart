@@ -4,12 +4,12 @@ import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_third_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../view_model/user_view_model.dart';
 import 'book_now_first_screen.dart';
 
 class BookNowMainScreen extends StatefulWidget {
-  const BookNowMainScreen({super.key});
+  final int? experienceId;
+  const BookNowMainScreen({super.key, this.experienceId});
 
   @override
   State<BookNowMainScreen> createState() => _BookNowMainScreenState();
@@ -41,6 +41,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
     // final authViewModel = Provider.of<AddExperianceViewModel>(context);
     List onBordingData = [
       BookNowFirstScreen(
+        experienceId: widget.experienceId,
         onTap: () {
           pagecontroller.nextPage(
             duration: const Duration(milliseconds: 1),

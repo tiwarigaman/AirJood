@@ -1,5 +1,6 @@
 import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view/navigation_view/home_screens/component/user_detail_component.dart';
+import 'package:airjood/view_model/get_booking_list_view_model.dart';
 import 'package:airjood/view_model/get_experiance_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,8 @@ import '../../../../view_model/get_reels_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 
 class UserDetailsScreen extends StatefulWidget {
-  const UserDetailsScreen({super.key});
+  final String? screen;
+  const UserDetailsScreen({super.key, this.screen});
 
   @override
   State<UserDetailsScreen> createState() => _UserDetailsScreenState();
@@ -47,6 +49,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     });
     fetchData();
     fetchExperianceData();
+    // fetchBookingListData();
     _pageController.addListener(_onPageChanged);
   }
 
@@ -80,9 +83,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
       await reelsProvider.reelsGetApi(value!, currentPage);
-      // reelsProvider.reelsData.data?.data?.forEach((element) {
-      //   data.add(element);
-      // });
     });
   }
 
@@ -91,9 +91,14 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       final experianceProvider =
           Provider.of<GetExperianceListViewModel>(context, listen: false);
       await experianceProvider.getExperianceListApi(value!, currentPage);
-      // experianceProvider.getExperianceData.data?.data?.forEach((element) {
-      //   data2.add(element);
-      // });
+    });
+  }
+
+  Future<void> fetchBookingListData() async {
+    UserViewModel().getToken().then((value) async {
+      final bookingProvider =
+          Provider.of<GetBookingListViewModel>(context, listen: false);
+      await bookingProvider.getBookingListApi(value!);
     });
   }
 
@@ -111,6 +116,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         statusBarIconBrightness: Brightness.light));
     final reelsProvider = Provider.of<ReelsViewModel>(context);
     final experianceProvider = Provider.of<GetExperianceListViewModel>(context);
+    final bookingProvider = Provider.of<GetBookingListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -136,19 +142,23 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             fontColor: AppColors.blackColor,
           ),
           const Spacer(),
-          const Icon(
-            Icons.add,
-            color: AppColors.mainColor,
-          ),
-          Text(
-            'Follow',
-            style: GoogleFonts.inter(
-              color: AppColors.mainColor,
-              fontSize: 16,
-              // fontFamily: 'Inter',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          widget.screen == 'MyScreen'
+              ? const SizedBox()
+              : const Icon(
+                  Icons.add,
+                  color: AppColors.mainColor,
+                ),
+          widget.screen == 'MyScreen'
+              ? const SizedBox()
+              : Text(
+                  'Follow',
+                  style: GoogleFonts.inter(
+                    color: AppColors.mainColor,
+                    fontSize: 16,
+                    // fontFamily: 'Inter',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
           const SizedBox(
             width: 15,
           ),
@@ -219,6 +229,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           userId: userId,
           item: reelsProvider.laqtaData,
           list: experianceProvider.data2,
+          bookingList: bookingProvider.data3,
           // userData: userData,
         ),
       ),

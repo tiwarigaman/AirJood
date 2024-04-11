@@ -1,5 +1,4 @@
 import 'package:airjood/repository/delete_ecperiance_repository.dart';
-import 'package:airjood/view/navigation_view/navigationbar.dart';
 import 'package:airjood/view_model/user_view_model.dart';
 
 import 'package:flutter/material.dart';

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../../model/booking_list_model.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
 class DashBoardWidget extends StatefulWidget {
-  const DashBoardWidget({super.key});
+  final List<Data>? bookingList;
+  const DashBoardWidget({super.key, this.bookingList});
 
   @override
   State<DashBoardWidget> createState() => _DashBoardWidgetState();
@@ -27,10 +29,11 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
           height: 10,
         ),
         ListView.builder(
-          itemCount: 3,
+          itemCount: widget.bookingList?.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            var data = widget.bookingList?[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Container(
@@ -48,29 +51,30 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            'assets/images/user.png',
+                          child: Image.network(
+                            '${data?.experience?.user?.profileImageUrl}',
                             height: 45,
                             width: 45,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const CustomText(
-                          data: '\$195.67',
+                        CustomText(
+                          data: '\$${data?.bookingCharges}',
                           fweight: FontWeight.w800,
                           fSize: 18,
                           fontColor: AppColors.mainColor,
                         ),
                       ],
                     ),
-                    const CustomText(
-                      data: 'David Warner',
+                    CustomText(
+                      data: data?.experience?.user?.name ?? "David Warner",
                       fweight: FontWeight.w700,
                       fSize: 18,
                       fontColor: AppColors.blackTextColor,
                     ),
-                    const CustomText(
-                      data: '9 Al Khayma Camp, Dubai, UAE',
+                    CustomText(
+                      data: data?.experience?.location ??
+                          '9 Al Khayma Camp, Dubai, UAE',
                       fweight: FontWeight.w600,
                       fSize: 13,
                       fontColor: AppColors.greyTextColor,

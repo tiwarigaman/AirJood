@@ -1,5 +1,6 @@
 import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_widget.dart';
+import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/user_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -70,8 +71,16 @@ class _LoginUserState extends State<LoginUser> {
             ),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.userDetail)
-                    .then((value) {
+                // Navigator.pushNamed(context, RoutesName.userDetail)
+                //     .then((value) {});A
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserDetailsScreen(
+                      screen: 'MyScreen',
+                    ),
+                  ),
+                ).then((value) {
                   UserViewModel().getUser().then((value) {
                     images = value?.profileImageUrl;
                     widget.getImage!(value?.profileImageUrl);

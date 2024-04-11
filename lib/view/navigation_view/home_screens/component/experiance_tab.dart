@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/color.dart';
@@ -15,13 +16,14 @@ import '../sub_home_screens/show_upload_reels.dart';
 class ExperianceTabData extends StatefulWidget {
   final List<ReelsData>? items;
   final List<Datum>? list;
-
+  final List<Data>? bookingList;
   final String? screen;
   const ExperianceTabData({
     super.key,
     this.items,
     this.list,
     this.screen,
+    this.bookingList,
   });
 
   @override
@@ -118,9 +120,9 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Center(
             child: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: DashBoardWidget(),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                child: DashBoardWidget(bookingList: widget.bookingList),
               ),
               TabData(
                 item: widget.items,
