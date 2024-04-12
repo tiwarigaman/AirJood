@@ -78,12 +78,11 @@ class HomeReelsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> homeReelsGetApi(String token) async {
+  Future<void> homeReelsGetApi(String token, {int? tabIndex}) async {
     setHomeReelsList(ApiResponse.loading());
     await myRepo.getHomeReels(token, _page).then((value) {
       setHomeReelsList(ApiResponse.completed(value));
       _page++;
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setHomeReelsList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

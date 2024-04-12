@@ -8,9 +8,9 @@ import '../utils/utils.dart';
 class GetBookingListViewModel with ChangeNotifier {
   final myRepo = GetBookingListRepository();
 
-  final List<Data> _data3 = [];
+  final List<BookingData> _data3 = [];
 
-  List<Data> get data3 => _data3;
+  List<BookingData> get data3 => _data3;
 
   ApiResponse<BookingListModel> getBookingData = ApiResponse.loading();
 

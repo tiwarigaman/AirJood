@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
-import '../../../../view_model/followers_view_model.dart';
-import '../../../../view_model/following_view_model.dart';
 
 class UserProfile extends StatefulWidget {
   final String? name;

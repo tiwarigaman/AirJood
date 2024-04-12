@@ -24,7 +24,7 @@ class UserDetails extends StatefulWidget {
   final List<Datum>? list;
   final int? followerCount;
   final int? followingCount;
-  // final List<Data>? bookingList;
+  final List<BookingData>? bookingList;
   const UserDetails({
     super.key,
     this.name,
@@ -39,7 +39,7 @@ class UserDetails extends StatefulWidget {
     this.list,
     this.screen,
     this.userId, this.followerCount, this.followingCount,
-    // this.bookingList,
+    this.bookingList,
   });
 
   @override
@@ -184,7 +184,7 @@ class _UserDetailsState extends State<UserDetails> {
             : ExperianceTabData(
                 items: widget.item,
                 list: widget.list,
-                // bookingList: widget.bookingList,
+                bookingList: widget.bookingList,
                 screen: widget.screen,
               ),
         const SizedBox(

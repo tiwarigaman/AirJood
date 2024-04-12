@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../model/booking_list_model.dart';
 import '../../../../../model/get_experiance_model.dart';
 import '../../../../../model/reels_model.dart';
 import '../../../../../res/components/CustomText.dart';
 import '../../../../../res/components/color.dart';
 import '../../../../../view_model/follow_view_model.dart';
+import '../../../../../view_model/get_booking_list_view_model.dart';
 import '../../../../../view_model/get_experiance_list_view_model.dart';
 import '../../../../../view_model/get_reels_view_model.dart';
 import '../../../../../view_model/home_reels_view_model.dart';
@@ -75,7 +77,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
 
   List<ReelsData> data = [];
   List<Datum> data2 = [];
-
+  List<BookingData> data3 = [];
   Future<void> fetchData() async {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
@@ -94,6 +96,16 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
           widget.userId!, value!, currentPage);
       experianceProvider.getExperianceData.data?.data?.forEach((element) {
         data2.add(element);
+      });
+    });
+  }
+  Future<void> fetchBookingListData() async {
+    UserViewModel().getToken().then((value) async {
+      final bookingProvider =
+      Provider.of<GetBookingListViewModel>(context, listen: false);
+      await bookingProvider.getBookingListApi(value!);
+      bookingProvider.getBookingData.data?.data?.forEach((element) {
+        data3.add(element);
       });
     });
   }
@@ -186,6 +198,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
           screen: widget.screen,
           userId: widget.userId,
           list: data2,
+          bookingList: data3,
         ),
       ),
     );

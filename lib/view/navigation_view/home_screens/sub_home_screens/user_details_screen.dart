@@ -10,8 +10,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
-import '../../../../view_model/followers_view_model.dart';
-import '../../../../view_model/following_view_model.dart';
 import '../../../../view_model/get_reels_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 
@@ -49,7 +47,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     });
     fetchData();
     fetchExperianceData();
-    // fetchBookingListData();
+    fetchBookingListData();
     _pageController.addListener(_onPageChanged);
   }
 
@@ -94,13 +92,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     });
   }
 
-  // Future<void> fetchBookingListData() async {
-  //   UserViewModel().getToken().then((value) async {
-  //     final bookingProvider =
-  //         Provider.of<GetBookingListViewModel>(context, listen: false);
-  //     await bookingProvider.getBookingListApi(value!);
-  //   });
-  // }
+  Future<void> fetchBookingListData() async {
+    UserViewModel().getToken().then((value) async {
+      final bookingProvider =
+          Provider.of<GetBookingListViewModel>(context, listen: false);
+      await bookingProvider.getBookingListApi(value!);
+    });
+  }
 
   @override
   void dispose() {
@@ -116,7 +114,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         statusBarIconBrightness: Brightness.light));
     final reelsProvider = Provider.of<ReelsViewModel>(context);
     final experianceProvider = Provider.of<GetExperianceListViewModel>(context);
-    // final bookingProvider = Provider.of<GetBookingListViewModel>(context);
+    final bookingProvider = Provider.of<GetBookingListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -230,7 +228,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           item: reelsProvider.laqtaData,
           list: experianceProvider.data2,
           screen: widget.screen,
-          // bookingList: bookingProvider.data3,
+          bookingList: bookingProvider.data3,
           // userData: userData,
         ),
       ),

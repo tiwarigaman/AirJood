@@ -6,11 +6,18 @@ import '../res/app_url.dart';
 
 class HomeReelsRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future<HomeReelsModel> getHomeReels(String token, int page) async {
+  Future<HomeReelsModel> getHomeReels(String token, int page,
+      {int? tabIndex}) async {
     try {
-      dynamic response = await apiAServices.getGetApiResponse(
-          '${AppUrl.getHomeReels}?page=$page', token);
-      return response = HomeReelsModel.fromJson(response);
+      if (tabIndex == 1) {
+        dynamic response = await apiAServices.getGetApiResponse(
+            '${AppUrl.getHomeReels}?page=$page/?is_following=1', token);
+        return response = HomeReelsModel.fromJson(response);
+      } else {
+        dynamic response = await apiAServices.getGetApiResponse(
+            '${AppUrl.getHomeReels}?page=$page', token);
+        return response = HomeReelsModel.fromJson(response);
+      }
     } catch (e) {
       rethrow;
     }
