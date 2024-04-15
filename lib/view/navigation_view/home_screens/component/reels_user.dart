@@ -26,8 +26,7 @@ class ReelsUser extends StatefulWidget {
   final String? screen;
   final int? experienceId;
   final bool? isFollow;
-final int? followerCount;
-final int? followingCount;
+
   const ReelsUser(
       {super.key,
       this.dateTime,
@@ -43,7 +42,8 @@ final int? followingCount;
       this.userId,
       this.screen,
       this.experienceId,
-      this.isFollow, this.followerCount, this.followingCount});
+      this.isFollow,
+      });
 
   @override
   State<ReelsUser> createState() => _ReelsUserState();
@@ -82,8 +82,6 @@ class _ReelsUserState extends State<ReelsUser> {
                         userId: widget.userId,
                         screen: widget.screen,
                         isFollow: widget.isFollow,
-                        followingCount: widget.followingCount,
-                        followerCount: widget.followerCount,
                       ),
                     ),
                   );

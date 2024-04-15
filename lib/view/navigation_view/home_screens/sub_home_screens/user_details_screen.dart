@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../view_model/get_reels_view_model.dart';
+import '../../../../view_model/get_user_profile_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -48,6 +49,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     fetchData();
     fetchExperianceData();
     fetchBookingListData();
+    fetchProfileData();
     _pageController.addListener(_onPageChanged);
   }
 
@@ -97,6 +99,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       final bookingProvider =
           Provider.of<GetBookingListViewModel>(context, listen: false);
       await bookingProvider.getBookingListApi(value!);
+    });
+  }
+  Future<void> fetchProfileData() async {
+    UserViewModel().getToken().then((value) async {
+      final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
+      await counterProvider.profileGetApi(value!,userId!);
     });
   }
 

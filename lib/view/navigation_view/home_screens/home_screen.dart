@@ -74,6 +74,16 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  Future<void> refreshData({int? index}) async {
+    UserViewModel().getToken().then((value) async {
+      final homeReelsProvider =
+      Provider.of<HomeReelsViewModel>(context, listen: false);
+      homeReelsProvider.setPage(1);
+      homeReelsProvider.clearData();
+      await homeReelsProvider.homeReelsGetApi(value!, tabIndex: index);
+    });
+  }
+
   @override
   void dispose() {
     _pageController.removeListener(_onPageChanged);
@@ -92,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen>
     final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
 
     return RefreshIndicator(
-      onRefresh: fetchData,
+      onRefresh: refreshData,
       child: Scaffold(
         backgroundColor: AppColors.blackColor,
         resizeToAvoidBottomInset: false,
@@ -101,16 +111,14 @@ class _HomeScreenState extends State<HomeScreen>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
-          //forceMaterialTransparency: true,
+          forceMaterialTransparency: true,
           toolbarHeight: 70,
           actions: [
             const SizedBox(width: 10),
             Expanded(
-              // height: 40,
-              // width: 200,
               child: TabBar(
                 onTap: (p0) {
-                  fetchData(index: p0);
+                  refreshData(index: p0);
                   setState(() {});
                 },
                 unselectedLabelColor: Colors.white70,
@@ -128,7 +136,6 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
             const SizedBox(width: 30),
-            // const Spacer(),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: InkWell(
@@ -167,8 +174,6 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             InkWell(
               onTap: () {
-                // Navigator.pushNamed(context, RoutesName.userDetail)
-                //     .then((value) {});A
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -242,13 +247,6 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   },
                 ),
-                // LoginUser(
-                //   image: image,
-                //   getImage: ((val) {
-                //     image = val;
-                //     setState(() {});
-                //   }),
-                // ),
               ],
             ),
             Stack(
@@ -262,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen>
                         final homeReelsProvider =
                         Provider.of<HomeReelsViewModel>(context,
                             listen: false);
-                        await homeReelsProvider.homeReelsGetApi(value!);
+                        await homeReelsProvider.homeReelsGetApi(value!, tabIndex: 1);
                       });
                     }
                     setState(() {
@@ -280,13 +278,7 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   },
                 ),
-                // LoginUser(
-                //   image: image,
-                //   getImage: ((val) {
-                //     image = val;
-                //     setState(() {});
-                //   }),
-                // ),
+
               ],
             ),
             // Container(
@@ -303,3 +295,12 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 }
+
+
+// LoginUser(
+//   image: image,
+//   getImage: ((val) {
+//     image = val;
+//     setState(() {});
+//   }),
+// ),

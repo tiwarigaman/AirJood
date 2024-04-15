@@ -20,6 +20,11 @@ class HomeReelsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearData() {
+    mainReelsData.clear();
+    notifyListeners();
+  }
+
   ApiResponse<HomeReelsModel> homeReelsData = ApiResponse.loading();
 
   setHomeReelsList(ApiResponse<HomeReelsModel> response) {
@@ -80,7 +85,7 @@ class HomeReelsViewModel with ChangeNotifier {
 
   Future<void> homeReelsGetApi(String token, {int? tabIndex}) async {
     setHomeReelsList(ApiResponse.loading());
-    await myRepo.getHomeReels(token, _page).then((value) {
+    await myRepo.getHomeReels(token, _page, tabIndex: tabIndex).then((value) {
       setHomeReelsList(ApiResponse.completed(value));
       _page++;
     }).onError((error, stackTrace) {

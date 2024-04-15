@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:scroll_datetime_picker/scroll_datetime_picker.dart';
 
 class DateTimeTabWidget extends StatefulWidget {
-  const DateTimeTabWidget({super.key});
+  final Function? date;
+  const DateTimeTabWidget({super.key, this.date});
 
   @override
   State<DateTimeTabWidget> createState() => _DateTimeTabWidgetState();
@@ -19,9 +20,8 @@ class _DateTimeTabWidgetState extends State<DateTimeTabWidget>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 1, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -79,17 +79,17 @@ class _DateTimeTabWidgetState extends State<DateTimeTabWidget>
                     text: formattedDate,
                   ),
                 ),
-                Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: indexs == 1 ? Colors.white : AppColors.transperent,
-                  ),
-                  child: Tab(
-                    text: formattedTime,
-                  ),
-                ),
+                // Container(
+                //   height: 40,
+                //   width: double.infinity,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(8),
+                //     color: indexs == 1 ? Colors.white : AppColors.transperent,
+                //   ),
+                //   child: Tab(
+                //     text: formattedTime,
+                //   ),
+                // ),
               ]),
         ),
         Center(
@@ -117,47 +117,50 @@ class _DateTimeTabWidgetState extends State<DateTimeTabWidget>
                 ),
                 dateOption: DateTimePickerOption(
                   dateFormat: DateFormat('EEEddMMMMy'),
-                  minDate: DateTime(1900, 6),
-                  maxDate: DateTime(2024, 6),
+                  minDate: DateTime.now(),
+                  maxDate: DateTime(2100, 6),
                   initialDate: _selectedDate,
                 ),
                 onChange: (datetime) => setState(() {
                   _selectedDate = datetime;
+                  DateTime dateTime = DateTime.parse(_selectedDate.toString());
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+                  widget.date!(formattedDate);
                 }),
               ),
             ),
-            SizedBox(
-              height: 200,
-              child: ScrollDateTimePicker(
-                itemExtent: 54,
-                infiniteScroll: true,
-                style: DateTimePickerStyle(
-                  activeStyle: GoogleFonts.nunitoSans(
-                    color: AppColors.mainColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                  centerDecoration: BoxDecoration(
-                    color: AppColors.blueBGShadeColor.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  inactiveStyle: GoogleFonts.nunitoSans(
-                    color: AppColors.mainColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                dateOption: DateTimePickerOption(
-                  dateFormat: DateFormat.jm(),
-                  minDate: DateTime(1900, 6),
-                  maxDate: DateTime(2024, 6),
-                  initialDate: time,
-                ),
-                onChange: (datetime) => setState(() {
-                  time = datetime;
-                }),
-              ),
-            ),
+            // SizedBox(
+            //   height: 200,
+            //   child: ScrollDateTimePicker(
+            //     itemExtent: 54,
+            //     infiniteScroll: true,
+            //     style: DateTimePickerStyle(
+            //       activeStyle: GoogleFonts.nunitoSans(
+            //         color: AppColors.mainColor,
+            //         fontSize: 18,
+            //         fontWeight: FontWeight.w800,
+            //       ),
+            //       centerDecoration: BoxDecoration(
+            //         color: AppColors.blueBGShadeColor.withOpacity(0.3),
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       inactiveStyle: GoogleFonts.nunitoSans(
+            //         color: AppColors.mainColor,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.w400,
+            //       ),
+            //     ),
+            //     dateOption: DateTimePickerOption(
+            //       dateFormat: DateFormat.jm(),
+            //       minDate: DateTime(1900, 6),
+            //       maxDate: DateTime(2024, 6),
+            //       initialDate: time,
+            //     ),
+            //     onChange: (datetime) => setState(() {
+            //       time = datetime;
+            //     }),
+            //   ),
+            // ),
           ][_tabController.index],
         ),
       ],

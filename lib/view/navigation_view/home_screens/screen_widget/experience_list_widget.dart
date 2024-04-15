@@ -14,6 +14,7 @@ import '../../../../res/components/color.dart';
 import '../../../../view_model/delete_experiance_view_model.dart';
 import '../../../../view_model/get_experiance_list_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
+import '../sub_home_screens/book_now/book_now_main_screen.dart';
 
 class ExperienceListWidget extends StatefulWidget {
   final List<Datum>? list;
@@ -133,7 +134,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                   width:
                                       MediaQuery.of(context).size.width / 1.6,
                                   child: Text(
-                                    "${data?.name}",
+                                    "${data.name}",
                                     maxLines: 2,
                                     softWrap: true,
                                     style: GoogleFonts.nunitoSans(
@@ -150,7 +151,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                   width:
                                       MediaQuery.of(context).size.width / 1.6,
                                   child: CustomText(
-                                    data: "${data?.location}",
+                                    data: "${data.location}",
                                     fweight: FontWeight.w500,
                                     fSize: 14,
                                     fontColor: AppColors.secondTextColor,
@@ -195,7 +196,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                   onRatingUpdate: (double value) {},
                                 ),
                                 CustomText(
-                                  data: "\$ ${data?.price}",
+                                  data: "\$${data.price}",
                                   fweight: FontWeight.w800,
                                   fSize: 19,
                                   fontColor: AppColors.mainColor,
@@ -206,7 +207,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                               height: 10,
                             ),
                             CustomReadMoreText(
-                                content: data?.description ??
+                                content: data.description ??
                                     'Lorem ipsum dolor sit amet consectetur. Enim justo tellus odio vitae ullamcorper adipiscing est. Phasellus proin non orci consectetur Id sit letus morbi null a Tristique',
                                 color: AppColors.secondTextColor,
                                 mColor: AppColors.mainColor,
@@ -239,7 +240,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                               .width),
                                       isScrollControlled: true,
                                       builder: (_) =>
-                                          UploadExperienceDetails(id: data?.id),
+                                          UploadExperienceDetails(id: data.id),
                                     );
                                   },
                                   child: Text(
@@ -257,7 +258,39 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                 ),
                                 const Spacer(),
                                 if (widget.screen == 'UserDetails')
-                                  Container()
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        context: context,
+                                        enableDrag: false,
+                                        isDismissible: false,
+                                        constraints: BoxConstraints.expand(
+                                            height: MediaQuery.of(context).size.height * 0.90,
+                                            width: MediaQuery.of(context).size.width),
+                                        isScrollControlled: true,
+                                        builder: (_) => BookNowMainScreen(
+                                          experienceId: data.id!,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.blueBGShadeColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Center(
+                                        child: CustomText(
+                                          data: 'Book Now',
+                                          fontColor: AppColors.blueColor,
+                                          fSize: 15,
+                                          fweight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 else
                                   InkWell(
                                     onTap: () {
@@ -270,7 +303,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                           subTitle:
                                               'Are you sure want to Delete Experiences ?',
                                           positiveButton: 'Delete',
-                                          negativeButton: 'Cancle',
+                                          negativeButton: 'Cancel',
                                           onPressed: () {
                                             UserViewModel()
                                                 .getToken()
@@ -279,7 +312,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                                       context,
                                                       listen: false)
                                                   .deleteExperianceApi(value!,
-                                                      data!.id!, context);
+                                                      data.id!, context);
                                             });
                                           },
                                         ),

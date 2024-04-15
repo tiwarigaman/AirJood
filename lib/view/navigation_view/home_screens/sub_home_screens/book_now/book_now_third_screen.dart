@@ -8,7 +8,10 @@ import '../../../../../res/components/mainbutton.dart';
 
 class BookNowThirdScreen extends StatefulWidget {
   final Function? onTap;
-  const BookNowThirdScreen({super.key, this.onTap});
+  final String? totalPrice;
+  final String? name;
+  final String? address;
+  const BookNowThirdScreen({super.key, this.onTap, this.totalPrice, this.name, this.address});
 
   @override
   State<BookNowThirdScreen> createState() => _BookNowThirdScreenState();
@@ -41,30 +44,33 @@ class _BookNowThirdScreenState extends State<BookNowThirdScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
+                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        data: 'AL khayma Camp',
+                        data: widget.name ?? 'AL khayma Camp',
                         fweight: FontWeight.w800,
                         fSize: 18,
                         fontColor: AppColors.blackTextColor,
                       ),
-                      CustomText(
-                        data: '9 Al Khayma Camp, Dubai, UAE',
-                        fweight: FontWeight.w600,
-                        fSize: 13,
-                        fontColor: AppColors.greyTextColor,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width/1.4,
+                        child: CustomText(
+                          data: widget.address ?? '9 Al Khayma Camp, Dubai, UAE',
+                          fweight: FontWeight.w600,
+                          fSize: 13,
+                          fontColor: AppColors.greyTextColor,
+                        ),
                       ),
                     ],
                   ),
                   CustomText(
-                    data: '\$195.67',
+                    data: '\$${widget.totalPrice ?? 195.67}',
                     fweight: FontWeight.w800,
                     fSize: 20,
                     fontColor: AppColors.mainColor,

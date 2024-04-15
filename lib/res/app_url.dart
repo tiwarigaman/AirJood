@@ -4,6 +4,7 @@ class AppUrl {
   static var verifyCode = '$baseUrl/api/v1/validate-otp';
   static var register = '$baseUrl/api/v1/signup';
   static var getAudio = '$baseUrl/api/v1/songs';
+  static var getProfile = '$baseUrl/api/v1/profile';
   static var getReels = '$baseUrl/api/v1/reels';
   static var getHomeReels = '$baseUrl/api/v1/experience/explore';
   static var addReels = '$baseUrl/api/v1/reels';
@@ -26,4 +27,5 @@ class AppUrl {
   static var deleteFollower = '$baseUrl/api/v1/removeFollower';
   static var getFollower = '$baseUrl/api/v1/follower';
   static var getBookingList = '$baseUrl/api/v1/booking';
+  static var createBooking = '$baseUrl/api/v1/booking';
 }

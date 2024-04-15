@@ -1,3 +1,5 @@
+import 'package:airjood/model/experience_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../res/components/CustomText.dart';
@@ -6,7 +8,36 @@ import '../../../../../res/components/mainbutton.dart';
 
 class BookNowFourthScreen extends StatefulWidget {
   final Function? onTap;
-  const BookNowFourthScreen({super.key, this.onTap});
+  final String? reelsUrl;
+  final String? videoThumbnailUrl;
+  final String? price;
+  final String? totalPrice;
+  final String? userCharges;
+  final String? date;
+  final String? address;
+  final List<Addon>? addon;
+  final String? noOfGuest;
+  final String? comment;
+  final List? selectedFacilitates;
+  final String? reelsUserProfileImage;
+  final String? reelsUserName;
+
+  const BookNowFourthScreen(
+      {super.key,
+      this.onTap,
+      this.reelsUrl,
+      this.videoThumbnailUrl,
+      this.price,
+      this.date,
+      this.noOfGuest,
+      this.comment,
+      this.selectedFacilitates,
+      this.reelsUserProfileImage,
+      this.reelsUserName,
+      this.address,
+      this.addon,
+      this.totalPrice,
+      this.userCharges});
 
   @override
   State<BookNowFourthScreen> createState() => _BookNowFourthScreenState();
@@ -50,8 +81,8 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
               const SizedBox(height: 20),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/images/image1.png',
+                child: CachedNetworkImage(
+                  imageUrl: '${widget.videoThumbnailUrl}',
                   height: 110,
                   width: 85,
                   fit: BoxFit.cover,
@@ -73,36 +104,36 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            'assets/images/user.png',
+                          child: CachedNetworkImage(
+                            imageUrl: '${widget.reelsUserProfileImage}',
                             height: 45,
                             width: 45,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const CustomText(
-                          data: '\$195.67',
+                        CustomText(
+                          data: '\$${widget.totalPrice ?? "195.67"}',
                           fweight: FontWeight.w800,
                           fSize: 18,
                           fontColor: AppColors.mainColor,
                         ),
                       ],
                     ),
-                    const CustomText(
-                      data: 'David Warner',
+                    CustomText(
+                      data: widget.reelsUserName ?? 'David Warner',
                       fweight: FontWeight.w700,
                       fSize: 18,
                       fontColor: AppColors.blackTextColor,
                     ),
-                    const CustomText(
-                      data: '9 Al Khayma Camp, Dubai, UAE',
+                    CustomText(
+                      data: widget.address ?? '9 Al Khayma Camp, Dubai, UAE',
                       fweight: FontWeight.w600,
                       fSize: 13,
                       fontColor: AppColors.greyTextColor,
                     ),
                     const SizedBox(height: 3),
-                    const CustomText(
-                      data: 'Mon 15, Mar 23 - 17:30 PM',
+                    CustomText(
+                      data: widget.date ?? 'Mon 15, Mar 23',
                       fweight: FontWeight.w600,
                       fSize: 13,
                       fontColor: AppColors.blackTextColor,
@@ -135,17 +166,17 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                 fontColor: AppColors.blackTextColor,
               ),
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
+                  const CustomText(
                     data: 'Booking Charges',
                     fweight: FontWeight.w600,
                     fSize: 14,
                     fontColor: AppColors.greyTextColor,
                   ),
                   CustomText(
-                    data: '\$125.32',
+                    data: '\$${widget.userCharges ?? "125.32"}',
                     fweight: FontWeight.w700,
                     fSize: 14,
                     fontColor: AppColors.blackTextColor,
@@ -153,55 +184,43 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                 ],
               ),
               const SizedBox(height: 5),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    data: 'Transportation',
-                    fweight: FontWeight.w600,
-                    fSize: 14,
-                    fontColor: AppColors.greyTextColor,
-                  ),
-                  CustomText(
-                    data: '\$40.20',
-                    fweight: FontWeight.w700,
-                    fSize: 14,
-                    fontColor: AppColors.blackTextColor,
-                  ),
-                ],
+              ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: widget.addon?.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        data: widget.addon?[index].name ?? 'Transportation',
+                        fweight: FontWeight.w600,
+                        fSize: 14,
+                        fontColor: AppColors.greyTextColor,
+                      ),
+                      CustomText(
+                        data: '\$${widget.addon?[index].price ?? "40.20"}',
+                        fweight: FontWeight.w700,
+                        fSize: 14,
+                        fontColor: AppColors.blackTextColor,
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 5),
-              const Row(
+              const Divider(color: AppColors.deviderColor),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
-                    data: 'Desert Safari Trip',
-                    fweight: FontWeight.w600,
-                    fSize: 14,
-                    fontColor: AppColors.greyTextColor,
-                  ),
-                  CustomText(
-                    data: '\$30.15',
-                    fweight: FontWeight.w700,
-                    fSize: 14,
-                    fontColor: AppColors.blackTextColor,
-                  ),
-                ],
-              ),
-              const Divider(
-                color: AppColors.deviderColor,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
+                  const CustomText(
                     data: 'Total',
                     fweight: FontWeight.w700,
                     fSize: 15,
                     fontColor: AppColors.blackTextColor,
                   ),
                   CustomText(
-                    data: '\$195.67',
+                    data: '\$${widget.totalPrice ?? "195.67"}',
                     fweight: FontWeight.w700,
                     fSize: 14,
                     fontColor: AppColors.mainColor,

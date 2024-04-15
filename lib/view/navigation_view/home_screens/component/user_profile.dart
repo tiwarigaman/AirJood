@@ -1,13 +1,16 @@
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/followers_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/following_screen.dart';
+import 'package:airjood/view_model/get_user_profile_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
+import '../../../../view_model/user_view_model.dart';
 
 class UserProfile extends StatefulWidget {
   final String? name;
@@ -17,8 +20,6 @@ class UserProfile extends StatefulWidget {
   final String? about;
   final int? userId;
   final String? screen;
-  final int? followerCount;
-  final int? followingCount;
   const UserProfile(
       {super.key,
       this.name,
@@ -26,13 +27,21 @@ class UserProfile extends StatefulWidget {
       this.image,
       this.language,
       this.about,
-      this.userId,  this.screen, this.followerCount, this.followingCount});
+      this.userId,
+      this.screen,
+      });
 
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+  Future<void> fetchProfileData() async {
+    UserViewModel().getToken().then((value) async {
+      final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
+      await counterProvider.profileGetApi(value!,widget.userId!);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     String? formattedDate =
@@ -42,6 +51,7 @@ class _UserProfileState extends State<UserProfile> {
     const size = SizedBox(
       width: 5,
     );
+    final counterProvider = Provider.of<ProfileViewModel>(context);
     return Row(
       children: [
         Container(
@@ -75,7 +85,7 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ),
         const SizedBox(
-          width: 10,
+          width: 10
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -148,9 +158,14 @@ class _UserProfileState extends State<UserProfile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              FollowersScreen(userId: widget.userId,screen: widget.screen,)),
-                    );
+                        builder: (context) => FollowersScreen(
+                          userId: widget.userId,
+                          screen: widget.screen,
+                        ),
+                      ),
+                    ).then((value) {
+                      fetchProfileData();
+                    });
                   },
                   child: Row(
                     children: [
@@ -158,8 +173,7 @@ class _UserProfileState extends State<UserProfile> {
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data:
-                            '${widget.followerCount ?? 0}',
+                        data: '${counterProvider.profileData.data?.followersCount ?? 0}',
                       ),
                       size,
                       const CustomText(
@@ -178,10 +192,14 @@ class _UserProfileState extends State<UserProfile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            FollowingScreen(userId: widget.userId,screen: widget.screen,),
+                        builder: (context) => FollowingScreen(
+                          userId: widget.userId,
+                          screen: widget.screen,
+                        ),
                       ),
-                    );
+                    ).then((value) {
+                      fetchProfileData();
+                    });
                   },
                   child: Row(
                     children: [
@@ -189,8 +207,7 @@ class _UserProfileState extends State<UserProfile> {
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data:
-                            '${widget.followingCount ?? 0}',
+                        data: '${counterProvider.profileData.data?.followingsCount ?? 0}',
                       ),
                       size,
                       const CustomText(

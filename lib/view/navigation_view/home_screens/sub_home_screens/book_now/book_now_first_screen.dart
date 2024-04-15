@@ -1,4 +1,6 @@
 import 'package:airjood/res/components/mainbutton.dart';
+import 'package:airjood/utils/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +31,9 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
     fetchExperianceData();
   }
 
-  late List<bool> isSelected = [];
+  late List<bool> isSelected;
+  late List<Addon> addonsData;
+  List<Addon> selectedAddons = [];
   final List<ExperienceModel> data = [];
 
   Future<void> fetchExperianceData() async {
@@ -38,18 +42,55 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
           Provider.of<UploadExperianceViewModel>(context, listen: false);
       await experianceProvider.getUploadExperianceListApi(
           value!, widget.experienceId!);
-      setState(() {});
+      setState(() {
+        isSelected = List.generate(
+          experianceProvider.getUploadExperianceData.data?.addons?.length ?? 0 ,
+              (index) => false,
+        );
+      });
+      addonsData = experianceProvider.getUploadExperianceData.data?.addons ?? [];
     });
   }
-
+  int calculateSelectedAddonsPrice() {
+    int totalPrice = 0;
+    for (int i = 0; i < isSelected.length; i++) {
+      if (isSelected[i]) {
+        totalPrice += addonsData[i].price!;
+      }
+    }
+    return totalPrice;
+  }
   @override
   Widget build(BuildContext context) {
+    final experianceProvider = Provider.of<UploadExperianceViewModel>(context);
+    var experiance = experianceProvider.getUploadExperianceData.data;
     return Scaffold(
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: InkWell(
           onTap: () {
-            widget.onTap!();
+            // if(selectedAddons.isEmpty) {
+            //   Utils.tostMessage('Please select any 1 addons');
+            // } else{}
+            widget.onTap!(
+              {
+                "experience_id": experiance?.id,
+                'name':experiance?.name,
+                'reelsUserProfileImage':experiance?.reel?.user?[0].profileImageUrl,
+                'addon':selectedAddons,
+                'reelsUserName' :experiance?.reel?.user?[0].name,
+                'reels':experiance?.reel?.id,
+                'totalPrice':(calculateSelectedAddonsPrice() + (experiance?.price ?? 0)).toStringAsFixed(0),
+                'userCharges':experiance?.price.toString(),
+                'reelsUrl':experiance?.reel?.videoUrl,
+                'videoThumbnailUrl':experiance?.reel?.videoThumbnailUrl,
+                'address':experiance?.location,
+                'price': calculateSelectedAddonsPrice().toStringAsFixed(0),
+                'facilitates': experiance?.facility,
+                'minGuest':experiance?.minPerson,
+                'maxGuest':experiance?.maxPerson,
+              }
+            );
           },
           child: const MainButton(
             data: 'Next - Dates',
@@ -64,15 +105,15 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
             builder: (context, value, child) {
               switch (value.getUploadExperianceData.status) {
                 case Status.LOADING:
-                  return const FollowersShimmer();
+                  return const BookNowShimmer();
                 case Status.ERROR:
                   return Container();
                 case Status.COMPLETED:
                   var data = value.getUploadExperianceData.data;
-                  isSelected = List.generate(
-                    data?.addons?.length ?? 0,
-                    (index) => false,
-                  );
+                  // isSelected = List.generate(
+                  //   data?.addons?.length ?? 0,
+                  //   (index) => false,
+                  // );
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,15 +160,15 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                         name: data?.name ?? "AL khayma Camp",
                         discription: data?.description ??
                             "Lorem ipsum dolor sit amet consectetur. Enim justo tellus odio vitae ullamcorper adipiscing est. Phasellus proin non orci consectetur Id sit letus morbi null.",
-                        location: '9 Al Khayma Camp, Dubai, UAE',
+                        location: data?.location ?? '9 Al Khayma Camp, Dubai, UAE',
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          '${data?.reel?.videoThumbnailUrl}',
+                        child: CachedNetworkImage(
+                          imageUrl:'${data?.reel?.videoThumbnailUrl}',
                           height: 110,
                           width: 85,
                           fit: BoxFit.cover,
@@ -145,8 +186,8 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                             fweight: FontWeight.w600,
                           ),
                           const Spacer(),
-                          const CustomText(
-                            data: '\$70.35',
+                          CustomText(
+                            data: '\$${calculateSelectedAddonsPrice().toStringAsFixed(0)}',
                             fontColor: AppColors.mainColor,
                             fSize: 18,
                             fweight: FontWeight.w700,
@@ -195,14 +236,12 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
+                  selectedAddons.add(addonsData[index]);
                   isSelected[index] = !isSelected[index];
                 });
-                print("isSelected length: ${isSelected.length}");
-                print("isSelected: ${isSelected[index]}");
               },
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -247,4 +286,5 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
       },
     );
   }
+
 }

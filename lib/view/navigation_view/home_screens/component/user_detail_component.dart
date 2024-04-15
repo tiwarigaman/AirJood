@@ -22,8 +22,6 @@ class UserDetails extends StatefulWidget {
   final int? userId;
   final List<ReelsData>? item;
   final List<Datum>? list;
-  final int? followerCount;
-  final int? followingCount;
   final List<BookingData>? bookingList;
   const UserDetails({
     super.key,
@@ -38,7 +36,7 @@ class UserDetails extends StatefulWidget {
     this.item,
     this.list,
     this.screen,
-    this.userId, this.followerCount, this.followingCount,
+    this.userId,
     this.bookingList,
   });
 
@@ -75,8 +73,6 @@ class _UserDetailsState extends State<UserDetails> {
             language: widget.language,
             userId: widget.userId,
             screen: widget.screen,
-            followerCount: widget.followerCount,
-            followingCount: widget.followingCount,
           ),
         ),
         const SizedBox(

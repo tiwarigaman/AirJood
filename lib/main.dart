@@ -16,6 +16,7 @@ import 'package:airjood/view_model/following_view_model.dart';
 import 'package:airjood/view_model/get_booking_list_view_model.dart';
 import 'package:airjood/view_model/get_experiance_list_view_model.dart';
 import 'package:airjood/view_model/get_reels_view_model.dart';
+import 'package:airjood/view_model/get_user_profile_view_model.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:airjood/view_model/mood_view_model.dart';
 import 'package:airjood/view_model/music_view_model.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FollowViewModel()),
         ChangeNotifierProvider(create: (context) => DeleteFollowerViewModel()),
         ChangeNotifierProvider(create: (context) => GetBookingListViewModel()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

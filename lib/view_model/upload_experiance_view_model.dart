@@ -18,7 +18,6 @@ class UploadExperianceViewModel with ChangeNotifier {
     setGetUploadExperianceList(ApiResponse.loading());
     await myRepo.getUploadExperiance(token, id).then((value) {
       setGetUploadExperianceList(ApiResponse.completed(value));
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setGetUploadExperianceList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

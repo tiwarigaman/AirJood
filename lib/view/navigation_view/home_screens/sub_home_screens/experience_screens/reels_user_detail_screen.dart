@@ -8,10 +8,10 @@ import '../../../../../model/get_experiance_model.dart';
 import '../../../../../model/reels_model.dart';
 import '../../../../../res/components/CustomText.dart';
 import '../../../../../res/components/color.dart';
-import '../../../../../view_model/follow_view_model.dart';
 import '../../../../../view_model/get_booking_list_view_model.dart';
 import '../../../../../view_model/get_experiance_list_view_model.dart';
 import '../../../../../view_model/get_reels_view_model.dart';
+import '../../../../../view_model/get_user_profile_view_model.dart';
 import '../../../../../view_model/home_reels_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
 import '../../component/user_detail_component.dart';
@@ -28,8 +28,6 @@ class ReelsUserDetailScreen extends StatefulWidget {
   final int? userId;
   final String? screen;
   final bool? isFollow;
-  final int? followerCount;
-  final int? followingCount;
   const ReelsUserDetailScreen(
       {super.key,
       this.image,
@@ -42,7 +40,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
       this.guide,
       this.userId,
       this.screen,
-      this.isFollow, this.followerCount, this.followingCount});
+      this.isFollow});
 
   @override
   State<ReelsUserDetailScreen> createState() => _ReelsUserDetailScreenState();
@@ -60,6 +58,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     });
     fetchData();
     fetchExperianceData();
+    fetchProfileData();
     _pageController.addListener(_onPageChanged);
   }
 
@@ -107,6 +106,12 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
       bookingProvider.getBookingData.data?.data?.forEach((element) {
         data3.add(element);
       });
+    });
+  }
+  Future<void> fetchProfileData() async {
+    UserViewModel().getToken().then((value) async {
+      final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
+      await counterProvider.profileGetApi(value!,widget.userId!);
     });
   }
 

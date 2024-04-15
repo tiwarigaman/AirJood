@@ -1,6 +1,10 @@
 import 'package:airjood/res/components/mainbutton.dart';
+import 'package:airjood/res/components/maintextfild.dart';
+import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/date_time_tab_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -16,7 +20,13 @@ import '../../screen_widget/mood_drop.dart';
 
 class BookNowSecondScreen extends StatefulWidget {
   final Function? onTap;
-  const BookNowSecondScreen({super.key, this.onTap});
+  final String? name;
+  final String? address;
+  final String? price;
+  final List? facilitates;
+  final int? minGuest;
+  final int? maxGuest;
+  const BookNowSecondScreen({super.key, this.onTap, this.name, this.address, this.price, this.facilitates, this.minGuest, this.maxGuest});
 
   @override
   State<BookNowSecondScreen> createState() => _BookNowSecondScreenState();
@@ -36,9 +46,10 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
   }
 
   final TextEditingController guestController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
   List? selected;
-  List? selectedMood;
   dynamic _low;
+  String? selectedDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +57,21 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: InkWell(
           onTap: () {
-            widget.onTap!();
+            if(selectedDate == null){
+              Utils.tostMessage('Please select date');
+            }else if(_low == null){
+              Utils.tostMessage('Please select No Of Guest');
+            }else{
+              widget.onTap!(
+                  {
+                    'date':selectedDate,
+                    'selectFacilities':selected ?? [],
+                    'comment': commentController.text,
+                    'noOfGuest': _low.toStringAsFixed(0),
+                  }
+              );
+            }
+
           },
           child: const MainButton(
             data: 'Next - Payments',
@@ -61,7 +86,7 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -70,21 +95,24 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        data: 'AL khayma Camp',
+                        data: widget.name ??'AL khayma Camp',
                         fweight: FontWeight.w800,
                         fSize: 18,
                         fontColor: AppColors.blackTextColor,
                       ),
-                      CustomText(
-                        data: '9 Al Khayma Camp, Dubai, UAE',
-                        fweight: FontWeight.w600,
-                        fSize: 13,
-                        fontColor: AppColors.greyTextColor,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width/1.4,
+                        child: CustomText(
+                          data: widget.address??'9 Al Khayma Camp, Dubai, UAE',
+                          fweight: FontWeight.w600,
+                          fSize: 13,
+                          fontColor: AppColors.greyTextColor,
+                        ),
                       ),
                     ],
                   ),
                   CustomText(
-                    data: '\$195.67',
+                    data: '\$${widget.price ?? "195.67"}',
                     fweight: FontWeight.w800,
                     fSize: 20,
                     fontColor: AppColors.mainColor,
@@ -92,94 +120,34 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              const DateTimeTabWidget(),
-              const SizedBox(height: 20),
-              Consumer<MoodViewModel>(
-                builder: (context, value, child) {
-                  switch (value.moodData.status) {
-                    case Status.LOADING:
-                      return MoodDrop(
-                        initialValue: selectedMood,
-                        items: value.moodData.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.mood}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {
-                          setState(() {
-                            selectedMood = results;
-                          });
-                        },
-                      );
-                    case Status.ERROR:
-                      return const SizedBox();
-                    case Status.COMPLETED:
-                      List<Map<String, String>> itemsList = [];
-                      for (int i = 0; i < value.moodData.data!.length; i++) {
-                        final moodItem = value.moodData.data![i];
-                        itemsList.add({
-                          'id': '${moodItem.id}',
-                          'name': '${moodItem.mood}'
-                        });
-                      }
-                      return MoodDrop(
-                        initialValue: selectedMood,
-                        items: value.moodData.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.mood}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {
-                          setState(() {
-                            selectedMood = results;
-                          });
-                        },
-                      );
-                    default:
-                  }
-                  return Container();
+              DateTimeTabWidget(
+                date: ((date){
+                  selectedDate = date;
+                  setState(() {
+
+                  });
+                }),
+              ),
+              widget.facilitates == null
+                 ?  const SizedBox()
+                  : FacilitiesDrop(
+                initialValue: selected,
+                items: widget.facilitates?.map((item) {
+                  return MultiSelectItem(
+                      '${item.id}', '${item.facility}');
+                }).toList() ??
+                    [],
+                onConfirm: (results) {
+                  setState(() {
+                    selected = results;
+                  });
                 },
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              Consumer<FacilitiesViewModel>(
-                builder: (context, value, child) {
-                  switch (value.facilitiesData.status) {
-                    case Status.LOADING:
-                      return FacilitiesDrop(
-                        initialValue: selected,
-                        items: value.facilitiesData.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.facility}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {
-                          setState(() {
-                            selected = results;
-                          });
-                        },
-                      );
-                    case Status.ERROR:
-                      return const SizedBox();
-                    case Status.COMPLETED:
-                      return FacilitiesDrop(
-                        initialValue: selected,
-                        items: value.facilitiesData.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.facility}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {
-                          setState(() {
-                            selected = results;
-                          });
-                        },
-                      );
-                    default:
-                  }
-                  return Container();
-                },
+              const SizedBox(height: 15),
+              MainTextFild(
+                controller: commentController,
+                labelText: 'Comments...',
+                maxLines: 2,
               ),
               const SizedBox(height: 15),
               const CustomText(
@@ -194,9 +162,9 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                   Expanded(
                     flex: 4,
                     child: FlutterSlider(
-                      values: [_low ?? 12],
-                      max: 15,
-                      min: 0,
+                      values: [_low ?? widget.minGuest!.toDouble()+2],
+                      max: widget.maxGuest?.toDouble(),
+                      min: widget.minGuest?.toDouble(),
                       handlerHeight: 25,
                       handlerWidth: 25,
                       trackBar: FlutterSliderTrackBar(
@@ -257,7 +225,7 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                       ),
                       child: Center(
                         child: CustomText(
-                          data: '${_low == null ? 12 : _low.toInt()}',
+                          data: '${_low == null ? widget.minGuest!+2 : _low.toInt()}',
                           fontColor: AppColors.mainColor,
                           fSize: 16,
                           fweight: FontWeight.w800,

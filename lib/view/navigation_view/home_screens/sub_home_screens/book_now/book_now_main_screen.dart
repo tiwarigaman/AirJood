@@ -1,3 +1,4 @@
+import 'package:airjood/model/experience_model.dart';
 import 'package:airjood/res/components/color.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_fourth_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_second_screen.dart';
@@ -9,6 +10,7 @@ import 'book_now_first_screen.dart';
 
 class BookNowMainScreen extends StatefulWidget {
   final int? experienceId;
+
   const BookNowMainScreen({super.key, this.experienceId});
 
   @override
@@ -27,6 +29,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
   }
 
   String? token;
+
   @override
   void initState() {
     super.initState();
@@ -35,14 +38,48 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       setState(() {});
     });
   }
-
+  String? name;
+  String? address;
+  int? exId;
+  int? reelsId;
+  List<Addon>? addon;
+  String? reelsUrl;
+  String? videoThumbnailUrl;
+  String? price;
+  String? totalPrice;
+  String? userCharges;
+  List? facilitates;
+  int? minGuest;
+  int? maxGuest;
+  String? date;
+  String? noOfGuest;
+  String? comment;
+  List? selectedFacilitates;
+  String? reelsUserProfileImage;
+  String? reelsUserName;
   @override
   Widget build(BuildContext context) {
     // final authViewModel = Provider.of<AddExperianceViewModel>(context);
     List onBordingData = [
       BookNowFirstScreen(
         experienceId: widget.experienceId,
-        onTap: () {
+        onTap: (value) {
+          exId = value['experience_id'];
+          name = value['name'];
+          reelsId = value['reels'];
+          addon = value['addon'];
+          totalPrice =value['totalPrice'];
+          userCharges = value['userCharges'];
+          videoThumbnailUrl=value['videoThumbnailUrl'];
+          reelsUserProfileImage=value['reelsUserProfileImage'];
+          reelsUserName= value['reelsUserName'];
+          reelsUrl=value['reelsUrl'];
+          address = value['address'];
+          price = value['price'];
+          facilitates = value['facilitates'];
+          minGuest = value['minGuest'];
+          maxGuest = value['maxGuest'];
+          setState(() {});
           pagecontroller.nextPage(
             duration: const Duration(milliseconds: 1),
             curve: Curves.bounceIn,
@@ -50,7 +87,17 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         },
       ),
       BookNowSecondScreen(
-        onTap: () {
+        address: address,
+        facilitates: facilitates,
+        maxGuest: maxGuest,
+        minGuest: minGuest,
+        name: name,
+        price: totalPrice,
+        onTap: (value) {
+          date=value['date'];
+          selectedFacilitates=value['selectFacilities'];
+          comment = value['comment'];
+          noOfGuest = value['noOfGuest'];
           pagecontroller.nextPage(
             duration: const Duration(milliseconds: 1),
             curve: Curves.bounceIn,
@@ -58,6 +105,19 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         },
       ),
       BookNowFourthScreen(
+        date: date,
+        price: price,
+        totalPrice: totalPrice,
+        userCharges:userCharges,
+        comment: comment,
+        noOfGuest: noOfGuest,
+        reelsUrl: reelsUrl,
+        addon: addon,
+        videoThumbnailUrl: videoThumbnailUrl,
+        selectedFacilitates: selectedFacilitates,
+        reelsUserName: reelsUserName,
+        reelsUserProfileImage: reelsUserProfileImage,
+        address: address,
         onTap: () {
           pagecontroller.nextPage(
             duration: const Duration(milliseconds: 1),
@@ -65,7 +125,11 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
           );
         },
       ),
-      const BookNowThirdScreen(),
+      BookNowThirdScreen(
+        name: name,
+        address: address,
+        totalPrice: totalPrice,
+      ),
     ];
 
     return ClipRRect(
