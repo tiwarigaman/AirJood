@@ -30,7 +30,7 @@ class _BookNowThirdScreenState extends State<BookNowThirdScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: InkWell(
           onTap: () {
-            //widget.onTap!();
+            widget.onTap!();
           },
           child: const MainButton(
             data: 'Agree all terms & Pay Secure',

@@ -15,10 +15,10 @@ class CreateBookingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createBookingApi(String token, Map<String, String> data,
-      File image, BuildContext context) async {
+  Future<void> createBookingApi(
+      String token, Map<String, String> data, BuildContext context) async {
     createBookingLoading(true);
-    myRepo.createBookingApi(token, data).then((value) {
+    await myRepo.createBookingApi(token, data).then((value) {
       createBookingLoading(false);
       Utils.tostMessage('${value['message']}');
       Navigator.of(context, rootNavigator: true).pop(true);

@@ -7,6 +7,7 @@ import 'package:airjood/view_model/add_reels_view_model.dart';
 import 'package:airjood/view_model/add_remove_like_view_model.dart';
 import 'package:airjood/view_model/auth_view_model.dart';
 import 'package:airjood/view_model/comment_view_model.dart';
+import 'package:airjood/view_model/create_booking_view_model.dart';
 import 'package:airjood/view_model/delete_experiance_view_model.dart';
 import 'package:airjood/view_model/delete_follower_view_model.dart';
 import 'package:airjood/view_model/facilities_view_model.dart';
@@ -28,6 +29,8 @@ import 'package:airjood/view_model/user_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -37,6 +40,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Stripe.publishableKey = "pk_test_Pyu4oj7fU3CFtbcP0gH16Ila";
+  await dotenv.load(fileName: "assets/.env");
   runApp(const MyApp());
 }
 
@@ -79,6 +84,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DeleteFollowerViewModel()),
         ChangeNotifierProvider(create: (context) => GetBookingListViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => CreateBookingViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
