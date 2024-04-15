@@ -28,6 +28,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
   final int? userId;
   final String? screen;
   final bool? isFollow;
+
   const ReelsUserDetailScreen(
       {super.key,
       this.image,
@@ -48,6 +49,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
 
 class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
   final PageController _pageController = PageController();
+  bool isFollowing = false;
 
   @override
   void initState() {
@@ -60,6 +62,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     fetchExperianceData();
     fetchProfileData();
     _pageController.addListener(_onPageChanged);
+    isFollowing = widget.isFollow ?? false;
   }
 
   void _onPageChanged() {
@@ -77,6 +80,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
   List<ReelsData> data = [];
   List<Datum> data2 = [];
   List<BookingData> data3 = [];
+
   Future<void> fetchData() async {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
@@ -98,20 +102,23 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
       });
     });
   }
+
   Future<void> fetchBookingListData() async {
     UserViewModel().getToken().then((value) async {
       final bookingProvider =
-      Provider.of<GetBookingListViewModel>(context, listen: false);
+          Provider.of<GetBookingListViewModel>(context, listen: false);
       await bookingProvider.getBookingListApi(value!);
       bookingProvider.getBookingData.data?.data?.forEach((element) {
         data3.add(element);
       });
     });
   }
+
   Future<void> fetchProfileData() async {
     UserViewModel().getToken().then((value) async {
-      final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
-      await counterProvider.profileGetApi(value!,widget.userId!);
+      final counterProvider =
+          Provider.of<ProfileViewModel>(context, listen: false);
+      await counterProvider.profileGetApi(value!, widget.userId!);
     });
   }
 
@@ -134,7 +141,6 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
         statusBarIconBrightness: Brightness.light,
       ),
     );
-    bool isFollowing = widget.isFollow ?? false;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -171,11 +177,11 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
               homeReelsProvider.handleFollowers(
                   context, widget.userId!, widget.isFollow ?? false);
               setState(() {
-
+                isFollowing = !isFollowing;
               });
             },
             child: Text(
-              isFollowing  ? "" : "Follow",
+              isFollowing ? "" : "Follow",
               style: GoogleFonts.inter(
                 color: AppColors.mainColor,
                 fontSize: 16,
