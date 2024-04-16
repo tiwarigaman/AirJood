@@ -1,4 +1,5 @@
 import 'package:airjood/res/components/maintextfild.dart';
+import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,17 +40,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
     bool isFollowing =
         followStates[userId] ?? false; // Get current follow state
     bool newFollowState = !isFollowing; // Toggle the follow state
-    UserViewModel().getToken().then((token) async {
-      await Provider.of<FollowViewModel>(context, listen: false).followApi(
-        token!,
-        userId,
-        newFollowState == true ? '0' : '1',
-        context,
-      );
-      setState(() {
-        followStates[userId] =
-            newFollowState; // Update follow state for this user
-      });
+    Provider.of<HomeReelsViewModel>(context, listen: false)
+        .handleFollowers(context, userId, newFollowState);
+    setState(() {
+      followStates[userId] =
+          newFollowState; // Update follow state for this user
     });
   }
 
@@ -152,7 +147,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                       createdAt: data?.followedUser?.createdAt,
                                       language: data?.followedUser?.languages,
                                       userId: data?.followedUser?.id,
-                                      isFollow: data?.isFollowingByFollowedUser,
+                                      isFollow: !isFollowing,
                                       screen: 'UserDetails',
                                     ),
                                   ),

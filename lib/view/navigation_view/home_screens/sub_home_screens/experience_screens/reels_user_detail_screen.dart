@@ -61,6 +61,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     fetchData();
     fetchExperianceData();
     fetchProfileData();
+    fetchBookingListData();
     _pageController.addListener(_onPageChanged);
     isFollowing = widget.isFollow ?? false;
   }
@@ -107,9 +108,9 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     UserViewModel().getToken().then((value) async {
       final bookingProvider =
           Provider.of<GetBookingListViewModel>(context, listen: false);
-      await bookingProvider.getBookingListApi(value!);
-      bookingProvider.getBookingData.data?.data?.forEach((element) {
-        data3.add(element);
+      await bookingProvider.getBookingListApi(value!,userId: widget.userId);
+      setState(() {
+        data3.addAll(bookingProvider.getBookingData.data?.data ?? []);
       });
     });
   }

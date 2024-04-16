@@ -88,7 +88,7 @@ class BookingData {
   int? id;
   int? experienceId;
   DateTime? date;
-  String? addons;
+  //List<dynamic>? addons;
   String? facilityId;
   int? noOfGuests;
   int? bookingCharges;
@@ -103,7 +103,7 @@ class BookingData {
     this.id,
     this.experienceId,
     this.date,
-    this.addons,
+    //this.addons,
     this.facilityId,
     this.noOfGuests,
     this.bookingCharges,
@@ -119,7 +119,7 @@ class BookingData {
     id: json["id"],
     experienceId: json["experience_id"],
     date: json["date"] == null ? null : DateTime.parse(json["date"]),
-    addons: json["addons"],
+    //addons: json["addons"],
     facilityId: json["facility_id"],
     noOfGuests: json["no_of_guests"],
     bookingCharges: json["booking_charges"],
@@ -142,7 +142,7 @@ class BookingData {
     "experience_id": experienceId,
     "date":
     "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
-    "addons": addons,
+    //"addons": addons,
     "facility_id": facilityId,
     "no_of_guests": noOfGuests,
     "booking_charges": bookingCharges,

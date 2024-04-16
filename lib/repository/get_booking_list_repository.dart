@@ -5,24 +5,22 @@ import '../res/app_url.dart';
 
 class GetBookingListRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future<BookingListModel> getBookingList(String token) async {
+
+  Future<BookingListModel> getBookingList(String token, {int? userId}) async {
     try {
-      dynamic response =
-          await apiAServices.getGetApiResponse(AppUrl.getBookingList, token);
-      return response = BookingListModel.fromJson(response);
+      if (userId != null) {
+        print('userId $userId');
+        dynamic response =
+            await apiAServices.getGetApiResponse('${AppUrl.getBookingList}/$userId', token);
+        return response = BookingListModel.fromJson(response);
+      } else {
+        dynamic response =
+            await apiAServices.getGetApiResponse(AppUrl.getBookingList, token);
+        return response = BookingListModel.fromJson(response);
+      }
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
-
-  // Future<GetExperienceModel> getReelsUserExperianceList(
-  //     int userId, String token, int page) async {
-  //   try {
-  //     dynamic response = await apiAServices.getGetApiResponse(
-  //         '${AppUrl.getExperianceList}?page=$page&&user=$userId', token);
-  //     return response = GetExperienceModel.fromJson(response);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 }

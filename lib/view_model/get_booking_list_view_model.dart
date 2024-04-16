@@ -25,11 +25,12 @@ class GetBookingListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getBookingListApi(String token) async {
+  Future<void> getBookingListApi(String token,{int? userId}) async {
     setGetBookingList(ApiResponse.loading());
-    await myRepo.getBookingList(token).then((value) {
+    await myRepo.getBookingList(token,userId: userId).then((value) {
       setGetBookingList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
+      throw error!;
       setGetBookingList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');
     });

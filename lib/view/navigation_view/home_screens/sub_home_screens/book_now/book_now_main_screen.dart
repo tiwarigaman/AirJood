@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:airjood/model/experience_model.dart';
 import 'package:airjood/res/components/color.dart';
+import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_fourth_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_second_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_third_screen.dart';
@@ -94,6 +95,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       //STEP 3: Display Payment sheet
       displayPaymentSheet();
     } catch (err) {
+      Utils.tostMessage(err.toString());
       throw Exception(err);
     }
   }
@@ -117,6 +119,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       );
       return json.decode(response.body);
     } catch (err) {
+      Utils.tostMessage(err.toString());
       throw Exception(err.toString());
     }
   }
@@ -124,7 +127,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
-        await paymentSuccessApi('Paypal');
+        await paymentSuccessApi('Stripe');
         showDialog(
             context: context,
             builder: (_) => const AlertDialog(
@@ -143,7 +146,12 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                 ));
 
         paymentIntent = null;
+        Future.delayed(const Duration(seconds: 3), () {
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.pop(context);
+        });
       }).onError((error, stackTrace) {
+        Utils.tostMessage(error.toString());
         throw Exception(error);
       });
     } on StripeException catch (e) {
@@ -179,9 +187,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       builder: (BuildContext context) => PaypalCheckoutView(
         sandboxMode: true,
         clientId:
-            "AbaY7mTHC8Q8fWNtB6ddQEptZmGj3K_InIiEqMIOQYGSefoiJ9Rzmcx6YEFASk53vUFOvzGPsAfhMer-",
+            "Ad-OolkrYST_44CF3IA7AiK_8TA_dTs4MAzj8MS6c3SZzK3a6Jsr1hxANRgYGcKfaBBCC_L06xRC2D2C",
         secretKey:
-            "EKc35ynFSQo04s_HGILT-Ke0uUYbDtb0HnKmi1pngahJh3g5T90fDOxt1OSYwD5d3sok-OmSgOwjmYYQ",
+            "EHXDer72gUmu-TBVVAdQIYA0nwiv3MnbEnnaNfjCPmyujgMebQ_9aUgS5oUt4HQOMihTjKTFJzgR_03W",
         transactions: [
           {
             "amount": {
@@ -231,10 +239,10 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         },
         onError: (error) {
           log("onError: $error");
+          Utils.tostMessage(error);
           Navigator.pop(context);
         },
         onCancel: () {
-          print('cancelled:');
           Navigator.pop(context);
         },
       ),
@@ -243,6 +251,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
 
   Future<void> paymentSuccessApi(String paymentMethod) async {
     List<int?>? addonIds = addon?.map((e) => e.id).toList();
+    List<dynamic>? facilityIds = facilitates?.map((e) => e.id).toList();
     Map<String, String> data = {
       'experience_id': '$exId',
       'payment_method': paymentMethod,
@@ -252,7 +261,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       'total_amount': '$totalPrice',
       'addons': '$addonIds',
       'comment': '$comment',
-      'facility_id': '$facilitates',
+      'facility_id': '$facilityIds',
     };
     await Provider.of<CreateBookingViewModel>(context, listen: false)
         .createBookingApi(token!, data, context);
@@ -446,14 +455,14 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
           // );
         },
       ),
-      BookNowThirdScreen(
-        name: name,
-        address: address,
-        totalPrice: totalPrice,
-        onTap: () {
-          makePayment();
-        },
-      ),
+      // BookNowThirdScreen(
+      //   name: name,
+      //   address: address,
+      //   totalPrice: totalPrice,
+      //   onTap: () {
+      //     makePayment();
+      //   },
+      // ),
     ];
 
     return ClipRRect(
