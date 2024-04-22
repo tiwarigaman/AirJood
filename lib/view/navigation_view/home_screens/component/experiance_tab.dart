@@ -250,6 +250,7 @@ class _TabDataState extends State<TabData> {
                           builder: (context) => ShowUploadReels(
                             index: index,
                             data: widget.item!,
+                            screen : 'Laqta',
                           ),
                         ),
                       );

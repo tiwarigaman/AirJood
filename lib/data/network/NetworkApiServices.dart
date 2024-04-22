@@ -15,6 +15,8 @@ class NetworkApiService extends BaseApiAServices {
     var headers = {
       "Cookie": 'airjood_session=FsoQZmjEv7eb8NCI7qJGQ36YUlRZBur0to2hB46j',
       "Authorization": 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
     };
     try {
       final response = await http
@@ -270,7 +272,7 @@ class NetworkApiService extends BaseApiAServices {
 
   @override
   Future postApiResponse(
-      String url, String token, Map<String, String> data) async {
+      String url, String token, Map<String, dynamic> data) async {
     dynamic responseJson;
     try {
       Response response = await http

@@ -1,11 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:airjood/model/home_reels_model.dart';
+import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/user_details_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/videoPlayer.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _onPageChanged() {
     final homeReelsProvider =
-    Provider.of<HomeReelsViewModel>(context, listen: false);
+        Provider.of<HomeReelsViewModel>(context, listen: false);
     if (_pageController.page == _pageController.page!.roundToDouble()) {
       setState(() {
         currentPage = _pageController.page!.toInt();
@@ -68,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> fetchData({int? index}) async {
     UserViewModel().getToken().then((value) async {
       final homeReelsProvider =
-      Provider.of<HomeReelsViewModel>(context, listen: false);
+          Provider.of<HomeReelsViewModel>(context, listen: false);
       homeReelsProvider.setPage(1);
       await homeReelsProvider.homeReelsGetApi(value!, tabIndex: index);
     });
@@ -77,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> refreshData({int? index}) async {
     UserViewModel().getToken().then((value) async {
       final homeReelsProvider =
-      Provider.of<HomeReelsViewModel>(context, listen: false);
+          Provider.of<HomeReelsViewModel>(context, listen: false);
       homeReelsProvider.setPage(1);
       homeReelsProvider.clearData();
       await homeReelsProvider.homeReelsGetApi(value!, tabIndex: index);
@@ -172,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen>
             const SizedBox(
               width: 20,
             ),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -227,8 +229,8 @@ class _HomeScreenState extends State<HomeScreen>
                     if (value == homeReelsProvider.mainReelsData.length - 2) {
                       UserViewModel().getToken().then((value) async {
                         final homeReelsProvider =
-                        Provider.of<HomeReelsViewModel>(context,
-                            listen: false);
+                            Provider.of<HomeReelsViewModel>(context,
+                                listen: false);
                         await homeReelsProvider.homeReelsGetApi(value!);
                       });
                     }
@@ -249,53 +251,63 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ],
             ),
-            Stack(
-              children: [
-                PreloadPageView.builder(
-                  controller: _pageController,
-                  physics: const BouncingScrollPhysics(),
-                  onPageChanged: (value) {
-                    if (value == homeReelsProvider.mainReelsData.length - 2) {
-                      UserViewModel().getToken().then((value) async {
-                        final homeReelsProvider =
-                        Provider.of<HomeReelsViewModel>(context,
-                            listen: false);
-                        await homeReelsProvider.homeReelsGetApi(value!, tabIndex: 1);
-                      });
-                    }
-                    setState(() {
-                      currentPage = value;
-                    });
-                  },
-                  itemCount: homeReelsProvider.mainReelsData.length,
-                  scrollDirection: Axis.vertical,
-                  preloadPagesCount: 3,
-                  itemBuilder: (BuildContext context, int index) {
-                    return VideoPlayerData(
-                      data: homeReelsProvider.mainReelsData,
-                      currentPage: currentPage,
-                      index: index,
-                    );
-                  },
-                ),
-
-              ],
-            ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height,
-            //   width: MediaQuery.of(context).size.width,
-            //   color: AppColors.blackColor,
-            //   child: const Center(
-            //     child: Text('abcd'),
-            //   ),
-            // ),
+            homeReelsProvider.mainReelsData.isEmpty
+                ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                        'assets/images/rejected.png',
+                        height: 100,
+                        width: 100,
+                      ),
+                    const SizedBox(height: 30),
+                    const CustomText(
+                      data: 'Not found',
+                      fweight: FontWeight.w700,
+                      fontColor: AppColors.whiteTextColor,
+                      fSize: 18,
+                    ),
+                  ],
+                )
+                : Stack(
+                    children: [
+                      PreloadPageView.builder(
+                        controller: _pageController,
+                        physics: const BouncingScrollPhysics(),
+                        onPageChanged: (value) {
+                          if (value ==
+                              homeReelsProvider.mainReelsData.length - 2) {
+                            UserViewModel().getToken().then((value) async {
+                              final homeReelsProvider =
+                                  Provider.of<HomeReelsViewModel>(context,
+                                      listen: false);
+                              await homeReelsProvider.homeReelsGetApi(value!,
+                                  tabIndex: 1);
+                            });
+                          }
+                          setState(() {
+                            currentPage = value;
+                          });
+                        },
+                        itemCount: homeReelsProvider.mainReelsData.length,
+                        scrollDirection: Axis.vertical,
+                        preloadPagesCount: 3,
+                        itemBuilder: (BuildContext context, int index) {
+                          return VideoPlayerData(
+                            data: homeReelsProvider.mainReelsData,
+                            currentPage: currentPage,
+                            index: index,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
           ][_tabController.index],
         ),
       ),
     );
   }
 }
-
 
 // LoginUser(
 //   image: image,

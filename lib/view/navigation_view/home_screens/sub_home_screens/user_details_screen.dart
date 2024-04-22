@@ -96,9 +96,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   Future<void> fetchBookingListData() async {
     UserViewModel().getToken().then((value) async {
-      final bookingProvider =
-          Provider.of<GetBookingListViewModel>(context, listen: false);
-      await bookingProvider.getBookingListApi(value!);
+      if(guide == true){
+        final bookingProvider =
+        Provider.of<GetBookingListViewModel>(context, listen: false);
+        await bookingProvider.getBookingListApiUser(value!);
+      }else{
+        final bookingProvider =
+        Provider.of<GetBookingListViewModel>(context, listen: false);
+        await bookingProvider.getBookingListApi(value!);
+      }
     });
   }
   Future<void> fetchProfileData() async {

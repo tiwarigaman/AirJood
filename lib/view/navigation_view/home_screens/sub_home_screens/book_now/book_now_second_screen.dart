@@ -2,21 +2,17 @@ import 'package:airjood/res/components/mainbutton.dart';
 import 'package:airjood/res/components/maintextfild.dart';
 import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/date_time_tab_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:provider/provider.dart';
-import '../../../../../data/response/status.dart';
 import '../../../../../res/components/CustomText.dart';
 import '../../../../../res/components/color.dart';
 import '../../../../../view_model/facilities_view_model.dart';
 import '../../../../../view_model/mood_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
 import '../../screen_widget/facilities_drop.dart';
-import '../../screen_widget/mood_drop.dart';
 
 class BookNowSecondScreen extends StatefulWidget {
   final Function? onTap;
@@ -74,7 +70,7 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
 
           },
           child: const MainButton(
-            data: 'Next - Payments',
+            data: 'Payments',
           ),
         ),
       ),

@@ -89,7 +89,14 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                 ? Stack(
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
-                      VideoPlayer(_videoPlayerController!),
+                      Center(
+                        child: AspectRatio(
+                          // aspectRatio: MediaQuery.of(context).size.width /
+                          //     MediaQuery.of(context).size.height,
+                          aspectRatio: _videoPlayerController!.value.aspectRatio,
+                          child: VideoPlayer(_videoPlayerController!),
+                        ),
+                      ),
                       Container(
                         height: 300,
                         width: double.infinity,
@@ -200,11 +207,12 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                     ),
               CustomText(
                 data:
-                    '${widget.date?.year}.${widget.date?.month}.${widget.date?.day} @${widget.date?.hour}:${widget.date?.minute}',
+                    '${widget.date?.year}.${widget.date?.month}.${widget.date?.day}',
                 fSize: 12,
                 fweight: FontWeight.w400,
                 fontColor: AppColors.whiteTextColor,
               ),
+    // ${widget.date?.hour} : ${widget.date?.minute}
             ],
           ),
           const SizedBox(

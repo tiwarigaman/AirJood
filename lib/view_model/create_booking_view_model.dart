@@ -16,7 +16,7 @@ class CreateBookingViewModel with ChangeNotifier {
   }
 
   Future<void> createBookingApi(
-      String token, Map<String, String> data, BuildContext context) async {
+      String token, Map<String, dynamic> data, BuildContext context) async {
     createBookingLoading(true);
     await myRepo.createBookingApi(token, data).then((value) {
       createBookingLoading(false);

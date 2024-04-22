@@ -92,6 +92,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                       isLike: data.reel?.liked,
                                       likeCount: data.reel?.likeCount,
                                       reelsId: data.reel?.id,
+                                      screen : 'Laqta',
                                       videoImage:
                                           '${data.reel?.videoThumbnailUrl}',
                                       index: index,
@@ -240,7 +241,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                               .width),
                                       isScrollControlled: true,
                                       builder: (_) =>
-                                          UploadExperienceDetails(id: data.id),
+                                          UploadExperienceDetails(id: data.id,screen: widget.screen,),
                                     );
                                   },
                                   child: Text(

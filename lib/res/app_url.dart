@@ -27,5 +27,6 @@ class AppUrl {
   static var deleteFollower = '$baseUrl/api/v1/removeFollower';
   static var getFollower = '$baseUrl/api/v1/follower';
   static var getBookingList = '$baseUrl/api/v1/booking';
+  static var getBookingListUser = '$baseUrl/api/v1/booking/guide';
   static var createBooking = '$baseUrl/api/v1/booking';
 }

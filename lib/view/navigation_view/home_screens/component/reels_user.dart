@@ -148,19 +148,23 @@ class _ReelsUserState extends State<ReelsUser> {
                       const SizedBox(
                         width: 10,
                       ),
-                      isFollowing
+                      widget.screen == 'Laqta'
+                          ? const SizedBox()
+                          : isFollowing
                           ? const SizedBox()
                           : const Icon(
                               Icons.add,
                               color: AppColors.blueColor,
                             ),
-                      InkWell(
+                      widget.screen == 'Laqta'
+                          ? const SizedBox()
+                          : InkWell(
                         onTap: () {
                           homeReelsProvider.handleFollowers(context,
                               widget.userId!, widget.isFollow ?? false);
                         },
                         child: Text(
-                          isFollowing ? "" : "Follow",
+                          isFollowing ? "Following" : "Follow",
                           style: GoogleFonts.inter(
                             color: AppColors.blueColor,
                             fontSize: 14,
@@ -174,7 +178,9 @@ class _ReelsUserState extends State<ReelsUser> {
                 ],
               ),
               const Spacer(),
-              InkWell(
+              widget.screen == 'Laqta'
+                  ? const SizedBox()
+                  : InkWell(
                 onTap: () {
                   showModalBottomSheet(
                     backgroundColor: Colors.transparent,

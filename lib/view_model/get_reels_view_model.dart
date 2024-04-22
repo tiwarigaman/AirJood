@@ -79,7 +79,6 @@ class ReelsViewModel with ChangeNotifier {
       } else {
         setReelsList2(ApiResponse.completed(value));
       }
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setReelsList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

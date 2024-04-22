@@ -33,7 +33,6 @@ class _FollowingScreenState extends State<FollowingScreen> {
     super.initState();
   }
 
-  bool follow = false;
   Map<int, bool> followStates = {};
 
   handleFollowers(int userId) {
@@ -127,7 +126,6 @@ class _FollowingScreenState extends State<FollowingScreen> {
                           var data = value.followingData.data?.data?[index];
                           int userId =
                               data?.followedUser?.id ?? 0; // Get user ID
-
                           bool isFollowing = followStates[userId] ?? false;
                           return ListTile(
                             contentPadding: EdgeInsets.zero,

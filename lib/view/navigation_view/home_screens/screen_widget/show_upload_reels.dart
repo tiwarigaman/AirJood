@@ -30,6 +30,8 @@ class ShowUploadReelsData extends StatefulWidget {
   final String? screen;
   int? commentCount;
   final Function? commentAdd;
+  final int? experienceId;
+  final bool? isFollow;
   ShowUploadReelsData(
       {super.key,
       required this.videoUrl,
@@ -52,7 +54,7 @@ class ShowUploadReelsData extends StatefulWidget {
       this.discription,
       this.screen,
       this.commentCount,
-      this.commentAdd});
+      this.commentAdd, this.experienceId, this.isFollow});
 
   @override
   State<ShowUploadReelsData> createState() => _ShowUploadReelsDataState();
@@ -105,83 +107,87 @@ class _ShowUploadReelsDataState extends State<ShowUploadReelsData> {
       },
       child: GestureDetector(
         onTap: _togglePlayPause,
-        child: Center(
-          child: _videoPlayerController!.value.isInitialized
-              ? Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: MediaQuery.of(context).size.width /
-                          MediaQuery.of(context).size.height,
+        child: _videoPlayerController!.value.isInitialized
+            ? Stack(
+                children: [
+                  Center(
+                    child: AspectRatio(
+                      aspectRatio: _videoPlayerController!.value.aspectRatio,
+                      // aspectRatio: MediaQuery.of(context).size.width /
+                      //     MediaQuery.of(context).size.height,
                       child: VideoPlayer(_videoPlayerController!),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 45, 0, 0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(Icons.arrow_back_ios_new_rounded,
-                                  color: AppColors.whiteTextColor),
-                              CustomText(
-                                data: 'Previous',
-                                fweight: FontWeight.w700,
-                                fSize: 18,
-                                fontColor: AppColors.whiteTextColor,
-                              ),
-                            ],
-                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 45, 0, 0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(Icons.arrow_back_ios_new_rounded,
+                                color: AppColors.whiteTextColor),
+                            CustomText(
+                              data: 'Previous',
+                              fweight: FontWeight.w700,
+                              fSize: 18,
+                              fontColor: AppColors.whiteTextColor,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CustomIcon(
-                          reelsId: widget.reelsId,
-                          index: widget.index,
-                          videoImage: widget.videoImage,
-                          videoUrl: widget.videoUrl,
-                          likeCount: widget.likeCount,
-                          isLike: widget.like,
-                          onLikeTap: widget.onLikeTap,
-                          commentCount: widget.commentCount,
-                          name: widget.name,
-                          description: widget.discription,
-                          commentAdd: widget.commentAdd,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        ReelsUser(
-                          name: widget.name,
-                          language: widget.language,
-                          email: widget.email,
-                          discription: widget.discription,
-                          number: widget.number,
-                          guide: widget.guide,
-                          createdAt: widget.createdAt,
-                          userId: widget.userId,
-                          dateTime: widget.dateTime,
-                          screen: widget.screen,
-                          about: widget.about,
-                          image: widget.image,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              : const ReelShimmer(),
-        ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomIcon(
+                        reelsId: widget.reelsId,
+                        index: widget.index,
+                        videoImage: widget.videoImage,
+                        videoUrl: widget.videoUrl,
+                        likeCount: widget.likeCount,
+                        isLike: widget.like,
+                        onLikeTap: widget.onLikeTap,
+                        commentCount: widget.commentCount,
+                        name: widget.name,
+                        description: widget.discription,
+                        commentAdd: widget.commentAdd,
+                        screen: widget.screen,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      ReelsUser(
+                        name: widget.name,
+                        language: widget.language,
+                        email: widget.email,
+                        discription: widget.discription,
+                        number: widget.number,
+                        guide: widget.guide,
+                        createdAt: widget.createdAt,
+                        userId: widget.userId,
+                        dateTime: widget.dateTime,
+                        screen: widget.screen,
+                        about: widget.about,
+                        experienceId: widget.experienceId,
+                        isFollow: widget.isFollow,
+                        image: widget.image,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : const ReelShimmer(),
       ),
     );
   }

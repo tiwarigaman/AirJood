@@ -8,18 +8,36 @@ class GetBookingListRepository {
 
   Future<BookingListModel> getBookingList(String token, {int? userId}) async {
     try {
-      if (userId != null) {
-        print('userId $userId');
-        dynamic response =
-            await apiAServices.getGetApiResponse('${AppUrl.getBookingList}/$userId', token);
+      dynamic response =
+          await apiAServices.getGetApiResponse(AppUrl.getBookingList, token);
+      response['data'].forEach((element) {
+        var user = element['experience']['user'];
+        element['user'] = user;
+      });
+      return response = BookingListModel.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<BookingListModel> getBookingListUser(String token,
+      {int? userId}) async {
+    try {
+      if(userId == null){
+        dynamic response = await apiAServices.getGetApiResponse(
+            AppUrl.getBookingListUser, token);
         return response = BookingListModel.fromJson(response);
-      } else {
-        dynamic response =
-            await apiAServices.getGetApiResponse(AppUrl.getBookingList, token);
+      }else{
+        dynamic response = await apiAServices.getGetApiResponse(
+            '${AppUrl.getBookingListUser}/$userId', token);
+        // response['data'].forEach((element) {
+        //   var user = element['experience']['user'];
+        //   element['user'] = user;
+        // });
         return response = BookingListModel.fromJson(response);
       }
+
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

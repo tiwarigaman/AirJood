@@ -7,7 +7,7 @@ class SearchRepository {
   BaseApiAServices apiAServices = NetworkApiService();
 
   Future<SearchResultModel> getSearch(String token, String location,
-      String date, String price, List<dynamic> mood, bool addons) async {
+      String date, String priceFrom, String priceTo, List<dynamic> mood, bool addons) async {
     try {
       String moodQuery = '';
       if (mood.isNotEmpty) {
@@ -17,8 +17,9 @@ class SearchRepository {
         //moodQuery = '&mood[]=$mood';
       }
       dynamic response = await apiAServices.getSearchGetApiResponse(
-          "${AppUrl.searchExperiance}${location.isEmpty ? '' : 'location=$location'}${date.isEmpty ? '' : '&date=$date'}${price.isEmpty ? '' : '&price=$price'}${moodQuery ?? ''}&addons=$addons",
+          "${AppUrl.searchExperiance}${location.isEmpty ? '' : 'location=$location'}${date.isEmpty ? '' : '&date=$date'}${priceFrom.isEmpty ? '' : '&price_from=$priceFrom'}${priceTo.isEmpty ? '' : '&price_to=$priceTo'}${moodQuery ?? ''}&addons=$addons",
           token);
+      print("${AppUrl.searchExperiance}${location.isEmpty ? '' : 'location=$location'}${date.isEmpty ? '' : '&date=$date'}${priceFrom.isEmpty ? '' : '&price_from=$priceFrom'}${priceTo.isEmpty ? '' : '&price_to=$priceTo'}${moodQuery ?? ''}&addons=$addons");
       return SearchResultModel.fromJson(response);
     } catch (e) {
       rethrow;

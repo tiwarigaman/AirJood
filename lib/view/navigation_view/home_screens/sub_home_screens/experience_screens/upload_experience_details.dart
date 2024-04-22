@@ -24,8 +24,8 @@ import '../book_now/book_now_main_screen.dart';
 
 class UploadExperienceDetails extends StatefulWidget {
   final int? id;
-
-  const UploadExperienceDetails({super.key, this.id});
+final String? screen;
+  const UploadExperienceDetails({super.key, this.id, this.screen});
 
   @override
   State<UploadExperienceDetails> createState() =>
@@ -150,6 +150,7 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                             .data?.reel?.user?[0].contactNo,
                                         createdAt: value.getUploadExperianceData
                                             .data?.reel?.user?[0].createdAt,
+                                        screen: 'Laqta',
                                         image: value
                                             .getUploadExperianceData
                                             .data
@@ -309,13 +310,13 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               Row(
                                 children: [
                                   const CustomText(
-                                    data: "Start Date & Time : ",
+                                    data: "Start Time : ",
                                     fweight: FontWeight.w600,
                                     fSize: 14,
                                     fontColor: AppColors.greyTextColor,
                                   ),
                                   CustomText(
-                                    data: "$result  @ $formattedTime",
+                                    data: formattedTime,
                                     fweight: FontWeight.w800,
                                     fSize: 15,
                                     fontColor: AppColors.mainColor,
@@ -328,13 +329,13 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               Row(
                                 children: [
                                   const CustomText(
-                                    data: "End Date & Time : ",
+                                    data: "End Time : ",
                                     fweight: FontWeight.w600,
                                     fSize: 14,
                                     fontColor: AppColors.greyTextColor,
                                   ),
                                   CustomText(
-                                    data: "$result2 @ $formattedTime2",
+                                    data: formattedTime2,
                                     fweight: FontWeight.w800,
                                     fSize: 15,
                                     fontColor: AppColors.mainColor,
@@ -436,25 +437,30 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    enableDrag: false,
-                                    isDismissible: false,
-                                    constraints: BoxConstraints.expand(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.90,
-                                        width:
-                                            MediaQuery.of(context).size.width),
-                                    isScrollControlled: true,
-                                    builder: (_) => BookNowMainScreen(
-                                      experienceId: widget.id,
-                                    ),
-                                  );
+                                  if(widget.screen== 'UserDetails'){
+                                    showModalBottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      enableDrag: false,
+                                      isDismissible: false,
+                                      constraints: BoxConstraints.expand(
+                                          height:
+                                          MediaQuery.of(context).size.height *
+                                              0.90,
+                                          width:
+                                          MediaQuery.of(context).size.width),
+                                      isScrollControlled: true,
+                                      builder: (_) => BookNowMainScreen(
+                                        experienceId: widget.id,
+                                      ),
+                                    );
+                                  }else{
+                                    Navigator.pop(context);
+                                  }
+
                                 },
-                                child: const MainButton(
-                                  data: 'Book Now',
+                                child:  MainButton(
+                                  data:widget.screen== 'UserDetails' ? 'Book Now' : 'Close',
                                 ),
                               ),
                             ],

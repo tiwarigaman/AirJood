@@ -20,7 +20,6 @@ class FollowersViewModel with ChangeNotifier {
     setFollowerList(ApiResponse.loading());
     myRepo.getFollower(token, userId, search: search).then((value) {
       setFollowerList(ApiResponse.completed(value));
-      //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
       setFollowerList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

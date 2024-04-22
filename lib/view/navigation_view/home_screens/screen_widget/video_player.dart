@@ -99,16 +99,20 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     final reelViewProvider = Provider.of<ReelsViewModel>(context);
     final experianceProvider = Provider.of<GetExperianceListViewModel>(context);
     return Scaffold(
+      backgroundColor: AppColors.blackColor,
       body: GestureDetector(
         onTap: _togglePlayPause,
         child: Center(
           child: _videoPlayerController!.value.isInitialized
               ? Stack(
                   children: [
-                    AspectRatio(
-                      aspectRatio: MediaQuery.of(context).size.width /
-                          MediaQuery.of(context).size.height,
-                      child: VideoPlayer(_videoPlayerController!),
+                    Center(
+                      child: AspectRatio(
+                        // aspectRatio: MediaQuery.of(context).size.width /
+                        //     MediaQuery.of(context).size.height,
+                        aspectRatio: _videoPlayerController!.value.aspectRatio,
+                        child: VideoPlayer(_videoPlayerController!),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15, 45, 0, 0),
@@ -146,6 +150,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                           videoUrl: widget.videoImage,
                           videoImage: widget.videoUrl,
                           commentCount: widget.commentCount,
+                          screen: widget.screen,
                           commentAdd: () {
                             setState(() {
                               homeReelsProvider.commentUpdates(widget.reelsId!);

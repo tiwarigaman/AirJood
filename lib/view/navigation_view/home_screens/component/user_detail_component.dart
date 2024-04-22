@@ -175,6 +175,7 @@ class _UserDetailsState extends State<UserDetails> {
             ? CustomTabData(
                 items: widget.item,
                 list: widget.list,
+                bookingList: widget.bookingList,
                 screen: widget.screen,
               )
             : ExperianceTabData(

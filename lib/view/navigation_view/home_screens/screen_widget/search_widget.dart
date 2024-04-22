@@ -2,6 +2,7 @@ import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/res/components/color.dart';
 import 'package:airjood/res/components/datebutton.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_result_widget.dart';
+import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_slider_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -65,7 +66,10 @@ class _SearchWidgetState extends State<SearchWidget> {
   TextEditingController price = TextEditingController();
   TextEditingController keyword = TextEditingController();
   String? token;
+  String? priceForm;
+  String? priceTo;
   List? selectedMood;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,7 +99,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     width: 10,
                   ),
                   const CustomText(
-                    data: 'Settings',
+                    data: 'Search',
                     fweight: FontWeight.w800,
                     fSize: 22,
                     fontColor: AppColors.blackTextColor,
@@ -110,7 +114,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                               selectedDate?.day == null
                                   ? ''
                                   : '${selectedDate?.year}-${selectedDate?.month}-${selectedDate?.day}',
-                              price.text,
+                              priceTo ?? '30',
+                              priceForm ?? '420',
                               selectedMood ?? [],
                               switchValue)
                           .then((value) {
@@ -169,13 +174,18 @@ class _SearchWidgetState extends State<SearchWidget> {
               const SizedBox(
                 height: 20,
               ),
-              MainTextFild(
-                controller: price,
-                labelText: "Price",
-                maxLines: 1,
+              SearchSliderWidget(
+                high: (val) {
+                  priceForm = val.toString();
+                  setState(() {});
+                },
+                low: (val) {
+                  priceTo = val.toString();
+                  setState(() {});
+                },
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               Consumer<MoodViewModel>(
                 builder: (context, value, child) {

@@ -11,10 +11,12 @@ class FollowerRepository {
       {String? search}) async {
     try {
       if (search == null) {
+        print('${AppUrl.getFollower}/$userId');
         dynamic response = await apiAServices.getSearchGetApiResponse(
             '${AppUrl.getFollower}/$userId', token);
         return response = FollowersModel.fromJson(response);
       } else {
+        print('${AppUrl.getFollower}/?search=$search');
         dynamic response = await apiAServices.getSearchGetApiResponse(
             '${AppUrl.getFollower}/?search=$search', token);
         return response = FollowersModel.fromJson(response);

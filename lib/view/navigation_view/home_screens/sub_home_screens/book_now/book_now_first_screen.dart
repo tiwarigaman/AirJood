@@ -69,9 +69,6 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: InkWell(
           onTap: () {
-            // if(selectedAddons.isEmpty) {
-            //   Utils.tostMessage('Please select any 1 addons');
-            // } else{}
             widget.onTap!(
               {
                 "experience_id": experiance?.id,
@@ -89,6 +86,7 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                 'facilitates': experiance?.facility,
                 'minGuest':experiance?.minPerson,
                 'maxGuest':experiance?.maxPerson,
+                'price_type':experiance?.priceType,
               }
             );
           },
@@ -110,10 +108,6 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                   return Container();
                 case Status.COMPLETED:
                   var data = value.getUploadExperianceData.data;
-                  // isSelected = List.generate(
-                  //   data?.addons?.length ?? 0,
-                  //   (index) => false,
-                  // );
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +230,13 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  selectedAddons.add(addonsData[index]);
+                  if (isSelected[index]) {
+                    // If the addon is already selected, remove it
+                    selectedAddons.remove(addonsData[index]);
+                  } else {
+                    // If the addon is not selected, add it
+                    selectedAddons.add(addonsData[index]);
+                  }
                   isSelected[index] = !isSelected[index];
                 });
               },

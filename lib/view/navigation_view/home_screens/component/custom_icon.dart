@@ -24,6 +24,8 @@ class CustomIcon extends StatefulWidget {
   final Function? onLikeTap;
   final Function? commentAdd;
   int? commentCount;
+  final String? screen;
+
   CustomIcon(
       {super.key,
       this.reelsId,
@@ -36,7 +38,8 @@ class CustomIcon extends StatefulWidget {
       this.description,
       this.onLikeTap,
       this.commentCount,
-      this.commentAdd});
+      this.commentAdd,
+      this.screen});
 
   @override
   State<CustomIcon> createState() => _CustomIconState();
@@ -132,12 +135,16 @@ class _CustomIconState extends State<CustomIcon> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SvgPicture.asset(
-              'assets/svg/planning.svg',
-              height: 25,
-            ),
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : SvgPicture.asset(
+                    'assets/svg/planning.svg',
+                    height: 25,
+                  ),
             const SizedBox(height: 5),
-            const CustomText(
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : const CustomText(
               data: 'Planning',
               fSize: 14,
               fweight: FontWeight.w400,
@@ -218,24 +225,34 @@ class _CustomIconState extends State<CustomIcon> {
               fontColor: AppColors.whiteTextColor,
             ),
             const SizedBox(height: 5),
-            SvgPicture.asset(
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : SvgPicture.asset(
               'assets/svg/pricing.svg',
               height: 25,
             ),
             const SizedBox(height: 5),
-            const CustomText(
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : const CustomText(
               data: 'Pricing',
               fSize: 14,
               fweight: FontWeight.w400,
               fontColor: AppColors.whiteTextColor,
             ),
             const SizedBox(height: 5),
-            SvgPicture.asset(
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : SvgPicture.asset(
               'assets/svg/rating.svg',
               height: 25,
             ),
-            const SizedBox(height: 5),
-            const CustomText(
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : const SizedBox(height: 5),
+            widget.screen == 'Laqta'
+                ? const SizedBox()
+                : const CustomText(
               data: 'Reviews',
               fSize: 14,
               fweight: FontWeight.w400,

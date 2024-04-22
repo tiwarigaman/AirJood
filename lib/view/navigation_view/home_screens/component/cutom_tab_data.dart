@@ -5,16 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/color.dart';
+import '../screen_widget/dashboard_widget.dart';
 import '../screen_widget/experience_list_widget.dart';
 
 class CustomTabData extends StatefulWidget {
   final List<ReelsData>? items;
   final List<Datum>? list;
+  final List<BookingData>? bookingList;
   final String? screen;
-  const CustomTabData({super.key, this.items, this.list, this.screen});
+  const CustomTabData({super.key, this.items, this.list, this.screen, this.bookingList});
 
   @override
   State<CustomTabData> createState() => _CustomTabDataState();
@@ -110,8 +113,9 @@ class _CustomTabDataState extends State<CustomTabData>
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: ExperienceListWidget(
-                    list: widget.list, screen: widget.screen),
+                child: DashBoardWidget(
+                  bookingList: widget.bookingList,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -179,6 +183,7 @@ class _TabDataState extends State<TabData> {
                           builder: (context) => ShowUploadReels(
                             index: index,
                             data: widget.item!,
+                            screen: 'Laqta',
                           ),
                         ),
                       );

@@ -48,7 +48,7 @@ abstract class BaseApiAServices {
   Future<dynamic> postApiResponse(
     String url,
     String token,
-    Map<String, String> data,
+    Map<String, dynamic> data,
   );
   Future<dynamic> likePostApiResponse(
     String url,

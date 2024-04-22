@@ -4,6 +4,7 @@ import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view_model/add_comment_view_model.dart';
 import 'package:airjood/view_model/add_remove_like_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +15,12 @@ import '../../../../data/response/status.dart';
 import '../../../../res/components/color.dart';
 import '../../../../view_model/comment_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
+import '../sub_home_screens/experience_screens/reels_user_detail_screen.dart';
 
 class CommentWidget extends StatefulWidget {
   final int? reelsId;
   final Function? commentAdd;
+
   const CommentWidget({super.key, this.reelsId, this.commentAdd});
 
   @override
@@ -41,12 +44,15 @@ class _CommentWidgetState extends State<CommentWidget> {
   void initState() {
     UserViewModel().getUser().then((value) {
       image = value?.profileImageUrl;
+      loginUserId = value?.id;
       setState(() {});
     });
     super.initState();
   }
 
   String? image;
+  int? loginUserId;
+
   void _setParentId(int? id) {
     newId = id ?? 0;
     setState(() {});
@@ -161,6 +167,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                         ?.toLocal();
                                     String formattedTime =
                                         DateFormat('h:mm a').format(updatedAt!);
+                                    var data =
+                                        value.commentData.data?.data?[index];
                                     return Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -174,25 +182,41 @@ class _CommentWidgetState extends State<CommentWidget> {
                                               right: 0,
                                               top: 10,
                                               bottom: 0),
-                                          leading: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: Image.network(
-                                              value
-                                                      .commentData
-                                                      .data
-                                                      ?.data?[index]
-                                                      .user
-                                                      ?.profileImageUrl ??
-                                                  '',
-                                              fit: BoxFit.cover,
-                                              height: 45,
+                                          leading: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReelsUserDetailScreen(
+                                                    about: data?.user?.about,
+                                                    image: data?.user?.profileImageUrl,
+                                                    email: data?.user?.email,
+                                                    number: data?.user?.contactNo,
+                                                    name: data?.user?.name,
+                                                    guide: data?.user?.isUpgrade,
+                                                    createdAt: data?.user?.createdAt,
+                                                    language: data?.user?.languages,
+                                                    userId: data?.user?.id,
+                                                    screen: data?.user?.id == loginUserId ? 'MyScreen': 'UserDetails',
+                                                    isFollow: data?.user?.isFollower,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Image.network(
+                                                data?.user?.profileImageUrl ??
+                                                    '',
+                                                fit: BoxFit.cover,
+                                                height: 45,
+                                              ),
                                             ),
                                           ),
                                           title: CustomText(
-                                            data: value.commentData.data
-                                                    ?.data?[index].user?.name ??
-                                                '',
+                                            data: data?.user?.name ?? '',
                                             fSize: 16,
                                             fweight: FontWeight.w700,
                                             fontColor: AppColors.blackTextColor,
@@ -206,33 +230,23 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              InkWell(
+                                              GestureDetector(
                                                 onTap: () {
                                                   handleLike(index, value);
                                                 },
                                                 child: Icon(
-                                                  value
-                                                              .commentData
-                                                              .data!
-                                                              .data![index]
-                                                              .liked ==
-                                                          true
+                                                  data?.liked == true
                                                       ? Icons.favorite
                                                       : Icons.favorite_border,
-                                                  color: value
-                                                              .commentData
-                                                              .data!
-                                                              .data![index]
-                                                              .liked ==
-                                                          true
+                                                  color: data?.liked == true
                                                       ? Colors.red
                                                       : AppColors
                                                           .textFildHintColor,
+                                                  size: 30,
                                                 ),
                                               ),
                                               CustomText(
-                                                data:
-                                                    '${value.commentData.data!.data![index].likeCount}',
+                                                data: '${data?.likeCount}',
                                                 fSize: 12,
                                                 fweight: FontWeight.w500,
                                                 fontColor:
@@ -242,9 +256,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                           ),
                                         ),
                                         Text(
-                                          value.commentData.data?.data?[index]
-                                                  .content ??
-                                              '',
+                                          data?.content ?? '',
                                           textAlign: TextAlign.justify,
                                           style: GoogleFonts.nunitoSans(
                                             fontSize: 14,
@@ -313,8 +325,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                         ?.length,
                                                     itemBuilder:
                                                         (context, indexs) {
+                                                      var data2 = value.commentData.data?.data?[index];
                                                       String? formattedDate =
-                                                          '${value.commentData.data?.data?[index].replies?[indexs].updatedAt?.day ?? '00'}-${value.commentData.data?.data?[index].replies?[indexs].updatedAt?.month ?? '00'}-${value.commentData.data?.data?[index].replies?[indexs].updatedAt?.year ?? '0000'}';
+                                                          '${data2?.replies?[indexs].updatedAt?.day ?? '00'}-${data2?.replies?[indexs].updatedAt?.month ?? '00'}-${data2?.replies?[indexs].updatedAt?.year ?? '0000'}';
                                                       DateTime dateTime =
                                                           DateFormat(
                                                                   'dd-MM-yyyy')
@@ -325,11 +338,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                                   'dd MMM yyyy')
                                                               .format(dateTime);
                                                       DateTime? createdAt =
-                                                          value
-                                                              .commentData
-                                                              .data
-                                                              ?.data?[index]
-                                                              .replies?[indexs]
+                                                      data2?.replies?[indexs]
                                                               .updatedAt
                                                               ?.toLocal();
                                                       String formattedTime1 =
@@ -349,22 +358,45 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                           ListTile(
                                                             minVerticalPadding:
                                                                 0,
-                                                            leading: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          100),
-                                                              child:
-                                                                  Image.network(
-                                                                '${value.commentData.data?.data?[index].replies?[indexs].user?.profileImageUrl}',
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                height: 40,
+                                                            leading: GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        ReelsUserDetailScreen(
+                                                                          about: data2?.replies?[indexs].user?.about,
+                                                                          image: data2?.replies?[indexs].user?.profileImageUrl,
+                                                                          email: data2?.replies?[indexs].user?.email,
+                                                                          number: data2?.replies?[indexs].user?.contactNo,
+                                                                          name: data2?.replies?[indexs].user?.name,
+                                                                          guide: data2?.replies?[indexs].user?.isUpgrade,
+                                                                          createdAt: data2?.replies?[indexs].user?.createdAt,
+                                                                          language: data2?.replies?[indexs].user?.languages,
+                                                                          userId: data2?.replies?[indexs].user?.id,
+                                                                          screen: 'UserDetails',
+                                                                          isFollow: data2?.replies?[indexs].user?.isFollower,
+                                                                        ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100),
+                                                                child:
+                                                                    Image.network(
+                                                                  '${data2?.replies?[indexs].user?.profileImageUrl}',
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  height: 40,
+                                                                ),
                                                               ),
                                                             ),
                                                             title: CustomText(
                                                               data:
-                                                                  '${value.commentData.data?.data?[index].replies?[indexs].user?.name}',
+                                                                  '${data2?.replies?[indexs].user?.name}',
                                                               fSize: 14,
                                                               fweight:
                                                                   FontWeight
@@ -388,7 +420,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                                     .only(
                                                                     left: 20),
                                                             child: Text(
-                                                              '${value.commentData.data?.data?[index].replies?[indexs].content}',
+                                                              '${data2?.replies?[indexs].content}',
                                                               textAlign:
                                                                   TextAlign
                                                                       .justify,

@@ -15,11 +15,10 @@ class SearchViewModel with ChangeNotifier {
   }
 
   Future<void> searchGetApi(String token, String location, String date,
-      String price, List<dynamic> mood, bool addons) async {
+      String priceFrom, String priceTo,List<dynamic> mood, bool addons) async {
     setSearchList(ApiResponse.loading());
-    myRepo.getSearch(token, location, date, price, mood, addons).then((value) {
+    myRepo.getSearch(token, location, date, priceFrom,priceTo, mood, addons).then((value) {
       setSearchList(ApiResponse.completed(value));
-      //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
       setSearchList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

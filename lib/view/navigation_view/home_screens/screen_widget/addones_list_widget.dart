@@ -59,6 +59,7 @@ class _AddonesListWidgetState extends State<AddonesListWidget> {
                           about: newData?.reel?.user?[0].about,
                           name: newData?.reel?.user?[0].name,
                           language: newData?.reel?.user?[0].languages,
+                          screen: 'Laqta',
                           commentCount: newData?.reel?.commentCount,
                           videoUrl: '${newData?.reel?.videoUrl}',
                           index: index,

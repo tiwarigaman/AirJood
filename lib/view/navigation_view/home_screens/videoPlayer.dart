@@ -75,10 +75,13 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
         child: _videoPlayerController.value.isInitialized
             ? Stack(
                 children: [
-                  AspectRatio(
-                    aspectRatio: MediaQuery.of(context).size.width /
-                        MediaQuery.of(context).size.height,
-                    child: VideoPlayer(_videoPlayerController),
+                  Center(
+                    child: AspectRatio(
+                      // aspectRatio: MediaQuery.of(context).size.width /
+                      //     MediaQuery.of(context).size.height,
+                      aspectRatio: _videoPlayerController.value.aspectRatio,
+                      child: VideoPlayer(_videoPlayerController),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,

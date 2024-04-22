@@ -6,7 +6,7 @@ class CreateBookingRepository {
   BaseApiAServices apiAServices = NetworkApiService();
 
   Future<dynamic> createBookingApi(
-      String token, Map<String, String> data,) async {
+      String token, Map<String, dynamic> data,) async {
     try {
       dynamic response = await apiAServices.postApiResponse(
           AppUrl.createBooking, token, data);

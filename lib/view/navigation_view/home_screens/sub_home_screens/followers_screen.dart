@@ -1,3 +1,4 @@
+import 'package:airjood/model/follower_model.dart';
 import 'package:airjood/res/components/maintextfild.dart';
 import 'package:airjood/view_model/delete_follower_view_model.dart';
 import 'package:airjood/view_model/follow_view_model.dart';
@@ -35,28 +36,19 @@ class _FollowersScreenState extends State<FollowersScreen> {
   }
 
   Map<int, bool> followStates = {};
-  handleFollowers(int userId) {
-    bool isFollowing =
-        followStates[userId] ?? false; // Get current follow state
-    bool newFollowState = !isFollowing; // Toggle the follow state
-    UserViewModel().getToken().then((token) async {
-      await Provider.of<FollowViewModel>(context, listen: false).followApi(
-        token!,
-        userId,
-        newFollowState == true ? '1' : '0',
-        context,
-      );
-      setState(() {
-        followStates[userId] =
-            newFollowState; // Update follow state for this user
-      });
-    });
+
+  handleFollowers(Datum? data) {
+    data?.isFollowingByFollowedUser =
+        !(data.isFollowingByFollowedUser ?? false);
+    Provider.of<HomeReelsViewModel>(context, listen: false).handleFollowers(
+        context, data!.createdBy!.id!, !data.isFollowingByFollowedUser!);
+    setState(() {});
   }
 
-  handleRemoveFollowers(int userId,int loginUserId) {
+  handleRemoveFollowers(int userId, int loginUserId) {
     UserViewModel().getToken().then((value) {
       Provider.of<DeleteFollowerViewModel>(context, listen: false)
-          .deleteFollowerApi(value!, userId, loginUserId,context);
+          .deleteFollowerApi(value!, userId, loginUserId, context);
     });
   }
 
@@ -64,7 +56,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -85,7 +76,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
           ),
           CustomText(
             data:
-                'Followers (${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0})',
+                'Followers(${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0})',
             fSize: 20,
             fweight: FontWeight.w700,
             fontColor: AppColors.blackColor,
@@ -99,7 +90,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
           child: Column(
             children: [
               MainTextFild(
-                controller: searchController,
                 onChanged: (values) {
                   if (values.length == 3 || values.isEmpty) {
                     UserViewModel().getToken().then((value) {
@@ -139,12 +129,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var data = value.followerData.data?.data?[index];
-                          // bool isFollowing =
-                          //     data?.isFollowingByFollowedUser ?? false;
-                          int userId =
-                              data?.createdBy?.id ?? 0;
-                          bool isFollowing =
-                              followStates[userId] ?? false;
+
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: GestureDetector(
@@ -163,7 +148,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                       language: data?.createdBy?.languages,
                                       userId: data?.createdBy?.id,
                                       isFollow: data?.isFollowingByFollowedUser,
-                                      screen: 'Follow',
+                                      screen: 'UserDetails',
                                     ),
                                   ),
                                 );
@@ -196,16 +181,15 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 widget.screen == 'MyScreen'
                                     ? InkWell(
                                         onTap: () {
-                                          // homeReelsProvider.handleFollowers(
-                                          //     context,
-                                          //     data?.createdBy!.id! as int,
-                                          //     data!.isFollowingByFollowedUser
-                                          //         as bool);
-                                          handleFollowers(data?.createdBy!.id! as int);
+                                          handleFollowers(data);
                                           setState(() {});
                                         },
                                         child: CustomText(
-                                          data: isFollowing || data?.isFollowingByFollowedUser == true ? "" : "+ Follow",
+                                          data:
+                                              data?.isFollowingByFollowedUser ==
+                                                      true
+                                                  ? "Following"
+                                                  : "+ Follow",
                                           fontColor: AppColors.blueShadeColor,
                                           fSize: 14,
                                           fweight: FontWeight.w500,
@@ -225,7 +209,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                     onTap: () {
                                       UserViewModel().getUser().then((values) {
                                         handleRemoveFollowers(
-                                          data?.createdBy!.id as int,values!.id!);
+                                            data?.createdBy!.id as int,
+                                            values!.id!);
                                       });
                                     },
                                     child: Container(

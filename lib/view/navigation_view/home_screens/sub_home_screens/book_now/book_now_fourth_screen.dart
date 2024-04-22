@@ -21,7 +21,7 @@ class BookNowFourthScreen extends StatefulWidget {
   final List? selectedFacilitates;
   final String? reelsUserProfileImage;
   final String? reelsUserName;
-
+  final String? priceType;
   const BookNowFourthScreen(
       {super.key,
       this.onTap,
@@ -37,22 +37,46 @@ class BookNowFourthScreen extends StatefulWidget {
       this.address,
       this.addon,
       this.totalPrice,
-      this.userCharges});
+      this.userCharges, this.priceType});
 
   @override
   State<BookNowFourthScreen> createState() => _BookNowFourthScreenState();
 }
 
 class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
+  double calculateTotalCharges() {
+      double bookingCharges = (widget.priceType == 'person' ? (double.parse(widget.userCharges.toString()) * double.parse(widget.noOfGuest ?? '1')) : double.parse(widget.userCharges.toString()));
+    double addonCharges = 0;
+    String addonType = '';
+
+    if (widget.addon != null && widget.addon!.isNotEmpty) {
+      addonCharges = widget.addon!
+          .map((addon) => double.parse(addon.price.toString()))
+          .reduce((value, element) => value + element);
+      for (var addon in widget.addon!) {
+        addonType = addon.priceType ?? ''; // Get the priceType of the current addon
+        break; // Exit the loop after getting the priceType of the first addon
+      }
+    }
+    int noOfGuests = int.parse(widget.noOfGuest ?? '1');
+    double totalCharges = bookingCharges + (addonType == 'person'?addonCharges * noOfGuests : addonCharges);
+    return totalCharges;
+  }
   @override
   Widget build(BuildContext context) {
+    double totalCharges = calculateTotalCharges();
+    print('Booking Charges: ${widget.userCharges}');
+    print('Addon Charges: ${widget.addon?.map((addon) => addon.price).toList()}');
+    print('Total Charges: $totalCharges');
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: InkWell(
           onTap: () {
-            widget.onTap!();
+            widget.onTap!(
+                totalCharges.toInt()
+            );
           },
           child: const MainButton(
             data: 'Confirm & Pay',
@@ -112,7 +136,7 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                           ),
                         ),
                         CustomText(
-                          data: '\$${widget.totalPrice ?? "195.67"}',
+                          data: '\$${totalCharges.toInt()}',
                           fweight: FontWeight.w800,
                           fSize: 18,
                           fontColor: AppColors.mainColor,
@@ -176,7 +200,8 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                     fontColor: AppColors.greyTextColor,
                   ),
                   CustomText(
-                    data: '\$${widget.userCharges ?? "125.32"}',
+                    data: '\$${widget.priceType == 'person' ? (int.parse(widget.userCharges.toString()) * int.parse(widget.noOfGuest ?? '1')) : int.parse(widget.userCharges.toString())}',
+                    // data: '\$${widget.userCharges ?? "125.32"}',
                     fweight: FontWeight.w700,
                     fSize: 14,
                     fontColor: AppColors.blackTextColor,
@@ -199,7 +224,7 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                         fontColor: AppColors.greyTextColor,
                       ),
                       CustomText(
-                        data: '\$${widget.addon?[index].price ?? "40.20"}',
+                        data: '\$${widget.addon?[index].priceType == 'person' ? (int.parse(widget.addon![index].price.toString()) * int.parse(widget.noOfGuest ?? '1')) : int.parse(widget.addon![index].price.toString())}',
                         fweight: FontWeight.w700,
                         fSize: 14,
                         fontColor: AppColors.blackTextColor,
@@ -220,7 +245,7 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                     fontColor: AppColors.blackTextColor,
                   ),
                   CustomText(
-                    data: '\$${widget.totalPrice ?? "195.67"}',
+                    data: '\$${totalCharges.toInt()}',
                     fweight: FontWeight.w700,
                     fSize: 14,
                     fontColor: AppColors.mainColor,

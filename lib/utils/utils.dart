@@ -15,24 +15,20 @@ class Utils {
         msg: message, backgroundColor: Colors.black54, fontSize: 18);
   }
 
-  static void flushBarErrorMessage(String message, BuildContext context) {
+  static void flushBarErrorMessage(String message, BuildContext context,Color backgroundColor) {
     showFlushbar(
         context: context,
         flushbar: Flushbar(
           message: message,
+          messageColor: Colors.white,
           duration: const Duration(seconds: 2),
-          icon: const Icon(
-            Icons.error,
-            color: Colors.white,
-          ),
+          // icon: const Icon(
+          //   Icons.error,
+          //   color: Colors.white,
+          // ),
           margin: const EdgeInsets.all(10),
           borderRadius: BorderRadius.circular(7),
-          backgroundGradient: LinearGradient(colors: [
-            Colors.blueGrey.shade900,
-            Colors.blueGrey.shade700,
-            Colors.blueGrey.shade500,
-            Colors.blueGrey.shade200,
-          ]),
+          backgroundColor: backgroundColor,
           //backgroundColor: Colors.black54,
         )..show(context));
   }

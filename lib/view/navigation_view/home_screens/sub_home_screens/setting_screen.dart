@@ -26,6 +26,7 @@ class _SettingScreenState extends State<SettingScreen> {
       created_at = value?.createdAt;
       image = value?.profileImageUrl;
       guide = value?.is_upgrade;
+      userId = value?.id;
       setState(() {});
     });
   }
@@ -35,6 +36,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   String? image;
   bool? guide;
+  int? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class _SettingScreenState extends State<SettingScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               size,
-              UserProfile(name: name, joinDate: created_at, image: image),
+              UserProfile(name: name, joinDate: created_at, image: image,userId: userId,screen: 'MyScreen',),
               size,
               guide == false
                   ? InkWell(

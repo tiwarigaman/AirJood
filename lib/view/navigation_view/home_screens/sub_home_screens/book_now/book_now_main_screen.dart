@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:developer';
 
 import 'package:airjood/model/experience_model.dart';
@@ -7,9 +6,9 @@ import 'package:airjood/res/components/color.dart';
 import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_fourth_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_second_screen.dart';
-import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_third_screen.dart';
 import 'package:airjood/view_model/create_booking_view_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
@@ -70,13 +69,15 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
   List? selectedFacilitates;
   String? reelsUserProfileImage;
   String? reelsUserName;
+  String? priceType;
+  String? totalOfPrice;
   Map<String, dynamic>? paymentIntent;
 
   /// Stripe Payment
-  Future<void> makePayment() async {
+  Future<void> makePayment(int totalOfPrice) async {
     try {
       //STEP 1: Create Payment Intent
-      paymentIntent = await createPaymentIntent(totalPrice!, 'USD');
+      paymentIntent = await createPaymentIntent(totalOfPrice.toString(), 'USD');
       final user = await UserViewModel().getUser();
 
       //STEP 2: Initialize Payment Sheet
@@ -128,52 +129,27 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
         await paymentSuccessApi('Stripe');
-        showDialog(
-            context: context,
-            builder: (_) => const AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 100.0,
-                      ),
-                      SizedBox(height: 10.0),
-                      Text("Payment Successful!"),
-                    ],
-                  ),
-                ));
-
-        paymentIntent = null;
-        Future.delayed(const Duration(seconds: 3), () {
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.pop(context);
-        });
+        if (mounted) {
+          Utils.flushBarErrorMessage("Payment Successful!", context,Colors.green);
+          paymentIntent = null;
+        }
       }).onError((error, stackTrace) {
-        Utils.tostMessage(error.toString());
-        throw Exception(error);
+        if (mounted) {
+          Utils.tostMessage(error.toString());
+          throw Exception(error);
+        }
       });
     } on StripeException catch (e) {
-      print('Error is:---> $e');
-      const AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.cancel,
-                  color: Colors.red,
-                ),
-                Text("Payment Failed"),
-              ],
-            ),
-          ],
-        ),
-      );
+      if (kDebugMode) {
+        print('$e');
+      }
+      if (mounted) {
+        Utils.flushBarErrorMessage("Payment Failed!", context,Colors.red);
+      }
     } catch (e) {
-      print('$e');
+      if (kDebugMode) {
+        print('$e');
+      }
     }
   }
 
@@ -182,7 +158,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
     return calculatedAmout.toString();
   }
 
-  void makePaymentWithPaypal() {
+  void makePaymentWithPaypal(int totalOfPrice) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (BuildContext context) => PaypalCheckoutView(
         sandboxMode: true,
@@ -193,7 +169,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         transactions: [
           {
             "amount": {
-              "total": '$totalPrice',
+              "total": '$totalOfPrice',
               "currency": "USD",
               "details": {
                 "subtotal": '$totalPrice',
@@ -202,10 +178,6 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
               }
             },
             "description": "",
-            // "payment_options": {
-            //   "allowed_payment_method":
-            //       "INSTANT_FUNDING_SOURCE"
-            // },
             "item_list": {
               "items": [
                 {
@@ -215,18 +187,6 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                   "currency": "USD"
                 }
               ],
-
-              // Optional
-              //   "shipping_address": {
-              //     "recipient_name": "Tharwat samy",
-              //     "line1": "tharwat",
-              //     "line2": "",
-              //     "city": "tharwat",
-              //     "country_code": "EG",
-              //     "postal_code": "25025",
-              //     "phone": "+00000000",
-              //     "state": "ALex"
-              //  },
             }
           }
         ],
@@ -252,16 +212,16 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
   Future<void> paymentSuccessApi(String paymentMethod) async {
     List<int?>? addonIds = addon?.map((e) => e.id).toList();
     List<dynamic>? facilityIds = facilitates?.map((e) => e.id).toList();
-    Map<String, String> data = {
+    Map<String, dynamic> data = {
       'experience_id': '$exId',
       'payment_method': paymentMethod,
       'date': '$date',
       'no_of_guests': '$noOfGuest',
       'booking_charges': '$userCharges',
-      'total_amount': '$totalPrice',
-      'addons': '$addonIds',
+      'total_amount': '$totalOfPrice',
+      'addons': "$addonIds",
       'comment': '$comment',
-      'facility_id': '$facilityIds',
+      'facility_id': "$facilityIds",
     };
     await Provider.of<CreateBookingViewModel>(context, listen: false)
         .createBookingApi(token!, data, context);
@@ -403,6 +363,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
           facilitates = value['facilitates'];
           minGuest = value['minGuest'];
           maxGuest = value['maxGuest'];
+          priceType = value['price_type'];
           setState(() {});
           pagecontroller.nextPage(
             duration: const Duration(milliseconds: 1),
@@ -442,12 +403,14 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         reelsUserName: reelsUserName,
         reelsUserProfileImage: reelsUserProfileImage,
         address: address,
-        onTap: () async {
+        priceType: priceType,
+        onTap: (value) async {
+          totalOfPrice = value.toString();
           String? paymentMethod = await _showMyDialog();
           if (paymentMethod == 'PayPal') {
-            makePaymentWithPaypal();
+            makePaymentWithPaypal(value);
           } else if (paymentMethod == 'Stripe') {
-            makePayment();
+            makePayment(value);
           }
           // pagecontroller.nextPage(
           //   duration: const Duration(milliseconds: 1),

@@ -31,20 +31,15 @@ class GetBookingListViewModel with ChangeNotifier {
       setGetBookingList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       throw error!;
-      setGetBookingList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+    });
+  }
+  Future<void> getBookingListApiUser(String token,{int? userId}) async {
+    setGetBookingList(ApiResponse.loading());
+    await myRepo.getBookingListUser(token,userId: userId).then((value) {
+      setGetBookingList(ApiResponse.completed(value));
+    }).onError((error, stackTrace) {
+      throw error!;
     });
   }
 
-  // Future<void> getReelsUserExperianceListApi(
-  //     int userId, String token, int page) async {
-  //   setGetExperianceList(ApiResponse.loading());
-  //   await myRepo.getReelsUserExperianceList(userId, token, page).then((value) {
-  //     setGetExperianceList(ApiResponse.completed(value));
-  //     //Utils.tostMessage('$value');
-  //   }).onError((error, stackTrace) {
-  //     setGetExperianceList(ApiResponse.error(error.toString()));
-  //     Utils.tostMessage('$error');
-  //   });
-  // }
 }

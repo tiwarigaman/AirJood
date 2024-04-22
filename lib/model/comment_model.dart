@@ -161,6 +161,8 @@ class User {
   dynamic deletedAt;
   String? profileImageUrl;
   bool? isUpgrade;
+  bool? isFollowing;
+  bool? isFollower;
 
   User({
     this.id,
@@ -178,6 +180,8 @@ class User {
     this.deletedAt,
     this.profileImageUrl,
     this.isUpgrade,
+    this.isFollowing,
+    this.isFollower,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -202,6 +206,8 @@ class User {
         deletedAt: json["deleted_at"],
         profileImageUrl: json["profile_image_url"],
         isUpgrade: json["is_upgrade"],
+        isFollowing: json["is_following"],
+        isFollower: json["is_follower"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -223,6 +229,8 @@ class User {
         "deleted_at": deletedAt,
         "profile_image_url": profileImageUrl,
         "is_upgrade": isUpgrade,
+        "is_following": isFollowing,
+        "is_follower": isFollower,
       };
 }
 

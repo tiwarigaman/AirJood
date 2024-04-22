@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../model/booking_list_model.dart';
 import '../../../../res/components/CustomText.dart';
@@ -34,6 +36,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             var data = widget.bookingList?[index];
+            DateTime dateTime = DateTime.parse(data?.createdAt.toString() ?? 'Mon 15, Mar 23 - 17:30 PM');
+            DateFormat dateFormat = DateFormat("EEE d,MMM yyyy - hh:mm a");
+            String formattedDateTime = dateFormat.format(dateTime);
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Container(
@@ -51,15 +56,20 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            '${data?.experience?.user?.profileImageUrl}',
+                          child: CachedNetworkImage(
+                            imageUrl:'${data?.user?.profileImageUrl}',
                             height: 45,
                             width: 45,
                             fit: BoxFit.cover,
+                            errorWidget: (context, url, error) {
+                              return Container(
+                                color: Colors.black.withOpacity(0.2),
+                                  child: const Icon(Icons.error),);
+                            },
                           ),
                         ),
                         CustomText(
-                          data: '\$${data?.bookingCharges}',
+                          data: '\$${data?.totalAmount}',
                           fweight: FontWeight.w800,
                           fSize: 18,
                           fontColor: AppColors.mainColor,
@@ -67,21 +77,22 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                       ],
                     ),
                     CustomText(
-                      data: data?.experience?.user?.name ?? "David Warner",
+                      data: data?.user?.name ?? "",
                       fweight: FontWeight.w700,
                       fSize: 18,
                       fontColor: AppColors.blackTextColor,
                     ),
                     CustomText(
                       data: data?.experience?.location ??
-                          '9 Al Khayma Camp, Dubai, UAE',
+                          '',
                       fweight: FontWeight.w600,
                       fSize: 13,
                       fontColor: AppColors.greyTextColor,
                     ),
                     const SizedBox(height: 3),
-                    const CustomText(
-                      data: 'Mon 15, Mar 23 - 17:30 PM',
+                     CustomText(
+                      data: formattedDateTime,
+                      //data: 'Mon 15, Mar 23 - 17:30 PM',
                       fweight: FontWeight.w600,
                       fSize: 13,
                       fontColor: AppColors.blackTextColor,

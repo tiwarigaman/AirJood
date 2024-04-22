@@ -108,7 +108,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     UserViewModel().getToken().then((value) async {
       final bookingProvider =
           Provider.of<GetBookingListViewModel>(context, listen: false);
-      await bookingProvider.getBookingListApi(value!,userId: widget.userId);
+      await bookingProvider.getBookingListApiUser(value!,userId: widget.userId);
       setState(() {
         data3.addAll(bookingProvider.getBookingData.data?.data ?? []);
       });
@@ -167,13 +167,15 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
             fontColor: AppColors.blackColor,
           ),
           const Spacer(),
-          isFollowing
+          widget.screen == 'MyScreen'
+          ?const SizedBox()
+              :isFollowing
               ? const SizedBox()
               : const Icon(
                   Icons.add,
                   color: AppColors.mainColor,
                 ),
-          InkWell(
+          widget.screen == 'MyScreen' ? const SizedBox() :InkWell(
             onTap: () {
               homeReelsProvider.handleFollowers(
                   context, widget.userId!, widget.isFollow ?? false);
@@ -182,7 +184,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
               });
             },
             child: Text(
-              isFollowing ? "" : "Follow",
+              isFollowing ? "Following" : "Follow",
               style: GoogleFonts.inter(
                 color: AppColors.mainColor,
                 fontSize: 16,
