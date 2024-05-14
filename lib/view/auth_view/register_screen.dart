@@ -80,7 +80,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               style: GoogleFonts.nunito(
                 color: AppColors.splashTextColor,
                 fontSize: 25,
-                //fontFamily: 'Euclid Circular A',
                 fontWeight: FontWeight.w600,
               ),
             ),

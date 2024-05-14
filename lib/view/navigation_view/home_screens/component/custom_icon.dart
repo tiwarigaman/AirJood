@@ -1,3 +1,5 @@
+import 'package:airjood/view/navigation_view/home_screens/screen_widget/planning_widget.dart';
+import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -137,19 +139,35 @@ class _CustomIconState extends State<CustomIcon> {
           children: [
             widget.screen == 'Laqta'
                 ? const SizedBox()
-                : SvgPicture.asset(
-                    'assets/svg/planning.svg',
-                    height: 25,
+                : GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        context: context,
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.85,
+                          minWidth: MediaQuery.of(context).size.width,
+                        ),
+                        isScrollControlled: true,
+                        // showDragHandle: true,
+                        builder: (_) => const PlanningWidget(),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svg/planning.svg',
+                      height: 25,
+                    ),
                   ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : const CustomText(
-              data: 'Planning',
-              fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
-            ),
+                    data: 'Planning',
+                    fSize: 14,
+                    fweight: FontWeight.w400,
+                    fontColor: AppColors.whiteTextColor,
+                  ),
             const SizedBox(height: 5),
             InkWell(
               onTap: handleLike,
@@ -228,36 +246,46 @@ class _CustomIconState extends State<CustomIcon> {
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : SvgPicture.asset(
-              'assets/svg/pricing.svg',
-              height: 25,
-            ),
+                    'assets/svg/pricing.svg',
+                    height: 25,
+                  ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : const CustomText(
-              data: 'Pricing',
-              fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
-            ),
+                    data: 'Pricing',
+                    fSize: 14,
+                    fweight: FontWeight.w400,
+                    fontColor: AppColors.whiteTextColor,
+                  ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
-                : SvgPicture.asset(
-              'assets/svg/rating.svg',
-              height: 25,
-            ),
+                : GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ReviewScreen(),
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svg/rating.svg',
+                      height: 25,
+                    ),
+                  ),
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : const CustomText(
-              data: 'Reviews',
-              fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
-            ),
+                    data: 'Reviews',
+                    fSize: 14,
+                    fweight: FontWeight.w400,
+                    fontColor: AppColors.whiteTextColor,
+                  ),
           ],
         ),
       ),

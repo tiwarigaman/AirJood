@@ -197,33 +197,24 @@ class _ReelsUserState extends State<ReelsUser> {
                   );
                 },
                 child: Container(
-                  // width: 100,
-                  // height: 38,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
-                    color: const Color(0x3314C7FF),
+                    color: AppColors.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Book Now',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF14C6FF),
-                          fontSize: 14,
-                          fontFamily: 'Euclid Circular A',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                  child: const Text(
+                    'Book Now',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppColors.whiteTextColor,
+                      fontSize: 14,
+                      fontFamily: 'Euclid Circular A',
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               )

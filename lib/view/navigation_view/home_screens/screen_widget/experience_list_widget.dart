@@ -279,13 +279,13 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                       height: 40,
                                       width: 100,
                                       decoration: BoxDecoration(
-                                        color: AppColors.blueBGShadeColor,
+                                        color: AppColors.mainColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: const Center(
                                         child: CustomText(
                                           data: 'Book Now',
-                                          fontColor: AppColors.blueColor,
+                                          fontColor: AppColors.whiteTextColor,
                                           fSize: 15,
                                           fweight: FontWeight.w700,
                                         ),

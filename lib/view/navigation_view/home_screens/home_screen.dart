@@ -3,12 +3,14 @@
 import 'package:airjood/model/home_reels_model.dart';
 import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_widget.dart';
+import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/notification_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/user_details_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/videoPlayer.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import '../../../res/components/color.dart';
@@ -164,11 +166,27 @@ class _HomeScreenState extends State<HomeScreen>
             const SizedBox(
               width: 20,
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Image(
-                image: AssetImage('assets/icons/notification.png'),
-                height: 20,
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  constraints: BoxConstraints.loose(
+                    Size(MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height * 0.85),
+                  ),
+                  isScrollControlled: true,
+                  //isDismissible: false,
+                  enableDrag: false,
+                  builder: (_) => const NotificationScreen(),
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Image(
+                  image: AssetImage('assets/icons/notification.png'),
+                  height: 20,
+                ),
               ),
             ),
             const SizedBox(

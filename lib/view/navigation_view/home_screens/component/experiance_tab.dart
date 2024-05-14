@@ -1,6 +1,7 @@
 import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/dashboard_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/experience_list_widget.dart';
+import 'package:airjood/view/navigation_view/home_screens/screen_widget/plan_widgets.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/add_experience_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -37,7 +38,19 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this, initialIndex: 0);
+    if (widget.screen != 'UserDetails') {
+      _tabController = TabController(
+        length: 5,
+        vsync: this,
+        initialIndex: 0,
+      );
+    } else {
+      _tabController = TabController(
+        length: 4,
+        vsync: this,
+        initialIndex: 0,
+      );
+    }
   }
 
   @override
@@ -47,6 +60,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
   }
 
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -74,44 +88,50 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
             fontWeight: FontWeight.w500,
           ),
           tabs: [
-            Tab(
-              text: 'Dashboard',
-              icon: SvgPicture.asset(
-                'assets/svg/dashboard.svg',
-                color:
-                    index == 0 ? AppColors.whiteTextColor : AppColors.mainColor,
+            if (widget.screen != 'UserDetails')
+              Tab(
+                text: 'Dashboard',
+                icon: SvgPicture.asset(
+                  'assets/svg/dashboard.svg',
+                  color: index == 0
+                      ? AppColors.whiteTextColor
+                      : AppColors.mainColor,
+                ),
               ),
-            ),
             Tab(
               text: 'Laqta',
               icon: SvgPicture.asset(
                 'assets/svg/reels.svg',
-                color:
-                    index == 1 ? AppColors.whiteTextColor : AppColors.mainColor,
+                color: index == (widget.screen != 'UserDetails' ? 1 : 0)
+                    ? AppColors.whiteTextColor
+                    : AppColors.mainColor,
               ),
             ),
             Tab(
               text: 'Experiences',
               icon: SvgPicture.asset(
                 'assets/svg/users.svg',
-                color:
-                    index == 2 ? AppColors.whiteTextColor : AppColors.mainColor,
+                color: index == (widget.screen != 'UserDetails' ? 2 : 1)
+                    ? AppColors.whiteTextColor
+                    : AppColors.mainColor,
               ),
             ),
             Tab(
               text: 'Plans',
               icon: SvgPicture.asset(
                 'assets/svg/planning.svg',
-                color:
-                    index == 3 ? AppColors.whiteTextColor : AppColors.mainColor,
+                color: index == (widget.screen != 'UserDetails' ? 3 : 2)
+                    ? AppColors.whiteTextColor
+                    : AppColors.mainColor,
               ),
             ),
             Tab(
               text: 'Reviews',
               icon: SvgPicture.asset(
                 'assets/svg/review.svg',
-                color:
-                    index == 4 ? AppColors.whiteTextColor : AppColors.mainColor,
+                color: index == (widget.screen != 'UserDetails' ? 4 : 3)
+                    ? AppColors.whiteTextColor
+                    : AppColors.mainColor,
               ),
             ),
           ],
@@ -120,12 +140,13 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Center(
             child: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: DashBoardWidget(
-                  bookingList: widget.bookingList,
+              if (widget.screen != 'UserDetails')
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                  child: DashBoardWidget(
+                    bookingList: widget.bookingList,
+                  ),
                 ),
-              ),
               TabData(
                 item: widget.items,
               ),
@@ -136,7 +157,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                     if (widget.screen == 'UserDetails')
                       Container()
                     else
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
                             backgroundColor: Colors.transparent,
@@ -179,7 +200,50 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: Image.asset('assets/images/planing.png'),
+                child: Column(
+                  children: [
+                    if (widget.screen == 'UserDetails')
+                      Container()
+                    else
+                      GestureDetector(
+                        onTap: () {
+                          // showModalBottomSheet(
+                          //   backgroundColor: Colors.transparent,
+                          //   context: context,
+                          //   barrierColor: const Color.fromRGBO(13, 6, 41, 0.5),
+                          //   constraints: BoxConstraints.expand(
+                          //       height:
+                          //       MediaQuery.of(context).size.height * 0.90,
+                          //       width: MediaQuery.of(context).size.width),
+                          //   isScrollControlled: true,
+                          //   isDismissible: false,
+                          //   enableDrag: false,
+                          //   builder: (_) => const AddExperienceScreen(),
+                          // );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const CustomText(
+                              data: 'Programs',
+                              fontColor: AppColors.blackTextColor,
+                              fweight: FontWeight.w800,
+                              fSize: 22,
+                            ),
+                            Image.asset(
+                              'assets/icons/plusbutton.png',
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const PlanWidgets(),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -250,7 +314,7 @@ class _TabDataState extends State<TabData> {
                           builder: (context) => ShowUploadReels(
                             index: index,
                             data: widget.item!,
-                            screen : 'Laqta',
+                            screen: 'Laqta',
                           ),
                         ),
                       );

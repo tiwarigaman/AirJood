@@ -227,7 +227,7 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: InkWell(
+            child: GestureDetector(
               onTap: () {
                 setState(() {
                   if (isSelected[index]) {

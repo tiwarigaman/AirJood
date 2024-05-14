@@ -1,3 +1,4 @@
+import 'package:airjood/view/navigation_view/home_screens/screen_widget/fridge_door_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/show_upload_reels.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,9 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
+import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../screen_widget/dashboard_widget.dart';
 import '../screen_widget/experience_list_widget.dart';
+import '../screen_widget/plan_widgets.dart';
 
 class CustomTabData extends StatefulWidget {
   final List<ReelsData>? items;
@@ -119,11 +122,54 @@ class _CustomTabDataState extends State<CustomTabData>
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: Image.asset('assets/images/planing.png'),
+                child: Column(
+                  children: [
+                    if (widget.screen == 'UserDetails')
+                      Container()
+                    else
+                      InkWell(
+                        onTap: () {
+                          // showModalBottomSheet(
+                          //   backgroundColor: Colors.transparent,
+                          //   context: context,
+                          //   barrierColor: const Color.fromRGBO(13, 6, 41, 0.5),
+                          //   constraints: BoxConstraints.expand(
+                          //       height:
+                          //       MediaQuery.of(context).size.height * 0.90,
+                          //       width: MediaQuery.of(context).size.width),
+                          //   isScrollControlled: true,
+                          //   isDismissible: false,
+                          //   enableDrag: false,
+                          //   builder: (_) => const AddExperienceScreen(),
+                          // );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const CustomText(
+                              data: 'Programs',
+                              fontColor: AppColors.blackTextColor,
+                              fweight: FontWeight.w800,
+                              fSize: 22,
+                            ),
+                            Image.asset(
+                              'assets/icons/plusbutton.png',
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const PlanWidgets(),
+                  ],
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: Image.asset('assets/images/frege.png'),
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                child: FridgeDoor(),
               ),
             ][_tabController.index],
           ),
