@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,6 +15,7 @@ class SelectListContainer extends StatefulWidget {
 
 class _SelectListContainerState extends State<SelectListContainer> {
   int selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -29,9 +31,11 @@ class _SelectListContainerState extends State<SelectListContainer> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PlanningDetailsScreen()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PlanningDetailsScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -68,8 +72,8 @@ class _SelectListContainerState extends State<SelectListContainer> {
                                 });
                               },
                               child: selectedIndex == index
-                                  ? const Icon(Icons.check_circle,size: 25)
-                                  : const Icon(Icons.circle_outlined,size: 25),
+                                  ? const Icon(CupertinoIcons.checkmark_alt_circle_fill, size: 25)
+                                  : const Icon(Icons.circle_outlined, size: 25),
                             ),
                           ],
                         ),

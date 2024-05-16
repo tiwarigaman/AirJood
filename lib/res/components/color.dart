@@ -26,4 +26,6 @@ class AppColors {
   static const Color tabBGColor = Color(0xFFDADDEE);
   static const Color containerBorderColor = Color(0xFFDBE2EB);
   static const Color amberTextColor = Color(0xFFFF9900);
+  static const Color greenColor = Color(0xFF67B25F);
+  static const Color redColor = Colors.red;
 }

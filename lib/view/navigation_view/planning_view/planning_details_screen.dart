@@ -2,7 +2,9 @@ import 'package:airjood/res/components/color.dart';
 import 'package:airjood/res/components/mainbutton.dart';
 import 'package:airjood/view/navigation_view/planning_view/plan_details_screen.dart';
 import 'package:airjood/view/navigation_view/planning_view/screen_widgets/plan_container.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../../res/components/CustomText.dart';
 
 class PlanningDetailsScreen extends StatefulWidget {
@@ -56,7 +58,7 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                         const SizedBox(height: 160),
                       ],
                     ),
-                    const PlanContainer(),
+                    const PlanContainer(screen: 'abc',),
                   ],
                 ),
                 const Padding(
@@ -85,7 +87,7 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(left: 15,right: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   children: List.generate(
                     9,
                     (index) {
@@ -97,9 +99,11 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                             Radius.circular(8),
                           ),
                         ),
-                        margin: const EdgeInsets.only(top: 10,left: 5,right: 5),
+                        margin:
+                            const EdgeInsets.only(top: 10, left: 5, right: 5),
                         child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(8)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
@@ -145,12 +149,87 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 8.0, right: 20, bottom: 8.0 + padding.bottom),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PlanDetailsScreen(),),);
-              },
-                child: const MainButton(data: 'View Plan'),
+            padding: EdgeInsets.only(
+                left: 20, top: 8.0, right: 20, bottom: 8.0 + padding.bottom),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.redColor,
+                          ),
+                        ),
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              CupertinoIcons.clear,
+                              color: AppColors.redColor,
+                              size: 20,
+                            ),
+                            CustomText(
+                              data: 'Reject',
+                              fontColor: AppColors.redColor,
+                              fweight: FontWeight.w500,
+                              fSize: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: AppColors.greenColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.greenColor,
+                          ),
+                        ),
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              CupertinoIcons.checkmark_alt_circle,
+                              color: AppColors.whiteTextColor,
+                              size: 20,
+                            ),
+                            CustomText(
+                              data: 'Accept & Join Plan',
+                              fontColor: AppColors.whiteTextColor,
+                              fweight: FontWeight.w500,
+                              fSize: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PlanDetailsScreen(),
+                      ),
+                    );
+                  },
+                  child: const MainButton(data: 'View Plan'),
+                ),
+              ],
             ),
           ),
         ],

@@ -83,7 +83,7 @@ class _PlanDetailsScreenState extends State<PlanDetailsScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Center(child: PlanContainer()),
+              const Center(child: PlanContainer(screen: 'planScreen',)),
               const SizedBox(
                 height: 20,
               ),

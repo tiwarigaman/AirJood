@@ -1,7 +1,9 @@
 import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view/navigation_view/home_screens/component/user_profile.dart';
+import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/contact_us_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
@@ -82,7 +84,7 @@ class _SettingScreenState extends State<SettingScreen> {
               UserProfile(name: name, joinDate: created_at, image: image,userId: userId,screen: 'MyScreen',),
               size,
               guide == false
-                  ? InkWell(
+                  ? GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, RoutesName.upgradeGuide);
                       },
@@ -95,9 +97,14 @@ class _SettingScreenState extends State<SettingScreen> {
                     )
                   : const SizedBox(),
               size,
-              const CustomIconButton(
-                data: 'Contact Us',
-                assetName: 'assets/svg/microphone.svg',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactUsScreen(),),);
+                },
+                child: const CustomIconButton(
+                  data: 'Contact Us',
+                  assetName: 'assets/svg/microphone.svg',
+                ),
               ),
               size,
               const CustomIconButton(

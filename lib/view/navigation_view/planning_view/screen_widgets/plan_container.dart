@@ -1,5 +1,7 @@
+import 'package:airjood/view/navigation_view/planning_view/invite_screen.dart';
 import 'package:avatar_stack/avatar_stack.dart';
 import 'package:avatar_stack/positions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,7 +9,8 @@ import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
 class PlanContainer extends StatelessWidget {
-  const PlanContainer({super.key});
+  final String screen;
+  const PlanContainer({super.key, required this.screen});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,6 @@ class PlanContainer extends StatelessWidget {
                   fSize: 15,
                   fontColor: AppColors.greyTextColor,
                 ),
-
               ],
             ),
             const SizedBox(height: 10),
@@ -74,17 +76,47 @@ class PlanContainer extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            AvatarStack(
-              height: 25,
-              width: 90,
-              settings: RestrictedAmountPositions(
-                maxAmountItems: 6,
-                maxCoverage: 0.7,
-                minCoverage: 0.1,
-              ),
-              avatars: [
-                for (var n = 0; n < 6; n++)
-                  NetworkImage('https://i.pravatar.cc/150?img=$n'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AvatarStack(
+                  height: 25,
+                  width: 90,
+                  settings: RestrictedAmountPositions(
+                    maxAmountItems: 6,
+                    maxCoverage: 0.7,
+                    minCoverage: 0.1,
+                  ),
+                  avatars: [
+                    for (var n = 0; n < 6; n++)
+                      NetworkImage('https://i.pravatar.cc/150?img=$n'),
+                  ],
+                ),
+                if (screen != 'planScreen')
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const InviteScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: AppColors.mainColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const CustomText(
+                        data: 'Invite',
+                        fweight: FontWeight.w600,
+                        fSize: 15,
+                        fontColor: AppColors.whiteTextColor,
+                      ),
+                    ),
+                  )
               ],
             ),
             const SizedBox(height: 10),

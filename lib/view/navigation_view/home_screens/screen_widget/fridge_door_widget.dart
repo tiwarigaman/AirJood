@@ -14,7 +14,8 @@ class _FridgeDoorState extends State<FridgeDoor> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      width: 300,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.mainColor, width: 4),
@@ -30,7 +31,7 @@ class _FridgeDoorState extends State<FridgeDoor> {
       child: Column(
         children: [
           Container(
-            height: 230,
+            height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: AppColors.mainColor, width: 4),
