@@ -160,7 +160,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                     child: BottomNavigationBar(
                       currentIndex: _selectedIndex,
                       backgroundColor: Colors.black.withOpacity(0.4),
-                      selectedItemColor: Colors.blue,
+                      selectedItemColor: AppColors.navigationBarIconColor,
                       selectedIconTheme:
                           const IconThemeData(color: AppColors.blueColor),
                       type: BottomNavigationBarType.fixed,
@@ -179,11 +179,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                         BottomNavigationBarItem(
                             icon: Image.asset(
                               'assets/icons/homeup.png',
+                              color: AppColors.whiteColor.withOpacity(0.5),
                               height: 25,
                             ),
                             activeIcon: Image.asset(
                               'assets/icons/homeup.png',
-                              color: AppColors.blueColor,
+                              color: AppColors.navigationBarIconColor,
                               height: 20,
                             ),
                             // backgroundColor: AppColors.blackColor,
@@ -191,11 +192,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                         BottomNavigationBarItem(
                             icon: Image.asset(
                               'assets/icons/community.png',
+                              color: AppColors.whiteColor.withOpacity(0.5),
                               height: 25,
                             ),
                             activeIcon: Image.asset(
                               'assets/icons/community.png',
-                              color: AppColors.blueColor,
+                              color: AppColors.navigationBarIconColor,
                               height: 20,
                             ),
                             // backgroundColor: AppColors.blackColor,
@@ -203,24 +205,25 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                         BottomNavigationBarItem(
                             icon: Image.asset(
                               'assets/images/laqta.png',
-                              color: AppColors.whiteTextColor,
+                              color: AppColors.whiteColor.withOpacity(0.5),
                               height: 25,
                             ),
                             activeIcon: Image.asset(
                               'assets/images/laqta.png',
-                              color: AppColors.blueColor,
+                              color: AppColors.navigationBarIconColor,
                               height: 20,
                             ),
                             // backgroundColor: AppColors.blackColor,
                             label: 'Laqta'),
                         BottomNavigationBarItem(
                             icon: Image.asset(
+                              color: AppColors.whiteColor.withOpacity(0.5),
                               'assets/icons/sedual.png',
                               height: 25,
                             ),
                             activeIcon: Image.asset(
                               'assets/icons/sedual.png',
-                              color: AppColors.blueColor,
+                              color: AppColors.navigationBarIconColor,
                               height: 20,
                             ),
                             // backgroundColor: AppColors.blackColor,
@@ -228,11 +231,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
                         BottomNavigationBarItem(
                           icon: Image.asset(
                             'assets/icons/chat.png',
+                            color: AppColors.whiteColor.withOpacity(0.5),
                             height: 25,
                           ),
                           activeIcon: Image.asset(
                             'assets/icons/chat.png',
-                            color: AppColors.blueColor,
+                            color: AppColors.navigationBarIconColor,
                             height: 20,
                           ),
                           // backgroundColor: AppColors.blackColor,

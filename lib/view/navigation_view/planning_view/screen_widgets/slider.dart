@@ -6,7 +6,9 @@ import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
 class SliderWidget extends StatefulWidget {
-  const SliderWidget({super.key});
+  final Function? onValue;
+  final int? duration;
+  const SliderWidget({super.key, this.onValue, this.duration});
 
   @override
   State<SliderWidget> createState() => _SliderWidgetState();
@@ -14,6 +16,11 @@ class SliderWidget extends StatefulWidget {
 
 class _SliderWidgetState extends State<SliderWidget> {
   dynamic _low = 12.0;
+  @override
+  void initState() {
+    _low = widget.duration?.toDouble();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -67,6 +74,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             onDragging: (handlerIndex, lowerValue, upperValue) {
               setState(() {
                 _low = lowerValue;
+                widget.onValue!(_low.toInt());
               });
             },
           ),

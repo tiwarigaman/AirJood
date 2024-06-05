@@ -62,7 +62,6 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
       File videoFile = File(videoPath);
       final info = await videoFile.length();
       double fileSizeInMB = info / (1024 * 1024);
-      print("Video size: $fileSizeInMB MB");
     } catch (e) {
       print("Error getting video information");
     }
@@ -91,8 +90,6 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                     children: [
                       Center(
                         child: AspectRatio(
-                          // aspectRatio: MediaQuery.of(context).size.width /
-                          //     MediaQuery.of(context).size.height,
                           aspectRatio: _videoPlayerController!.value.aspectRatio,
                           child: VideoPlayer(_videoPlayerController!),
                         ),

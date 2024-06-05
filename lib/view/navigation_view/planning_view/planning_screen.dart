@@ -1,8 +1,14 @@
 import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/res/components/color.dart';
+import 'package:airjood/res/components/custom_shimmer.dart';
 import 'package:airjood/view/navigation_view/planning_view/Add_planning_screen.dart';
 import 'package:airjood/view/navigation_view/planning_view/screen_widgets/listContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../data/response/status.dart';
+import '../../../view_model/get_planning_list_view_model.dart';
+import '../../../view_model/user_view_model.dart';
 
 class PlanningScreen extends StatefulWidget {
   const PlanningScreen({super.key});
@@ -12,6 +18,31 @@ class PlanningScreen extends StatefulWidget {
 }
 
 class _PlanningScreenState extends State<PlanningScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _refreshPlanningList();
+  }
+
+  Future<void> _refreshPlanningList() async {
+    UserViewModel().getToken().then((value) {
+      Provider.of<GetPlanningListViewModel>(context, listen: false)
+          .planningListGetApi(value!);
+    });
+  }
+
+  String formatDateString(String? dateString) {
+    if (dateString == null || dateString.isEmpty) {
+      return '';
+    }
+    try {
+      DateTime parsedDate = DateTime.parse(dateString);
+      return DateFormat('dd MMM yyyy').format(parsedDate);
+    } catch (e) {
+      return 'Invalid date';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +72,12 @@ class _PlanningScreenState extends State<PlanningScreen> {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddPlanningScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddPlanningScreen(),
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -49,20 +85,110 @@ class _PlanningScreenState extends State<PlanningScreen> {
                 color: AppColors.blueBGShadeColor,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.add, color: AppColors.blueColor,size: 26),
+              child:
+                  const Icon(Icons.add, color: AppColors.blueColor, size: 26),
             ),
           ),
           const SizedBox(width: 20),
         ],
       ),
-      body:Padding(
-        padding: const EdgeInsets.only(left: 20,right: 20,bottom: 80),
-        child: ListView.builder(
-          itemCount: 10,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-          return const ListContainer();
-        },),
+      body: RefreshIndicator(
+        onRefresh: _refreshPlanningList,
+        child: Consumer<GetPlanningListViewModel>(
+          builder: (context, value, child) {
+            switch (value.planningData.status) {
+              case Status.LOADING:
+                return const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: PlanningShimmer(),
+                );
+              case Status.ERROR:
+                return Container();
+              case Status.COMPLETED:
+                return Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 80),
+                  child: value.planningData.data == null ||
+                          value.planningData.data!.data!.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/images/rejected.png',
+                                height: 70,
+                                width: 70,
+                              ),
+                              const SizedBox(height: 10),
+                              const CustomText(
+                                data: 'Not found',
+                                fweight: FontWeight.w700,
+                                fontColor: AppColors.blueColor,
+                                fSize: 18,
+                              ),
+                              const SizedBox(height: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddPlanningScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.blueBGShadeColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child:
+                                      const Icon(Icons.add, color: AppColors.blueColor, size: 20),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const CustomText(
+                                      data: 'Add Plan',
+                                      fweight: FontWeight.w700,
+                                      fontColor: AppColors.blueColor,
+                                      fSize: 18,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: value.planningData.data?.data?.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            var data = value.planningData.data?.data?[index];
+                            String formattedStartDate =
+                                formatDateString(data?.startDate?.toString());
+                            String formattedEndDate =
+                                formatDateString(data?.endDate?.toString());
+                            return ListContainer(
+                              id: data?.id,
+                              imageUrl: data?.imageUrl,
+                              duration: data?.planDuration.toString(),
+                              location: data?.stateName != null
+                                  ? '${data?.countryName} , ${data?.stateName}'
+                                  : '${data?.countryName}',
+                              planningName: data?.title,
+                              startDate: formattedStartDate,
+                              endDate: formattedEndDate,
+                            );
+                          },
+                        ),
+                );
+              default:
+                return Container();
+            }
+          },
+        ),
       ),
     );
   }

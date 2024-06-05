@@ -108,8 +108,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   children: [
                     Center(
                       child: AspectRatio(
-                        // aspectRatio: MediaQuery.of(context).size.width /
-                        //     MediaQuery.of(context).size.height,
                         aspectRatio: _videoPlayerController!.value.aspectRatio,
                         child: VideoPlayer(_videoPlayerController!),
                       ),

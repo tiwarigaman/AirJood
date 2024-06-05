@@ -972,3 +972,48 @@ class BookNowShimmer extends StatelessWidget {
     );
   }
 }
+
+class PlanningShimmer extends StatelessWidget {
+  const PlanningShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Color shimmerColor =  Colors.white30;
+    return Shimmer.fromColors(
+        baseColor: Colors.grey.shade500,
+        highlightColor: Colors.grey.shade500,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 170,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              height: 170,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              height: 170,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ],
+        )
+    );
+  }
+}

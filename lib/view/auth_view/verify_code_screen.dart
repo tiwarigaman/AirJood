@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:airjood/firebase_messanging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +33,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     super.initState();
     _getSignatureCode();
     _startListeningSms();
+    NotificationServices().getDeviceToken().then((value) {
+      deviceToken = value;
+    });
+    // UserViewModel().getDeviceToken().then((value) {
+    //   deviceToken = value;
+    // });
     if (Platform.isIOS) {
       Future.delayed(Duration.zero, () {
         textEditingController.text = widget.otp ?? '1234';
@@ -40,7 +47,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       textEditingController.text = widget.otp ?? '1234';
     }
   }
-
+String? deviceToken;
   @override
   void dispose() {
     super.dispose();
@@ -215,6 +222,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 } else {
                   Map<String, String> data = {
                     "otp": textEditingController.text.toString(),
+                    "firebase_token":deviceToken.toString(),
                   };
                   authViewModel.OTPVerifyApi('${widget.mobile}', data, context);
                 }

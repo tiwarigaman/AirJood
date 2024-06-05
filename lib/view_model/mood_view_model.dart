@@ -18,7 +18,6 @@ class MoodViewModel with ChangeNotifier {
     setMoodList(ApiResponse.loading());
     myRepo.getMood(token).then((value) {
       setMoodList(ApiResponse.completed(value));
-      //Utils.tostMessage(value[0].mood.toString());
     }).onError((error, stackTrace) {
       setMoodList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

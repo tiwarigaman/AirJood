@@ -8,7 +8,7 @@ import 'package:airjood/view/navigation_view/home_screens/screen_widget/google_l
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/radio_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/select_start_date.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/select_start_time.dart';
-import 'package:airjood/view/navigation_view/home_screens/screen_widget/upload_fridge_magnet.dart';
+
 import 'package:airjood/view_model/facilities_view_model.dart';
 import 'package:airjood/view_model/mood_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,12 +17,12 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../data/response/status.dart';
 import '../../../../../res/components/mainbutton.dart';
 import '../../../../../res/components/maintextfild.dart';
 import '../../../../../utils/utils.dart';
 import '../../../../../view_model/user_view_model.dart';
+import '../../../planning_view/screen_widgets/upload_image.dart';
 import '../../screen_widget/facilities_drop.dart';
 import '../../screen_widget/mood_drop.dart';
 
@@ -336,7 +336,8 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
             const SizedBox(
               height: 20,
             ),
-            UploadFridgeMagnet(
+            UploadImage(
+              name: 'Upload Fridge Magnet',
               onValue: ((val) {
                 setState(() {
                   image = val;

@@ -11,10 +11,13 @@ class AppUrl {
   static var profile = '$baseUrl/api/v1/profile';
   static var upgradeProfile = '$baseUrl/api/v1/profile/upgrade';
   static var getMood = '$baseUrl/api/v1/get-moods';
+  static var getCountry = '$baseUrl/api/v1/get-countries';
+  static var getState = '$baseUrl/api/v1/get-states';
   static var getFacilities = '$baseUrl/api/v1/get-facilities';
   static var addExperiance = '$baseUrl/api/v1/experience';
   static var getExperiance = '$baseUrl/api/v1/experience';
   static var getExperianceList = '$baseUrl/api/v1/experience';
+  static var getPlanningDetails = '$baseUrl/api/v1/plans';
   static var deleteExperiance = '$baseUrl/api/v1/experience';
   static var searchExperiance = '$baseUrl/api/v1/experience/search?';
   static var getComment = '$baseUrl/api/v1/comment';
@@ -24,9 +27,20 @@ class AppUrl {
   static var addReelsRemoveLike = '$baseUrl/api/v1/reels';
   static var getShareReels = '$baseUrl/api/v1/reels/detail';
   static var getFollowing = '$baseUrl/api/v1/following';
+  static var getInviteUserList = '$baseUrl/api/v1/users';
   static var deleteFollower = '$baseUrl/api/v1/removeFollower';
   static var getFollower = '$baseUrl/api/v1/follower';
   static var getBookingList = '$baseUrl/api/v1/booking';
   static var getBookingListUser = '$baseUrl/api/v1/booking/guide';
   static var createBooking = '$baseUrl/api/v1/booking';
+  static var addPlanning = '$baseUrl/api/v1/plans';
+  static var editPlanning = '$baseUrl/api/v1/plans/update';
+  static var addReelsPlanning = '$baseUrl/api/v1/plans/add-to-plan';
+  static var acceptRejectInvitation = '$baseUrl/api/v1/invitations/action';
+  static var getNotification = '$baseUrl/api/v1/notification';
+  static var deleteNotification = '$baseUrl/api/v1/notification';
+  static var addInvitation = '$baseUrl/api/v1/invitations';
+  static var deletePlanningReels = '$baseUrl/api/v1/plans/remove-from-plan';
+  static var getFridge = '$baseUrl/api/v1/booking/fridge-magnet';
+  static var logout = '$baseUrl/api/v1/logout';
 }

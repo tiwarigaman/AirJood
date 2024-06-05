@@ -1,6 +1,7 @@
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/book_now/book_now_main_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/reels_user_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,6 @@ class _ReelsUserState extends State<ReelsUser> {
             children: [
               InkWell(
                 onTap: () {
-                  // Navigator.pushNamed(context, RoutesName.userDetail);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -97,20 +97,16 @@ class _ReelsUserState extends State<ReelsUser> {
                       return Container(
                         height: 45,
                         width: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.white30,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
+                        color: AppColors.secondTextColor.withOpacity(0.3),
+                        child: const Icon(CupertinoIcons.person),
                       );
                     },
                     errorWidget: (context, url, error) {
                       return Container(
                         height: 45,
                         width: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.white30,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
+                        color: AppColors.secondTextColor.withOpacity(0.3),
+                        child: const Icon(CupertinoIcons.person),
                       );
                     },
                   ),

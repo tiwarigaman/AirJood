@@ -3,7 +3,6 @@ import 'package:airjood/repository/get_booking_list_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../data/response/api_response.dart';
-import '../utils/utils.dart';
 
 class GetBookingListViewModel with ChangeNotifier {
   final myRepo = GetBookingListRepository();

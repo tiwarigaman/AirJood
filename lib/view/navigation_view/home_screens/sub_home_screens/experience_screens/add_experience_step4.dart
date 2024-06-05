@@ -24,7 +24,6 @@ class AddExperienceStep4 extends StatefulWidget {
 class _AddExperienceStep4State extends State<AddExperienceStep4> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchData();
   }
@@ -123,19 +122,6 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
             ),
             InkWell(
               onTap: () {
-                // if (forms[0].name.isEmpty) {
-                //   Utils.tostMessage('Please add Addons Name');
-                // } else if (forms[0].description.isEmpty) {
-                //   Utils.tostMessage('Please add Addons Description');
-                // } else if (forms[0].latqaId.isEmpty) {
-                //   Utils.tostMessage('Please select Reels');
-                // } else if (forms[0].priceType.isEmpty) {
-                //   Utils.tostMessage('Please select Addons Price Type');
-                // } else if (forms[0].price.isEmpty) {
-                //   Utils.tostMessage('Please add Addons Price');
-                // } else {
-                //   //widget.onTap!(forms);
-                // }
                 widget.onTap!(forms);
               },
               child: MainButton(

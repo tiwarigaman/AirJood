@@ -12,6 +12,7 @@ import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/color.dart';
+import '../../planning_view/Add_planning_screen.dart';
 import '../sub_home_screens/show_upload_reels.dart';
 
 class ExperianceTabData extends StatefulWidget {
@@ -199,7 +200,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                padding: const EdgeInsets.only(left: 10, right: 10,top: 20),
                 child: Column(
                   children: [
                     if (widget.screen == 'UserDetails')
@@ -207,19 +208,13 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                     else
                       GestureDetector(
                         onTap: () {
-                          // showModalBottomSheet(
-                          //   backgroundColor: Colors.transparent,
-                          //   context: context,
-                          //   barrierColor: const Color.fromRGBO(13, 6, 41, 0.5),
-                          //   constraints: BoxConstraints.expand(
-                          //       height:
-                          //       MediaQuery.of(context).size.height * 0.90,
-                          //       width: MediaQuery.of(context).size.width),
-                          //   isScrollControlled: true,
-                          //   isDismissible: false,
-                          //   enableDrag: false,
-                          //   builder: (_) => const AddExperienceScreen(),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const AddPlanningScreen(),
+                            ),
+                          );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

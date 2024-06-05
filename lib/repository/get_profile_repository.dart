@@ -12,7 +12,7 @@ class ProfileRepository {
           '${AppUrl.getProfile}/$userId', token);
       return response = ProfileModel.fromJson(response);
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

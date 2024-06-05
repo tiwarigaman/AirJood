@@ -1,4 +1,3 @@
-import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/user_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -31,7 +30,7 @@ class _LoginUserState extends State<LoginUser> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomTabBar(),
+            // const CustomTabBar(),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.only(top: 10),

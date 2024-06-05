@@ -22,10 +22,6 @@ class Utils {
           message: message,
           messageColor: Colors.white,
           duration: const Duration(seconds: 2),
-          // icon: const Icon(
-          //   Icons.error,
-          //   color: Colors.white,
-          // ),
           margin: const EdgeInsets.all(10),
           borderRadius: BorderRadius.circular(7),
           backgroundColor: backgroundColor,

@@ -4,28 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../res/components/color.dart';
 
 class SelectedList extends StatefulWidget {
-  const SelectedList({super.key});
+  final int? day;
+  final int? id;
+  final String? experianceTime;
+  final Function? onSelect;
+  const SelectedList({super.key, this.day, this.id, this.onSelect, this.experianceTime});
 
   @override
   State<SelectedList> createState() => _SelectedListState();
 }
 
 class _SelectedListState extends State<SelectedList> {
-  int selectedIndex = 1;
-  final List data = [
-    {'day' : '3','time':'5:30 AM - 4:30PM'},
-    {'day' : '4','time':'5:30 AM - 4:30PM'},
-    {'day' : '5','time':'5:30 AM - 4:30PM'},
-    {'day' : '6','time':'5:30 AM - 4:30PM'},
-    {'day' : '7','time':'5:30 AM - 4:30PM'},
-  ];
+  int? selectedIndex;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: data.length,
+        itemCount: widget.day,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
@@ -35,6 +32,9 @@ class _SelectedListState extends State<SelectedList> {
                 setState(() {
                   selectedIndex = index; // Set the selected index
                 });
+                if (widget.onSelect != null) {
+                  widget.onSelect!(selectedIndex! + 1);
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -53,7 +53,7 @@ class _SelectedListState extends State<SelectedList> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Day: ${data[index]['day']}',
+                          'Day: ${index+1}',
                           style: GoogleFonts.nunitoSans(
                             color: AppColors.whiteTextColor,
                             fontWeight: FontWeight.w500,
@@ -61,7 +61,7 @@ class _SelectedListState extends State<SelectedList> {
                           ),
                         ),
                         Text(
-                          '${data[index]['time']}',
+                          widget.experianceTime ?? '5:30 AM - 4:30PM',
                           style: GoogleFonts.nunitoSans(
                             color: AppColors.whiteTextColor,
                             fontWeight: FontWeight.w400,

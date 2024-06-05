@@ -4,6 +4,7 @@ import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view_model/add_comment_view_model.dart';
 import 'package:airjood/view_model/add_remove_like_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -207,7 +208,15 @@ class _CommentWidgetState extends State<CommentWidget> {
                                               child: Image.network(
                                                 data?.user?.profileImageUrl ??
                                                     '',
-                                                fit: BoxFit.cover,
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return Container(
+                                                    height: 45,
+                                                    width: 45,
+                                                    color: AppColors.secondTextColor.withOpacity(0.3),
+                                                    child: const Icon(CupertinoIcons.person),
+                                                  );
+                                                },
+                                                fit: BoxFit.fill,
                                                 height: 45,
                                               ),
                                             ),

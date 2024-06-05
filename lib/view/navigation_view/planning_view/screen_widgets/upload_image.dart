@@ -6,8 +6,9 @@ import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
 class UploadImage extends StatefulWidget {
+  final String name;
   final Function? onValue;
-  const UploadImage({super.key, this.onValue});
+  const UploadImage({super.key, this.onValue, required this.name});
 
   @override
   State<UploadImage> createState() => _UploadImageState();
@@ -60,8 +61,8 @@ class _UploadImageState extends State<UploadImage> {
                 width: 55,
               ),
               const SizedBox(height: 10),
-              const CustomText(
-                data: 'Upload Thumbnail Image for your Trip',
+               CustomText(
+                data: widget.name,
                 fSize: 14,
                 fweight: FontWeight.w400,
                 fontColor: AppColors.greyTextColor,

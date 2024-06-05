@@ -9,9 +9,9 @@ import '../../../../res/components/color.dart';
 import 'package:file_picker/file_picker.dart';
 
 class UploadId extends StatefulWidget {
+  final String name;
   final Function onValue;
-
-  const UploadId({super.key, required this.onValue});
+  const UploadId({super.key, required this.onValue, required this.name});
 
   @override
   State<UploadId> createState() => _UploadIdState();
@@ -72,8 +72,8 @@ class _UploadIdState extends State<UploadId> {
                       height: 50,
                       width: 50,
                     ),
-                    const CustomText(
-                      data: 'Upload Any ID',
+                     CustomText(
+                      data: widget.name,
                       fSize: 14,
                       fweight: FontWeight.w400,
                       fontColor: AppColors.greyTextColor,
@@ -126,18 +126,6 @@ class _UploadIdState extends State<UploadId> {
     );
   }
 
-  // Padding(
-  // padding: const EdgeInsets.all(20.0),
-  // child: ClipRRect(
-  // borderRadius: BorderRadius.circular(10),
-  // child: Image.file(
-  // _image!,
-  // height: 140,
-  // width: 300,
-  // fit: BoxFit.cover,
-  // ),
-  // ),
-  // )
   void _showImagePickerBottomSheet(BuildContext context) {
     showModalBottomSheet(
       shape: const OutlineInputBorder(

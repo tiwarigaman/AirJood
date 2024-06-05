@@ -10,7 +10,6 @@ class FollowRepository {
     int userId,
     String follow,
   ) async {
-    print('${AppUrl.follow}/$userId/$follow');
     try {
       dynamic response = await apiAServices.followPostApiResponse(
           "${AppUrl.follow}/$userId/$follow", token);

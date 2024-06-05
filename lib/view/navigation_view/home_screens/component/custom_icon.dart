@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
@@ -16,6 +15,7 @@ import '../screen_widget/comment_widget.dart';
 
 class CustomIcon extends StatefulWidget {
   final int? reelsId;
+  final int? experianceId;
   final String? videoUrl;
   final String? videoImage;
   int? likeCount;
@@ -41,7 +41,7 @@ class CustomIcon extends StatefulWidget {
       this.onLikeTap,
       this.commentCount,
       this.commentAdd,
-      this.screen});
+      this.screen, this.experianceId});
 
   @override
   State<CustomIcon> createState() => _CustomIconState();
@@ -151,7 +151,9 @@ class _CustomIconState extends State<CustomIcon> {
                         ),
                         isScrollControlled: true,
                         // showDragHandle: true,
-                        builder: (_) => const PlanningWidget(),
+                        builder: (_) => PlanningWidget(
+                          experianceId: widget.experianceId,
+                        ),
                       );
                     },
                     child: SvgPicture.asset(

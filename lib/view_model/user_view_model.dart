@@ -17,8 +17,13 @@ class UserViewModel with ChangeNotifier {
 
   Future<bool> saveToken(String token) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    // sp.setString('token', user.data.token);
     sp.setString('token', token);
+    notifyListeners();
+    return true;
+  }
+  Future<bool> saveDeviceToken(String token) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setString('deviceToken', token);
     notifyListeners();
     return true;
   }
@@ -48,6 +53,14 @@ class UserViewModel with ChangeNotifier {
     }
     return tokenJson;
   }
+  Future<String?> getDeviceToken() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    final String? tokenJson = sp.getString('deviceToken');
+    if (tokenJson == null) {
+      return null;
+    }
+    return tokenJson;
+  }
 
   Future<bool> remove() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
@@ -58,6 +71,12 @@ class UserViewModel with ChangeNotifier {
   Future<bool> removeUser() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     sp.remove('user');
+    return true;
+  }
+
+  Future<bool> removeDeviceToken() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove('deviceToken');
     return true;
   }
 }

@@ -33,7 +33,7 @@ class _NoteTextBoxState extends State<NoteTextBox> {
       style: GoogleFonts.nunito(
         fontSize: 18,
         fontWeight: FontWeight.w500,
-        color: AppColors.blackColor,
+        color: AppColors.whiteColor,
       ),
       maxLines: widget.maxLines,
       readOnly: widget.readOnly ?? false,

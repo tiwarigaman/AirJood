@@ -1,15 +1,14 @@
 import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view/navigation_view/home_screens/component/user_profile.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/contact_us_screen.dart';
+import 'package:airjood/view_model/logout_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/customiconbutton.dart';
 import '../../../../view_model/user_view_model.dart';
-import '../../../auth_view/login_screen.dart';
 import '../../ExitBar.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -31,8 +30,12 @@ class _SettingScreenState extends State<SettingScreen> {
       userId = value?.id;
       setState(() {});
     });
+    UserViewModel().getToken().then((value) {
+      token = value;
+      setState(() {});
+    });
   }
-
+  String? token;
   String? name;
   DateTime? created_at;
 
@@ -42,7 +45,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserViewModel>(context);
+    final userLogout = Provider.of<LogoutViewModel>(context);
     const size = SizedBox(
       height: 15,
     );
@@ -81,7 +84,13 @@ class _SettingScreenState extends State<SettingScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               size,
-              UserProfile(name: name, joinDate: created_at, image: image,userId: userId,screen: 'MyScreen',),
+              UserProfile(
+                name: name,
+                joinDate: created_at,
+                image: image,
+                userId: userId,
+                screen: 'MyScreen',
+              ),
               size,
               guide == false
                   ? GestureDetector(
@@ -99,7 +108,12 @@ class _SettingScreenState extends State<SettingScreen> {
               size,
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactUsScreen(),),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ContactUsScreen(),
+                    ),
+                  );
                 },
                 child: const CustomIconButton(
                   data: 'Contact Us',
@@ -134,16 +148,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       negativeButton: 'No',
                       subTitle: 'Are you sure you want to Logout ?',
                       onPressed: () {
-                        userData.remove().then((value) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        });
-                        userData.removeUser();
+                        userLogout.logoutApi(token, context);
                       },
                     ),
                   );

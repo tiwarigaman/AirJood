@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../res/components/color.dart';
 
-
 class CountryCityDrop extends StatefulWidget {
   final ValueChanged? onChanged;
   final value;
   final List? items;
   final String? data;
+
   const CountryCityDrop(
       {super.key, this.onChanged, this.value, this.items, this.data});
 
@@ -26,48 +26,44 @@ class _CountryCityDropState extends State<CountryCityDrop> {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      width: MediaQuery.of(context).size.width / 2,
+      // width: MediaQuery.of(context).size.width / 2,
       decoration: ShapeDecoration(
         color: AppColors.textFildBGColor,
         shape: RoundedRectangleBorder(
           side:
-          const BorderSide(width: 1, color: AppColors.textFildBorderColor),
+              const BorderSide(width: 1, color: AppColors.textFildBorderColor),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: DropdownButton(
           dropdownColor: Colors.white,
           iconEnabledColor: AppColors.textFildHintColor,
-          hint: Row(
-            children: [
-              Text(
-                '${widget.data}',
-                style: GoogleFonts.nunito(
-                    color: AppColors.textFildHintColor,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
+          hint: Text(
+            '${widget.data}',
+            style: GoogleFonts.nunito(
+              color: AppColors.textFildHintColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           underline: Container(),
           value: widget.value,
           borderRadius: BorderRadius.circular(10),
           iconSize: 35,
           isExpanded: true,
+          padding: EdgeInsets.zero,
+          menuMaxHeight: 400,
           onChanged: widget.onChanged,
           items: widget.items?.map((drop) {
             return DropdownMenuItem<String>(
               value: drop['id'],
-              child: Row(
-                children: [
-                  Text(
-                    "${drop['name']}",
-                    style: GoogleFonts.nunito(
-                        color: AppColors.blackTextColor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ],
+              child: Text(
+                "${drop['name']}",
+                style: GoogleFonts.nunito(
+                  color: AppColors.blackTextColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             );
           }).toList(),

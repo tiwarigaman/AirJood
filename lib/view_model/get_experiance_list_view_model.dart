@@ -60,7 +60,6 @@ class GetExperianceListViewModel with ChangeNotifier {
     setGetExperianceList(ApiResponse.loading());
     await myRepo.getExperianceList(token, page).then((value) {
       setGetExperianceList(ApiResponse.completed(value));
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setGetExperianceList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');
@@ -72,7 +71,6 @@ class GetExperianceListViewModel with ChangeNotifier {
     setGetExperianceList(ApiResponse.loading());
     await myRepo.getReelsUserExperianceList(userId, token, page).then((value) {
       setGetExperianceList(ApiResponse.completed(value));
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setGetExperianceList(ApiResponse.error(error.toString()));
       Utils.tostMessage('$error');

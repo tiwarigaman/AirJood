@@ -9,7 +9,7 @@ import '../../../../model/reels_model.dart';
 class ShowUploadReels extends StatefulWidget {
   final List<ReelsData> data;
   final int index;
-final String? screen;
+  final String? screen;
   const ShowUploadReels({super.key, required this.data, required this.index, this.screen});
 
   @override

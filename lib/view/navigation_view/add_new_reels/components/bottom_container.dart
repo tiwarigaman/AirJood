@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -207,6 +208,10 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
           topRight: Radius.circular(15),
         ),
       ),
+      isScrollControlled: true,
+      constraints: BoxConstraints.expand(
+        height: MediaQuery.of(context).size.height/1.2
+      ),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -234,6 +239,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                 ),
                 const MainTextFild(
                   hintText: 'Search Music...',
+                  maxLines: 1,
                   prefixIcon: Icon(
                     Icons.search_rounded,
                     color: AppColors.textFildHintColor,
@@ -242,159 +248,161 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                 const SizedBox(
                   height: 10,
                 ),
-                Consumer<MusicViewModel>(
-                  builder: (context, value, child) {
-                    switch (value.musicData.status) {
-                      case Status.LOADING:
-                        return const Text('');
-                      case Status.ERROR:
-                        return Center(
-                            child: Text(value.musicData.message.toString()));
-                      case Status.COMPLETED:
-                        return ListView.builder(
-                          itemCount: value.musicData.data?.data?.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                widget.onValue!(value
-                                    .musicData.data?.data?[index].songPathUrl);
-                                widget.onId!(
-                                    value.musicData.data?.data?[index].id);
-                                widget.artistName!(value
-                                    .musicData.data?.data?[index].artistName);
-                                Navigator.pop(context);
-                              },
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  child: value.musicData.data?.data?[index]
-                                                  .thumbnailPathUrl ==
-                                              null ||
-                                          value.musicData.data?.data?[index]
-                                                  .thumbnailPathUrl ==
-                                              ''
-                                      ? Image.asset(
-                                          'assets/images/music_image.png',
-                                          height: 40,
-                                          width: 40,
-                                        )
-                                      : Image.network(
-                                          '${value.musicData.data?.data?[index].thumbnailPathUrl}',
-                                          height: 40,
-                                          width: 40,
-                                          fit: BoxFit.fill,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.error,
-                                                  color: AppColors.mainColor,
-                                                  size: 20,
+                Expanded(
+                  child: Consumer<MusicViewModel>(
+                    builder: (context, value, child) {
+                      switch (value.musicData.status) {
+                        case Status.LOADING:
+                          return const Text('');
+                        case Status.ERROR:
+                          return Center(
+                              child: Text(value.musicData.message.toString()));
+                        case Status.COMPLETED:
+                          return ListView.builder(
+                            itemCount: value.musicData.data?.data?.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  widget.onValue!(value
+                                      .musicData.data?.data?[index].songPathUrl);
+                                  widget.onId!(
+                                      value.musicData.data?.data?[index].id);
+                                  widget.artistName!(value
+                                      .musicData.data?.data?[index].artistName);
+                                  Navigator.pop(context);
+                                },
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    child: value.musicData.data?.data?[index]
+                                                    .thumbnailPathUrl ==
+                                                null ||
+                                            value.musicData.data?.data?[index]
+                                                    .thumbnailPathUrl ==
+                                                ''
+                                        ? Image.asset(
+                                            'assets/images/music_image.png',
+                                            height: 40,
+                                            width: 40,
+                                          )
+                                        : Image.network(
+                                            '${value.musicData.data?.data?[index].thumbnailPathUrl}',
+                                            height: 40,
+                                            width: 40,
+                                            fit: BoxFit.fill,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.error,
+                                                    color: AppColors.mainColor,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                  ),
+                                  title: CustomText(
+                                    data:
+                                        '${value.musicData.data?.data?[index].title}',
+                                    fSize: 16,
+                                    fweight: FontWeight.w600,
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.circle,
+                                        size: 5,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      CustomText(
+                                        data:
+                                            '${value.musicData.data?.data?[index].artistName}',
+                                        fSize: 12,
+                                        fweight: FontWeight.w400,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Icon(
+                                        Icons.circle,
+                                        size: 5,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const CustomText(
+                                        data: '4:18',
+                                        fSize: 12,
+                                        fweight: FontWeight.w400,
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: InkWell(
+                                    onTap: () async {
+                                      if (value.musicData.data!.data![index]
+                                          .isPlaying!) {
+                                        value.musicData.data?.data?[index]
+                                            .isPlaying = !(value.musicData.data
+                                                ?.data?[index].isPlaying ??
+                                            false);
+                                        await audioPlayer.pause();
+                                      } else {
+                                        value.musicData.data?.data
+                                            ?.forEach((element) {
+                                          element.isPlaying = false;
+                                        });
+                                        await audioPlayer.play(UrlSource(value
+                                            .musicData
+                                            .data!
+                                            .data![index]
+                                            .songPathUrl!));
+                                        value.musicData.data?.data?[index]
+                                            .isPlaying = !(value.musicData.data
+                                                ?.data?[index].isPlaying ??
+                                            false);
+                                      }
+                                      setState(() {});
+                                    },
+                                    child: value.musicData.data?.data?[index]
+                                                .isPlaying ==
+                                            true
+                                        ? const Icon(
+                                            CupertinoIcons.stop_circle,
+                                            size: 35,
+                                            color: AppColors.mainColor,
+                                            weight: 0.1,
+                                          )
+                                        : const Icon(
+                                            CupertinoIcons.play_circle,
+                                            size: 35,
+                                            color: AppColors.mainColor,
+                                            weight: 0.1,
+                                          ),
+                                  ),
                                 ),
-                                title: CustomText(
-                                  data:
-                                      '${value.musicData.data?.data?[index].title}',
-                                  fSize: 16,
-                                  fweight: FontWeight.w600,
-                                ),
-                                subtitle: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 5,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    CustomText(
-                                      data:
-                                          '${value.musicData.data?.data?[index].artistName}',
-                                      fSize: 12,
-                                      fweight: FontWeight.w400,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 5,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    const CustomText(
-                                      data: '4:18',
-                                      fSize: 12,
-                                      fweight: FontWeight.w400,
-                                    ),
-                                  ],
-                                ),
-                                trailing: InkWell(
-                                  onTap: () async {
-                                    if (value.musicData.data!.data![index]
-                                        .isPlaying!) {
-                                      value.musicData.data?.data?[index]
-                                          .isPlaying = !(value.musicData.data
-                                              ?.data?[index].isPlaying ??
-                                          false);
-                                      await audioPlayer.pause();
-                                    } else {
-                                      value.musicData.data?.data
-                                          ?.forEach((element) {
-                                        element.isPlaying = false;
-                                      });
-                                      await audioPlayer.play(UrlSource(value
-                                          .musicData
-                                          .data!
-                                          .data![index]
-                                          .songPathUrl!));
-                                      value.musicData.data?.data?[index]
-                                          .isPlaying = !(value.musicData.data
-                                              ?.data?[index].isPlaying ??
-                                          false);
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: value.musicData.data?.data?[index]
-                                              .isPlaying ==
-                                          true
-                                      ? const Icon(
-                                          CupertinoIcons.stop_circle,
-                                          size: 35,
-                                          color: AppColors.mainColor,
-                                          weight: 0.1,
-                                        )
-                                      : const Icon(
-                                          CupertinoIcons.play_circle,
-                                          size: 35,
-                                          color: AppColors.mainColor,
-                                          weight: 0.1,
-                                        ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      default:
-                    }
-                    return Container();
-                  },
+                              );
+                            },
+                          );
+                        default:
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

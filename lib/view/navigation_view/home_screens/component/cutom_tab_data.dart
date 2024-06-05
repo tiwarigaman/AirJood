@@ -11,8 +11,8 @@ import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
+import '../../planning_view/Add_planning_screen.dart';
 import '../screen_widget/dashboard_widget.dart';
-import '../screen_widget/experience_list_widget.dart';
 import '../screen_widget/plan_widgets.dart';
 
 class CustomTabData extends StatefulWidget {
@@ -32,10 +32,9 @@ class _CustomTabDataState extends State<CustomTabData>
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     //initializePlayer();
+    super.initState();
   }
 
   @override
@@ -127,21 +126,15 @@ class _CustomTabDataState extends State<CustomTabData>
                     if (widget.screen == 'UserDetails')
                       Container()
                     else
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
-                          // showModalBottomSheet(
-                          //   backgroundColor: Colors.transparent,
-                          //   context: context,
-                          //   barrierColor: const Color.fromRGBO(13, 6, 41, 0.5),
-                          //   constraints: BoxConstraints.expand(
-                          //       height:
-                          //       MediaQuery.of(context).size.height * 0.90,
-                          //       width: MediaQuery.of(context).size.width),
-                          //   isScrollControlled: true,
-                          //   isDismissible: false,
-                          //   enableDrag: false,
-                          //   builder: (_) => const AddExperienceScreen(),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const AddPlanningScreen(),
+                            ),
+                          );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

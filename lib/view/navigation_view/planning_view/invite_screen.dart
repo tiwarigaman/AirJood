@@ -5,7 +5,8 @@ import '../../../res/components/CustomText.dart';
 import '../../../res/components/color.dart';
 
 class InviteScreen extends StatefulWidget {
-  const InviteScreen({super.key});
+  final int planId;
+  const InviteScreen({super.key, required this.planId});
 
   @override
   State<InviteScreen> createState() => _InviteScreenState();
@@ -40,8 +41,8 @@ class _InviteScreenState extends State<InviteScreen> {
           const Spacer(),
         ],
       ),
-      body: const SingleChildScrollView(
-        child: CustomTabBar(),
+      body: CustomTabBar(
+        planId: widget.planId,
       ),
     );
   }

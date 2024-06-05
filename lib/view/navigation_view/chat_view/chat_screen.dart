@@ -1,7 +1,5 @@
-import 'dart:ui';
 
 import 'package:airjood/view/navigation_view/chat_view/chat_details_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../res/components/CustomText.dart';

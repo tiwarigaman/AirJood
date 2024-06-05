@@ -7,18 +7,16 @@ import '../res/app_url.dart';
 
 class FollowerRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future<FollowersModel> getFollower(String token, int userId,
-      {String? search}) async {
+  Future<FollowersModel> getFollower(String token, int userId,int page,
+      {String? search,int? planId}) async {
     try {
       if (search == null) {
-        print('${AppUrl.getFollower}/$userId');
         dynamic response = await apiAServices.getSearchGetApiResponse(
-            '${AppUrl.getFollower}/$userId', token);
+            '${AppUrl.getFollower}/$userId?invitation_plan_id=$planId&page=$page', token);
         return response = FollowersModel.fromJson(response);
       } else {
-        print('${AppUrl.getFollower}/?search=$search');
         dynamic response = await apiAServices.getSearchGetApiResponse(
-            '${AppUrl.getFollower}/?search=$search', token);
+            '${AppUrl.getFollower}/?search=$search&invitation_plan_id=$planId', token);
         return response = FollowersModel.fromJson(response);
       }
     } catch (e) {

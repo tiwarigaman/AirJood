@@ -1,17 +1,48 @@
+import 'package:airjood/model/planning_details_model.dart';
+import 'package:airjood/view/navigation_view/planning_view/edit_planning_screen.dart';
 import 'package:airjood/view/navigation_view/planning_view/invite_screen.dart';
 import 'package:avatar_stack/avatar_stack.dart';
 import 'package:avatar_stack/positions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
-class PlanContainer extends StatelessWidget {
+class PlanContainer extends StatefulWidget {
+  final int planId;
+  final String? imageUrl;
   final String screen;
-  const PlanContainer({super.key, required this.screen});
+  final String? title;
+  final String? location;
+  final String? date;
+  final String? startDate;
+  final String? endDate;
+  final String? duration;
+  final String? country;
+  final String? state;
+  final List<Invitation>? invitation;
+  const PlanContainer(
+      {super.key,
+      required this.screen,
+      this.title,
+      this.location,
+      this.date,
+      required this.planId,
+      this.startDate,
+      this.endDate,
+      this.duration,
+      this.country,
+      this.state,
+      this.imageUrl,
+      this.invitation});
 
+  @override
+  State<PlanContainer> createState() => _PlanContainerState();
+}
+
+class _PlanContainerState extends State<PlanContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,28 +61,47 @@ class PlanContainer extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                const CustomText(
-                  data: 'Plan Title Name Here',
+                CustomText(
+                  data: widget.title ?? 'Plan Title Name Here',
                   fweight: FontWeight.w700,
                   fSize: 16,
                   fontColor: AppColors.blackTextColor,
                 ),
                 const Spacer(),
-                SvgPicture.asset('assets/svg/editIcon.svg'),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditPlanningScreen(
+                          planId: widget.planId,
+                          imageUrl: widget.imageUrl,
+                          title: widget.title,
+                          endDate: widget.endDate,
+                          startDate: widget.startDate,
+                          country: widget.country,
+                          state: widget.state,
+                          duration: widget.duration,
+                        ),
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset('assets/svg/editIcon.svg'),
+                ),
                 const SizedBox(width: 15),
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.location_on_outlined,
                   color: AppColors.textFildHintColor,
                   size: 18,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 CustomText(
-                  data: 'Mumbai, Maharastra',
+                  data: widget.location ?? 'Mumbai, Maharastra',
                   fweight: FontWeight.w400,
                   fSize: 15,
                   fontColor: AppColors.greyTextColor,
@@ -59,16 +109,16 @@ class PlanContainer extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.calendar_month_sharp,
                   color: AppColors.textFildHintColor,
                   size: 16,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomText(
-                  data: '25th Jan 2023 - 30th Jan 2023 (5 Days)',
+                  data: widget.date ?? '25th Jan 2023 - 30th Jan 2023 (5 Days)',
                   fweight: FontWeight.w400,
                   fSize: 14,
                   fontColor: AppColors.greyTextColor,
@@ -76,66 +126,87 @@ class PlanContainer extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AvatarStack(
-                  height: 25,
-                  width: 90,
-                  settings: RestrictedAmountPositions(
-                    maxAmountItems: 6,
-                    maxCoverage: 0.7,
-                    minCoverage: 0.1,
-                  ),
-                  avatars: [
-                    for (var n = 0; n < 6; n++)
-                      NetworkImage('https://i.pravatar.cc/150?img=$n'),
-                  ],
-                ),
-                if (screen != 'planScreen')
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const InviteScreen(),
+            widget.invitation!.isEmpty && widget.screen == 'planScreen'
+                ? const SizedBox()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AvatarStack(
+                        height: 25,
+                        width: 80,
+                        settings: RestrictedAmountPositions(
+                          maxAmountItems: 6,
+                          maxCoverage: 0.7,
+                          minCoverage: 0.1,
                         ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: AppColors.mainColor,
-                        borderRadius: BorderRadius.circular(8),
+                        avatars: [
+                          for (var n = 0; n < widget.invitation!.length; n++)
+                            CachedNetworkImageProvider(
+                              '${widget.invitation?[n].user?.profileImageUrl}',
+                              errorListener: (p0) {
+                                const Icon(CupertinoIcons.person);
+                              },
+                            ),
+                        ],
                       ),
-                      child: const CustomText(
-                        data: 'Invite',
-                        fweight: FontWeight.w600,
-                        fSize: 15,
-                        fontColor: AppColors.whiteTextColor,
-                      ),
-                    ),
-                  )
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Row(
-              children: [
-                CustomText(
-                  data: '@Saimon J, @Leena S, @Magdalina K,',
-                  fweight: FontWeight.w400,
-                  fSize: 13,
-                  fontColor: AppColors.greyTextColor,
-                ),
-                CustomText(
-                  data: '+ 6more ',
-                  fweight: FontWeight.w800,
-                  fSize: 14,
-                  fontColor: AppColors.greyTextColor,
-                ),
-              ],
-            ),
+                      if (widget.screen != 'planScreen')
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InviteScreen(
+                                  planId: widget.planId,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            decoration: BoxDecoration(
+                              color: AppColors.mainColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const CustomText(
+                              data: 'Invite',
+                              fweight: FontWeight.w600,
+                              fSize: 15,
+                              fontColor: AppColors.whiteTextColor,
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+            widget.invitation!.isEmpty
+                ? const SizedBox()
+                : const SizedBox(height: 10),
+            widget.invitation!.isEmpty
+                ? const SizedBox()
+                : Row(
+                    children: [
+                      for (var n = 0;
+                          n <
+                              (widget.invitation!.length > 3
+                                  ? 3
+                                  : widget.invitation!.length);
+                          n++)
+                        CustomText(
+                          data: '@${widget.invitation?[n].user?.name},',
+                          fweight: FontWeight.w400,
+                          fSize: 13,
+                          fontColor: AppColors.greyTextColor,
+                        ),
+                      const SizedBox(width: 5),
+                      if (widget.invitation!.length >= 3)
+                        const CustomText(
+                          data: '+ more ',
+                          fweight: FontWeight.w800,
+                          fSize: 14,
+                          fontColor: AppColors.greyTextColor,
+                        ),
+                    ],
+                  ),
             const SizedBox(height: 10),
           ],
         ),

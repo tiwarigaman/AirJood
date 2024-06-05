@@ -29,6 +29,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
   @override
   void initState() {
     UserViewModel().getToken().then((value) {
+      Provider.of<FollowersViewModel>(context, listen: false).setPage(1);
+      Provider.of<FollowersViewModel>(context, listen: false).clearData();
       Provider.of<FollowersViewModel>(context, listen: false)
           .followerGetApi(value!, widget.userId!);
     });
@@ -93,6 +95,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
                 onChanged: (values) {
                   if (values.length == 3 || values.isEmpty) {
                     UserViewModel().getToken().then((value) {
+                      Provider.of<FollowersViewModel>(context, listen: false).setPage(1);
+                      Provider.of<FollowersViewModel>(context, listen: false).clearData();
                       Provider.of<FollowersViewModel>(context, listen: false)
                           .followerGetApi(value!, widget.userId!,
                               search: values);
@@ -101,6 +105,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
                 },
                 onFieldSubmitted: (values) {
                   UserViewModel().getToken().then((value) {
+                    Provider.of<FollowersViewModel>(context, listen: false).setPage(1);
+                    Provider.of<FollowersViewModel>(context, listen: false).clearData();
                     Provider.of<FollowersViewModel>(context, listen: false)
                         .followerGetApi(value!, widget.userId!, search: values);
                   });
@@ -129,7 +135,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var data = value.followerData.data?.data?[index];
-
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: GestureDetector(

@@ -1,14 +1,20 @@
+import 'dart:io';
 import 'package:airjood/res/components/mainbutton.dart';
 import 'package:airjood/res/components/maintextfild.dart';
+import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/planning_view/screen_widgets/Cuntry_State.dart';
 import 'package:airjood/view/navigation_view/planning_view/screen_widgets/slider.dart';
 import 'package:airjood/view/navigation_view/planning_view/screen_widgets/upload_image.dart';
-import 'package:flutter/foundation.dart';
+import 'package:airjood/view_model/add_planning_view_model.dart';
+import 'package:airjood/view_model/state_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:provider/provider.dart';
+import '../../../data/response/status.dart';
 import '../../../res/components/CustomText.dart';
 import '../../../res/components/color.dart';
+import '../../../view_model/country_view_model.dart';
+import '../../../view_model/user_view_model.dart';
 import '../home_screens/screen_widget/select_start_date.dart';
 
 class AddPlanningScreen extends StatefulWidget {
@@ -19,6 +25,18 @@ class AddPlanningScreen extends StatefulWidget {
 }
 
 class _AddPlanningScreenState extends State<AddPlanningScreen> {
+  @override
+  void initState() {
+    super.initState();
+    UserViewModel().getToken().then((value) {
+      token = value;
+      Provider.of<CountryViewModel>(context, listen: false)
+          .countryGetApi(value!);
+      setState(() {});
+    });
+  }
+
+  String? token;
   DateTime? selectedDate;
   DateTime? selectedDate2;
 
@@ -56,8 +74,12 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
   String? formattedDate2;
   String? selectedItem;
   String? selectedItem2;
+  File? image;
+  String? duration;
+  final TextEditingController titleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final addPlanning = Provider.of<AddPlanningViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -100,53 +122,112 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               UploadImage(
+                name: 'Upload Thumbnail Image for your Trip',
                 onValue: ((val) {
-                  if (kDebugMode) {
-                    print(val);
-                  }
+                  image = val;
+                  setState(() {});
                 }),
               ),
               const SizedBox(height: 20),
-              const MainTextFild(
+              MainTextFild(
+                controller: titleController,
                 hintText: 'Your Plan Title',
+                maxLines: 1,
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Expanded(
-                    child: CountryCityDrop(
-                      data: 'Select Country',
-                      onChanged: (value) {
-                        setState(() {
-                          selectedItem = value as String?;
-                        });
-                      },
-                      value: selectedItem,
-                      items: const [
-                        {'id': '0', 'name': 'Country 1', },
-                        {'id': '1', 'name': 'Country 2', },
-                        {'id': '2', 'name': 'Country 3', },
-                      ],
-                    ),
+                  Consumer<CountryViewModel>(
+                    builder: (context, value, child) {
+                      switch (value.countryData.status) {
+                        case Status.LOADING:
+                          return Expanded(
+                            child: CountryCityDrop(
+                              data: 'Select Country',
+                              onChanged: (value) {},
+                              value: selectedItem,
+                              items: const [],
+                            ),
+                          );
+                        case Status.ERROR:
+                          return Container();
+                        case Status.COMPLETED:
+                          List<Map<String, dynamic>>? countryItems =
+                              value.countryData.data?.data?.map((country) {
+                            return {
+                              'id': country.id.toString(),
+                              'name': country.name,
+                            };
+                          }).toList();
+                          return Expanded(
+                            child: CountryCityDrop(
+                              data: 'Select Country',
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedItem = value;
+                                  Provider.of<StateViewModel>(context,
+                                          listen: false)
+                                      .stateGetApi(token!, value);
+                                });
+                              },
+                              value: selectedItem,
+                              items: countryItems,
+                            ),
+                          );
+                        default:
+                      }
+                      return Container();
+                    },
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Expanded(
-                    child: CountryCityDrop(
-                      data: 'Select State',
-                      onChanged: (value) {
-                        setState(() {
-                          selectedItem2 = value as String?;
-                        });
-                      },
-                      value: selectedItem2,
-                      items: const [
-                        {'id': '0', 'name': 'State 1', },
-                        {'id': '1', 'name': 'State 2', },
-                        {'id': '2', 'name': 'State 3', },
-                      ],
-                    ),
+                  Consumer<StateViewModel>(
+                    builder: (context, value, child) {
+                      switch (value.stateData.status) {
+                        case Status.LOADING:
+                          return Expanded(
+                            child: CountryCityDrop(
+                              data: 'Select State',
+                              onChanged: (value) {},
+                              value: selectedItem2,
+                              items: const [],
+                            ),
+                          );
+                        case Status.ERROR:
+                          return Container();
+                        case Status.COMPLETED:
+                          List<Map<String, dynamic>>? countryItems =
+                              value.stateData.data?.data?.map((country) {
+                            return {
+                              'id': country.id.toString(),
+                              'name': country.name ?? '',
+                            };
+                          }).toList();
+                          countryItems = countryItems
+                              ?.toSet()
+                              .toList();
+                          if (countryItems != null &&
+                              !countryItems
+                                  .any((item) => item['id'] == selectedItem2)) {
+                            selectedItem2 = null; // Reset if invalid
+                          }
+                          return Expanded(
+                            child: CountryCityDrop(
+                              data: 'Select State',
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedItem2 = value;
+                                });
+                              },
+                              value: selectedItem2,
+                              items: countryItems,
+                            ),
+                          );
+                        default:
+                      }
+                      return Container();
+                    },
                   ),
                 ],
               ),
@@ -184,9 +265,44 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
                 fontColor: AppColors.blackColor,
               ),
               const SizedBox(height: 10),
-              const SliderWidget(),
+              SliderWidget(
+                duration: 1,
+                onValue: ((val) {
+                  duration = val.toString();
+                  setState(() {});
+                }),
+              ),
               const SizedBox(height: 40),
-              const MainButton(data: 'Create Plan'),
+              GestureDetector(
+                onTap: () {
+                  if (image == null) {
+                    Utils.tostMessage('Please Upload Thumbnail !');
+                  } else if (titleController.text.isEmpty) {
+                    Utils.tostMessage('Please Enter Title !');
+                  } else if (selectedItem == null) {
+                    Utils.tostMessage('Please Select Country !');
+                  } else if (selectedDate == null && selectedDate2 == null && duration == null) {
+                    Utils.tostMessage('Please Select Start Date & End Date or Duration !');
+                  } else if (selectedDate != null && selectedDate2 != null && duration != null) {
+                    Utils.tostMessage('Please Select Either Dates or Duration, not both!');
+                  } else {
+                    Map<String, String> data = {
+                      'title': titleController.text.toString(),
+                      'country': selectedItem.toString(),
+                      if (selectedItem2 != null) 'state': selectedItem2.toString(),
+                      if (selectedDate != null) 'start_date': '${selectedDate?.year}-${selectedDate?.month}-${selectedDate?.day}',
+                      if (selectedDate2 != null) 'end_date': '${selectedDate2?.year}-${selectedDate2?.month}-${selectedDate2?.day}',
+                      if (duration != null) 'plan_duration': duration.toString() ,
+                    };
+                    addPlanning
+                        .addPlanningApi(token!, data, image!, context);
+                  }
+                },
+                child: MainButton(
+                  loading: addPlanning.addPlanningLoadings,
+                  data: 'Create Plan',
+                ),
+              ),
             ],
           ),
         ),

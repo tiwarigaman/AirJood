@@ -1,11 +1,7 @@
 import 'dart:io';
 
 import 'package:airjood/utils/utils.dart';
-import 'package:airjood/view/navigation_view/home_screens/component/upload_conditions_signature.dart';
 import 'package:airjood/view/navigation_view/home_screens/component/upload_id.dart';
-import 'package:airjood/view/navigation_view/home_screens/component/upload_passport.dart';
-import 'package:airjood/view/navigation_view/home_screens/component/upload_tourist_certificate.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -85,10 +81,8 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
                 height: 20,
               ),
               UploadId(
+                name: 'Upload Any ID',
                 onValue: ((val) {
-                  if (kDebugMode) {
-                    print('A1 => $val');
-                  }
                   setState(() {
                     image = val;
                   });
@@ -97,11 +91,9 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
               const SizedBox(
                 height: 20,
               ),
-              UploadPassport(
+              UploadId(
+                name: 'Upload Passport',
                 onValue: ((val) {
-                  if (kDebugMode) {
-                    print('A2 => $val');
-                  }
                   setState(() {
                     image1 = val;
                   });
@@ -110,11 +102,9 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
               const SizedBox(
                 height: 20,
               ),
-              UploadTouristCertificate(
+              UploadId(
+                name: 'Upload Tourist Certificate',
                 onValue: ((val) {
-                  if (kDebugMode) {
-                    print('A3 => $val');
-                  }
                   setState(() {
                     image2 = val;
                   });
@@ -184,11 +174,9 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
               const SizedBox(
                 height: 20,
               ),
-              UploadConditionsSignature(
+              UploadId(
+                name: 'Upload Terms & Conditions with Signature',
                 onValue: ((val) {
-                  if (kDebugMode) {
-                    print('A4 => $val');
-                  }
                   setState(() {
                     image3 = val;
                   });

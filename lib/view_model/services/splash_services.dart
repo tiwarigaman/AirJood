@@ -9,7 +9,6 @@ class SplashServices {
   void checkAuthentication(context) async {
     getUserToken().then(
       (value) async {
-        print(value);
         if (value == null) {
           await Future.delayed(const Duration(seconds: 2));
           Navigator.pushNamed(context, RoutesName.onboarding);

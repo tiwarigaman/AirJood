@@ -10,11 +10,13 @@ class AppColors {
   static const Color blueColor = Colors.blue;
   static const Color blueShade = Color(0xFFF0F7FA);
   static const Color blueShadeColor = Color(0xFF14C6FF);
+  static const Color navigationBarIconColor = Color(0xFF14C7FF);
+  static const Color navigationBarUnselectedIconColor = Color(0xFF959595);
   static const Color blueBGShadeColor = Color(0xFFD0F4FF);
   static const Color blueBorderShadeColor = Color(0xFF2BCCFF);
   static const Color mainColor = Color(0xFF0D247D);
   static const Color transperent = Colors.transparent;
-  static const Color blueGray = Color(0xff90a4aeff);
+  static const Color blueGray = Color(0xFF90a4aeff);
   static const Color splashTextColor = Color(0xFF262641);
   static const Color tileTextColor = Color(0xFF5A5A75);
   static const Color greyTextColor = Color(0xFF5A5A74);

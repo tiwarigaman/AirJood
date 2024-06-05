@@ -3,12 +3,10 @@ import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../data/response/status.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/custom_shimmer.dart';
-import '../../../../view_model/follow_view_model.dart';
 import '../../../../view_model/following_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 import 'experience_screens/reels_user_detail_screen.dart';
@@ -27,6 +25,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
   @override
   void initState() {
     UserViewModel().getToken().then((value) {
+      Provider.of<FollowingViewModel>(context, listen: false).setPage(1);
+      Provider.of<FollowingViewModel>(context, listen: false).clearData();
       Provider.of<FollowingViewModel>(context, listen: false)
           .followingGetApi(value!, widget.userId!);
     });
@@ -88,6 +88,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 onChanged: (values) {
                   if (values.length == 3 || values.isEmpty) {
                     UserViewModel().getToken().then((value) {
+                      Provider.of<FollowingViewModel>(context, listen: false).setPage(1);
+                      Provider.of<FollowingViewModel>(context, listen: false).clearData();
                       Provider.of<FollowingViewModel>(context, listen: false)
                           .followingGetApi(value!, widget.userId!,
                               search: values);
@@ -96,6 +98,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 },
                 onFieldSubmitted: (values) {
                   UserViewModel().getToken().then((value) {
+                    Provider.of<FollowingViewModel>(context, listen: false).setPage(1);
+                    Provider.of<FollowingViewModel>(context, listen: false).clearData();
                     Provider.of<FollowingViewModel>(context, listen: false)
                         .followingGetApi(value!, widget.userId!,
                             search: values);

@@ -153,7 +153,6 @@ class NetworkApiService extends BaseApiAServices {
         'Accept': 'application/json',
         'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
       };
-
       var request = http.MultipartRequest("POST", Uri.parse(url));
       if (video != null) {
         var multipartFile =
@@ -204,7 +203,35 @@ class NetworkApiService extends BaseApiAServices {
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
+    return responseJson;
+  }
 
+  @override
+  Future planningPostApiResponse(
+      String url, token, Map<String, String> data, dynamic image) async {
+    dynamic responseJson;
+    try {
+      var headers = {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
+      };
+
+      var request = http.MultipartRequest("POST", Uri.parse(url));
+      if (image != null) {
+        var multipartFile = await http.MultipartFile.fromPath(
+            'plan_image', image.path);
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll(headers);
+      request.fields.addAll(data);
+      var response = await request.send();
+      responseJson = await http.Response.fromStream(response).then((value) {
+        return returnResponse(value);
+      });
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
     return responseJson;
   }
 

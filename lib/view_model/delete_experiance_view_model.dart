@@ -1,9 +1,7 @@
 import 'package:airjood/repository/delete_ecperiance_repository.dart';
 import 'package:airjood/view_model/user_view_model.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../utils/utils.dart';
 import 'get_experiance_list_view_model.dart';
 
