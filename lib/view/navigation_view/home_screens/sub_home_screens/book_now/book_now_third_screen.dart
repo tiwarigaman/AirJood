@@ -1,7 +1,5 @@
 // import 'package:airjood/res/components/maintextfild.dart';
-import 'package:airjood/view/navigation_view/home_screens/screen_widget/credit_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import '../../../../../res/components/CustomText.dart';
 import '../../../../../res/components/color.dart';
 import '../../../../../res/components/mainbutton.dart';
@@ -80,20 +78,20 @@ class _BookNowThirdScreenState extends State<BookNowThirdScreen> {
               const SizedBox(
                 height: 10,
               ),
-              MyCreditCardPage(
-                cardNumber: cardNumber ?? '',
-                expiryDate: expiryDate ?? '',
-                cardHolderName: cardHolderName ?? '',
-                cvvCode: cvvCode ?? '',
-                onCreditCardModelChange: (CreditCardModel creditCardModel) {
-                  setState(() {
-                    cardNumber = creditCardModel.cardNumber;
-                    expiryDate = creditCardModel.expiryDate;
-                    cardHolderName = creditCardModel.cardHolderName;
-                    cvvCode = creditCardModel.cvvCode;
-                  });
-                },
-              ),
+              // MyCreditCardPage(
+              //   cardNumber: cardNumber ?? '',
+              //   expiryDate: expiryDate ?? '',
+              //   cardHolderName: cardHolderName ?? '',
+              //   cvvCode: cvvCode ?? '',
+              //   onCreditCardModelChange: (CreditCardModel creditCardModel) {
+              //     setState(() {
+              //       cardNumber = creditCardModel.cardNumber;
+              //       expiryDate = creditCardModel.expiryDate;
+              //       cardHolderName = creditCardModel.cardHolderName;
+              //       cvvCode = creditCardModel.cvvCode;
+              //     });
+              //   },
+              // ),
             ],
           ),
         ),

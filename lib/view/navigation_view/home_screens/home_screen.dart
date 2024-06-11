@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<void> fetchData({int? index}) async {
     UserViewModel().getToken().then((value) async {
+      print(value);
       final homeReelsProvider =
           Provider.of<HomeReelsViewModel>(context, listen: false);
       homeReelsProvider.setPage(1);

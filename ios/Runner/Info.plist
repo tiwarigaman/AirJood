@@ -36,6 +36,8 @@
 	<string>This app need microphone for record video and upload video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app need photo library for upload image and video</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>We need access to your documents folder to save recordings.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

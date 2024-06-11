@@ -1,78 +1,38 @@
 // To parse this JSON data, do
 //
-//     final inviteUserListModel = inviteUserListModelFromJson(jsonString);
+//     final conversationsModel = conversationsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-InviteUserListModel inviteUserListModelFromJson(String str) => InviteUserListModel.fromJson(json.decode(str));
+ConversationsModel conversationsModelFromJson(String str) => ConversationsModel.fromJson(json.decode(str));
 
-String inviteUserListModelToJson(InviteUserListModel data) => json.encode(data.toJson());
+String conversationsModelToJson(ConversationsModel data) => json.encode(data.toJson());
 
-class InviteUserListModel {
-  int? currentPage;
-  List<Datum>? data;
-  String? firstPageUrl;
-  int? from;
-  int? lastPage;
-  String? lastPageUrl;
-  List<Link>? links;
-  String? nextPageUrl;
-  String? path;
-  int? perPage;
-  dynamic prevPageUrl;
-  int? to;
-  int? total;
+class ConversationsModel {
+  bool? success;
+  List<ConversationsData>? data;
+  String? message;
 
-  InviteUserListModel({
-    this.currentPage,
+  ConversationsModel({
+    this.success,
     this.data,
-    this.firstPageUrl,
-    this.from,
-    this.lastPage,
-    this.lastPageUrl,
-    this.links,
-    this.nextPageUrl,
-    this.path,
-    this.perPage,
-    this.prevPageUrl,
-    this.to,
-    this.total,
+    this.message,
   });
 
-  factory InviteUserListModel.fromJson(Map<String, dynamic> json) => InviteUserListModel(
-    currentPage: json["current_page"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-    firstPageUrl: json["first_page_url"],
-    from: json["from"],
-    lastPage: json["last_page"],
-    lastPageUrl: json["last_page_url"],
-    links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
-    nextPageUrl: json["next_page_url"],
-    path: json["path"],
-    perPage: json["per_page"],
-    prevPageUrl: json["prev_page_url"],
-    to: json["to"],
-    total: json["total"],
+  factory ConversationsModel.fromJson(Map<String, dynamic> json) => ConversationsModel(
+    success: json["success"],
+    data: json["data"] == null ? [] : List<ConversationsData>.from(json["data"]!.map((x) => ConversationsData.fromJson(x))),
+    message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
-    "current_page": currentPage,
+    "success": success,
     "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-    "first_page_url": firstPageUrl,
-    "from": from,
-    "last_page": lastPage,
-    "last_page_url": lastPageUrl,
-    "links": links == null ? [] : List<dynamic>.from(links!.map((x) => x.toJson())),
-    "next_page_url": nextPageUrl,
-    "path": path,
-    "per_page": perPage,
-    "prev_page_url": prevPageUrl,
-    "to": to,
-    "total": total,
+    "message": message,
   };
 }
 
-class Datum {
+class ConversationsData {
   int? id;
   List<String>? languages;
   String? about;
@@ -86,13 +46,15 @@ class Datum {
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic deletedAt;
+  int? unreadCount;
+  LastMessage? lastMessage;
   String? profileImageUrl;
   bool? isUpgrade;
   bool? isFollowing;
   bool? isFollower;
-  String? planInvitationStatus;
+  dynamic planInvitationStatus;
 
-  Datum({
+  ConversationsData({
     this.id,
     this.languages,
     this.about,
@@ -106,6 +68,8 @@ class Datum {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.unreadCount,
+    this.lastMessage,
     this.profileImageUrl,
     this.isUpgrade,
     this.isFollowing,
@@ -113,7 +77,7 @@ class Datum {
     this.planInvitationStatus,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory ConversationsData.fromJson(Map<String, dynamic> json) => ConversationsData(
     id: json["id"],
     languages: json["languages"] == null ? [] : List<String>.from(json["languages"]!.map((x) => x)),
     about: json["about"],
@@ -127,6 +91,8 @@ class Datum {
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
+    unreadCount: json["unread_count"],
+    lastMessage: json["last_message"] == null ? null : LastMessage.fromJson(json["last_message"]),
     profileImageUrl: json["profile_image_url"],
     isUpgrade: json["is_upgrade"],
     isFollowing: json["is_following"],
@@ -148,6 +114,8 @@ class Datum {
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt,
+    "unread_count": unreadCount,
+    "last_message": lastMessage?.toJson(),
     "profile_image_url": profileImageUrl,
     "is_upgrade": isUpgrade,
     "is_following": isFollowing,
@@ -156,26 +124,50 @@ class Datum {
   };
 }
 
-class Link {
-  String? url;
-  String? label;
-  bool? active;
+class LastMessage {
+  int? id;
+  DateTime? createdAt;
+  int? createdBy;
+  int? toId;
+  String? message;
+  String? type;
+  dynamic filePath;
+  dynamic readAt;
+  DateTime? updatedAt;
 
-  Link({
-    this.url,
-    this.label,
-    this.active,
+  LastMessage({
+    this.id,
+    this.createdAt,
+    this.createdBy,
+    this.toId,
+    this.message,
+    this.type,
+    this.filePath,
+    this.readAt,
+    this.updatedAt,
   });
 
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-    url: json["url"],
-    label: json["label"],
-    active: json["active"],
+  factory LastMessage.fromJson(Map<String, dynamic> json) => LastMessage(
+    id: json["id"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    createdBy: json["created_by"],
+    toId: json["to_id"],
+    message: json["message"],
+    type: json["type"],
+    filePath: json["file_path"],
+    readAt: json["read_at"],
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "url": url,
-    "label": label,
-    "active": active,
+    "id": id,
+    "created_at": createdAt?.toIso8601String(),
+    "created_by": createdBy,
+    "to_id": toId,
+    "message": message,
+    "type": type,
+    "file_path": filePath,
+    "read_at": readAt,
+    "updated_at": updatedAt?.toIso8601String(),
   };
 }

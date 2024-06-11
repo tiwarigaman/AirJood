@@ -36,11 +36,11 @@ abstract class BaseApiAServices {
     File image,
   );
   Future<dynamic> planningPostApiResponse(
-      String url,
-      String token,
-      Map<String, String> data,
-      File image,
-      );
+    String url,
+    String token,
+    Map<String, String> data,
+    File image,
+  );
 
   Future<dynamic> documentPostApiResponse(
     String url,
@@ -64,5 +64,12 @@ abstract class BaseApiAServices {
   Future<dynamic> followPostApiResponse(
     String url,
     String token,
+  );
+
+  Future<dynamic> postMediaApiResponse(
+    String url,
+    String token,
+    Map<String, String> data,
+    File file,
   );
 }

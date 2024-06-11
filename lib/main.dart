@@ -9,6 +9,7 @@ import 'package:airjood/view_model/add_reels_planning_view_model.dart';
 import 'package:airjood/view_model/add_reels_view_model.dart';
 import 'package:airjood/view_model/add_remove_like_view_model.dart';
 import 'package:airjood/view_model/auth_view_model.dart';
+import 'package:airjood/view_model/chat_view_model.dart';
 import 'package:airjood/view_model/comment_view_model.dart';
 import 'package:airjood/view_model/country_view_model.dart';
 import 'package:airjood/view_model/create_booking_view_model.dart';
@@ -49,7 +50,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -59,6 +62,7 @@ void main() async {
   await dotenv.load(fileName: "assets/.env");
   runApp(const MyApp());
 }
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
@@ -76,30 +80,32 @@ class _MyAppState extends State<MyApp> {
     notification();
     super.initState();
   }
-  void notification () async {
+
+  Future<void> notification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@drawable/union');
+        AndroidInitializationSettings('@drawable/union');
     DarwinInitializationSettings initializationSettingsDarwin =
-    DarwinInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification
-    );
+        DarwinInitializationSettings(
+            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse response) async {},
+      onDidReceiveNotificationResponse:
+          (NotificationResponse response) async {},
     );
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
+
   void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) async {
+      int id, String? title, String? body, String? payload) {
     showDialog(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(title??''),
-        content: Text(body??''),
+        title: Text(title ?? ''),
+        content: Text(body ?? ''),
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
@@ -112,6 +118,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -151,23 +158,29 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CountryViewModel()),
         ChangeNotifierProvider(create: (context) => StateViewModel()),
         ChangeNotifierProvider(create: (context) => PlanningDetailsViewModel()),
-        ChangeNotifierProvider(create: (context) => AddReelsPlanningViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => AddReelsPlanningViewModel()),
         ChangeNotifierProvider(create: (context) => InviteUserListViewModel()),
-        ChangeNotifierProvider(create: (context) => AcceptRejectInvitationViewModel()),
-        ChangeNotifierProvider(create: (context) => NotificationListViewModel()),
-        ChangeNotifierProvider(create: (context) => DeleteNotificationViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => AcceptRejectInvitationViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => NotificationListViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeleteNotificationViewModel()),
         ChangeNotifierProvider(create: (context) => AddInvitationViewModel()),
         ChangeNotifierProvider(create: (context) => FridgeViewModel()),
-        ChangeNotifierProvider(create: (context) => DeletePlanningReelsViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeletePlanningReelsViewModel()),
         ChangeNotifierProvider(create: (context) => LogoutViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              background: Colors.white,
-              seedColor: Colors.blue,
-              brightness: Brightness.light,
+            background: Colors.white,
+            seedColor: Colors.blue,
+            brightness: Brightness.light,
           ),
           useMaterial3: true,
         ),

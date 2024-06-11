@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../app_exception.dart';
 import 'BaseApiServices.dart';
@@ -219,8 +220,8 @@ class NetworkApiService extends BaseApiAServices {
 
       var request = http.MultipartRequest("POST", Uri.parse(url));
       if (image != null) {
-        var multipartFile = await http.MultipartFile.fromPath(
-            'plan_image', image.path);
+        var multipartFile =
+            await http.MultipartFile.fromPath('plan_image', image.path);
         request.files.add(multipartFile);
       }
       request.headers.addAll(headers);
@@ -361,6 +362,36 @@ class NetworkApiService extends BaseApiAServices {
       throw FetchDataException('No Internet Connection');
     }
 
+    return responseJson;
+  }
+
+  @override
+  Future postMediaApiResponse(
+      String url, String token, Map<String, String> data, File file) async {
+    dynamic responseJson;
+    try {
+      var headers = {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
+      };
+
+      var request = http.MultipartRequest("POST", Uri.parse(url));
+      var multipartFile = await http.MultipartFile.fromPath(
+        'file',
+        file.path,
+        // contentType: MediaType('audio', 'mpeg'),
+      );
+      request.files.add(multipartFile);
+      request.headers.addAll(headers);
+      request.fields.addAll(data);
+      var response = await request.send();
+      responseJson = await http.Response.fromStream(response).then((value) {
+        return returnResponse(value);
+      });
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
     return responseJson;
   }
 

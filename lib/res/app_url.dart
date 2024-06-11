@@ -43,4 +43,7 @@ class AppUrl {
   static var deletePlanningReels = '$baseUrl/api/v1/plans/remove-from-plan';
   static var getFridge = '$baseUrl/api/v1/booking/fridge-magnet';
   static var logout = '$baseUrl/api/v1/logout';
+  static var messages = '$baseUrl/api/v1/messages';
+  static var messagesConversations = '$baseUrl/api/v1/messages/conversations';
+  static var messagesReadAll = '$baseUrl/api/v1/messages/read-all';
 }
