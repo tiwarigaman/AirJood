@@ -54,9 +54,9 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
         child: InkWell(
           onTap: () {
             if(selectedDate == null){
-              Utils.tostMessage('Please select date');
+              Utils.toastMessage('Please select date');
             }else if(_low == null){
-              Utils.tostMessage('Please select No Of Guest');
+              Utils.toastMessage('Please select No Of Guest');
             }else{
               widget.onTap!(
                   {

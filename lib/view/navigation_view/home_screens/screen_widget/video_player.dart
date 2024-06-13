@@ -30,7 +30,7 @@ class VideoPlayerWidget extends StatefulWidget {
   int? commentCount;
   final String? screen;
   final String? description;
-
+  final String? commentOpen;
   VideoPlayerWidget({
     super.key,
     required this.videoUrl,
@@ -51,7 +51,7 @@ class VideoPlayerWidget extends StatefulWidget {
     this.dateTime,
     this.commentCount,
     this.description,
-    this.screen,
+    this.screen, this.commentOpen,
   });
 
   @override
@@ -172,6 +172,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                               widget.isLike = !(widget.isLike ?? true);
                             });
                           },
+                          commentOpen: widget.commentOpen,
                         ),
                         const SizedBox(
                           height: 5,

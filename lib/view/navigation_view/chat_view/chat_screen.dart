@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:airjood/model/conversations_model.dart';
 import 'package:airjood/model/pusher_conversation_model.dart';
 import 'package:airjood/model/user_model.dart';
@@ -10,11 +8,10 @@ import 'package:airjood/view_model/chat_view_model.dart';
 import 'package:airjood/view_model/user_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
 import '../../../res/components/CustomText.dart';
 import '../../../res/components/color.dart';
 import '../../../res/components/maintextfild.dart';
@@ -55,7 +52,6 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
     pusherService = PusherService();
     pusherService.bind('conversation_${user?.id}', (data) {
-      print(data);
       try {
         PusherConversationModel pusherConversationModel =
             pusherConversationModelFromJson(data.data);
@@ -63,7 +59,9 @@ class _ChatScreenState extends State<ChatScreen> {
           chatProvider.addConversation(pusherConversationModel);
         }
       } catch (e) {
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     });
   }
@@ -178,7 +176,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemCount: provider.usersList.length,
                     itemBuilder: (context, index) {
                       final user = provider.usersList[index];
-
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 7),
                         child: InkWell(
@@ -263,7 +260,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final user = provider.conversationsData[index];
-
                         return InkWell(
                           onTap: () {
                             Navigator.push(

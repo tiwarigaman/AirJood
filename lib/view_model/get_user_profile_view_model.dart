@@ -20,7 +20,7 @@ class ProfileViewModel with ChangeNotifier {
       setProfile(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setProfile(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

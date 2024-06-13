@@ -90,7 +90,7 @@ class HomeReelsViewModel with ChangeNotifier {
       _page++;
     }).onError((error, stackTrace) {
       setHomeReelsList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

@@ -20,11 +20,11 @@ class CreateBookingViewModel with ChangeNotifier {
     createBookingLoading(true);
     await myRepo.createBookingApi(token, data).then((value) {
       createBookingLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       Navigator.of(context, rootNavigator: true).pop(true);
     }).onError((error, stackTrace) {
       createBookingLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

@@ -6,6 +6,7 @@ import 'package:airjood/view/navigation_view/chat_view/chat_components/image_box
 import 'package:airjood/view/navigation_view/chat_view/chat_components/text_box.dart';
 import 'package:airjood/view/navigation_view/chat_view/chat_components/video_box.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:airjood/model/conversations_model.dart';
@@ -70,7 +71,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     final user = await UserViewModel().getUser();
     pusherService = PusherService();
     pusherService.bind('chat_${user?.id}_${widget.user.id}', (data) {
-      // Handle new message received
       try {
         PusherConversationModel pusherConversationModel =
             pusherConversationModelFromJson(data.data);
@@ -78,9 +78,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           chatProvider.addMessage(pusherConversationModel);
         }
       } catch (e) {
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
-      print('New message received: $data');
+      if (kDebugMode) {
+        print('New message received: $data');
+      }
     });
   }
 
@@ -100,7 +104,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       setState(() {
         isLoading = false;
       });
-      print('Error: $e');
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
   }
 
@@ -226,16 +232,14 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
         _recordingTimer?.cancel();
         _recordingDuration = Duration.zero;
       });
-
-      // Implement sending the recorded audio file
       _sendRecordedAudio(File(path));
     }
   }
 
   Future<void> _sendRecordedAudio(File file) async {
-    // Implement your method to send the recorded audio file
-    print('Sending recorded audio file: ${file.path}');
-
+    if (kDebugMode) {
+      print('Sending recorded audio file: ${file.path}');
+    }
     final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
     final token = await UserViewModel().getToken();
     await chatProvider.sendMediaApi(
@@ -283,7 +287,6 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             CircleAvatar(
               radius: 20,
               backgroundImage: NetworkImage(widget.user.profileImageUrl ?? ''),
-              // backgroundImage: AssetImage('assets/images/user.png'),
             ),
             const SizedBox(width: 15),
             CustomText(
@@ -538,24 +541,38 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       final logs = await session.getLogs();
       final statistics = await session.getStatistics();
 
-      logs.forEach((log) {
-        print('FFmpeg log: ${log.getMessage()}');
-      });
-
-      print('FFmpeg statistics: $statistics');
-
-      if (ReturnCode.isSuccess(returnCode)) {
-        print("Converted file path: $outputPath");
-        return File(outputPath);
-      } else {
-        print("FFmpeg conversion failed with return code: $returnCode");
-        logs.forEach((log) {
+      for (var log in logs) {
+        if (kDebugMode) {
           print('FFmpeg log: ${log.getMessage()}');
-        });
+        }
+      }
+
+      if (kDebugMode) {
         print('FFmpeg statistics: $statistics');
       }
+
+      if (ReturnCode.isSuccess(returnCode)) {
+        if (kDebugMode) {
+          print("Converted file path: $outputPath");
+        }
+        return File(outputPath);
+      } else {
+        if (kDebugMode) {
+          print("FFmpeg conversion failed with return code: $returnCode");
+        }
+        for (var log in logs) {
+          if (kDebugMode) {
+            print('FFmpeg log: ${log.getMessage()}');
+          }
+        }
+        if (kDebugMode) {
+          print('FFmpeg statistics: $statistics');
+        }
+      }
     } catch (e) {
-      print("Error during video conversion: $e");
+      if (kDebugMode) {
+        print("Error during video conversion: $e");
+      }
     }
     return null;
   }
@@ -644,8 +661,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                         }
                       }
                     } catch (e) {
-                      print('Video error $e');
-                      Utils.tostMessage('Something went wrong!');
+                      if (kDebugMode) {
+                        print('Video error $e');
+                      }
+                      Utils.toastMessage('Something went wrong!');
                     }
                   },
                 ),

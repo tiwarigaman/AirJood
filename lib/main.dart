@@ -34,6 +34,7 @@ import 'package:airjood/view_model/mood_view_model.dart';
 import 'package:airjood/view_model/music_view_model.dart';
 import 'package:airjood/view_model/notification_list_view_model.dart';
 import 'package:airjood/view_model/planning_details_view_model.dart';
+import 'package:airjood/view_model/read_unread_notification_view_model.dart';
 import 'package:airjood/view_model/search_view_model.dart';
 import 'package:airjood/view_model/share_reels_get_view_model.dart';
 import 'package:airjood/view_model/state_view_model.dart';
@@ -173,6 +174,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => DeletePlanningReelsViewModel()),
         ChangeNotifierProvider(create: (context) => LogoutViewModel()),
         ChangeNotifierProvider(create: (context) => ChatViewModel()),
+        ChangeNotifierProvider(create: (context) => ReadNotificationViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -25,12 +25,12 @@ class AuthViewModel with ChangeNotifier {
     mobileSendLoading(true);
     myRepo.login(data).then((value) {
       mobileSendLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       Navigator.pushNamed(context, RoutesName.verify,
           arguments: {'mobile': mobile, "OTP": '${value['otp']}'});
     }).onError((error, stackTrace) {
       mobileSendLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -48,7 +48,7 @@ class AuthViewModel with ChangeNotifier {
     otpLoading(true);
     myRepo.OTPSendApi(data).then((value) {
       otpLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       if (value['data']['token'] != null) {
         final userPreference =
             Provider.of<UserViewModel>(context, listen: false);
@@ -62,7 +62,7 @@ class AuthViewModel with ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       otpLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -83,11 +83,11 @@ class AuthViewModel with ChangeNotifier {
       userPreference.saveToken(value['data']['token']);
       userPreference.saveUser(value['data']['user']);
       registerLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       Navigator.pushNamed(context, RoutesName.navigation);
     }).onError((error, stackTrace) {
       registerLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -107,7 +107,7 @@ class AuthViewModel with ChangeNotifier {
       final userPreference = Provider.of<UserViewModel>(context, listen: false);
       userPreference.saveUser(value['data']);
       updateProfileLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       //Navigator.pushNamed(context, RoutesName.userDetail);
       Navigator.pop(context);
       // Navigator.pushAndRemoveUntil(
@@ -117,7 +117,7 @@ class AuthViewModel with ChangeNotifier {
       // );
     }).onError((error, stackTrace) {
       updateProfileLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
       print(error);
     });
   }

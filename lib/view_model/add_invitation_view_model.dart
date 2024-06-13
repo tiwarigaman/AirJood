@@ -18,10 +18,10 @@ class AddInvitationViewModel extends ChangeNotifier {
     addInvitationsLoading(true);
     myRepo.addInvitationApi(token, data).then((value) {
       addInvitationsLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
     }).onError((error, stackTrace) {
       addInvitationsLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

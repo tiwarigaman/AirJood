@@ -67,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<void> fetchData({int? index}) async {
     UserViewModel().getToken().then((value) async {
-      print(value);
       final homeReelsProvider =
           Provider.of<HomeReelsViewModel>(context, listen: false);
       homeReelsProvider.setPage(1);
@@ -208,16 +207,16 @@ class _HomeScreenState extends State<HomeScreen>
                 child: CachedNetworkImage(
                   imageUrl: '$image',
                   fit: BoxFit.cover,
-                  height: 50,
-                  width: 50,
+                  height: 45,
+                  width: 45,
                   errorWidget: (context, url, error) {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        'https://airjood.neuronsit.in/storage/profile_images/TOAeh3xMyzAz2SOjz2xYu7GvC2yePHMqoTKd3pWJ.png',
-                        fit: BoxFit.cover,
-                        height: 40,
-                        width: 40,
+                        'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
+                        fit: BoxFit.fill,
+                        height: 30,
+                        width: 30,
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(Icons.error);
                         },

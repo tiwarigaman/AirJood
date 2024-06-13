@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
@@ -101,9 +102,11 @@ class _UploadIdState extends State<UploadId> {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            displayedFileNameWithExtension,
-                            overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: Text(
+                              displayedFileNameWithExtension,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           IconButton(
                             onPressed: () {

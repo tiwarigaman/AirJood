@@ -36,9 +36,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     NotificationServices().getDeviceToken().then((value) {
       deviceToken = value;
     });
-    // UserViewModel().getDeviceToken().then((value) {
-    //   deviceToken = value;
-    // });
     if (Platform.isIOS) {
       Future.delayed(Duration.zero, () {
         textEditingController.text = widget.otp ?? '1234';
@@ -47,7 +44,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       textEditingController.text = widget.otp ?? '1234';
     }
   }
-String? deviceToken;
+  String? deviceToken;
   @override
   void dispose() {
     super.dispose();
@@ -218,8 +215,9 @@ String? deviceToken;
             InkWell(
               onTap: () {
                 if (textEditingController.text.isEmpty) {
-                  Utils.tostMessage('Plase enter OTP !');
+                  Utils.toastMessage('Plase enter OTP !');
                 } else {
+                  print('DEVICE TOKEN => $deviceToken');
                   Map<String, String> data = {
                     "otp": textEditingController.text.toString(),
                     "firebase_token":deviceToken.toString(),

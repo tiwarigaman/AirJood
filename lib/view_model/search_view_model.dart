@@ -21,7 +21,7 @@ class SearchViewModel with ChangeNotifier {
       setSearchList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setSearchList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

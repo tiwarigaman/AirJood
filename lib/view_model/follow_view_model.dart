@@ -20,7 +20,7 @@ class FollowViewModel extends ChangeNotifier {
       followLoading(false);
     }).onError((error, stackTrace) {
       followLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

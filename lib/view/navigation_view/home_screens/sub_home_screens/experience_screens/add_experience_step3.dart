@@ -452,22 +452,22 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
             InkWell(
               onTap: () {
                 if (location == null) {
-                  Utils.tostMessage('Please Enter location');
+                  Utils.toastMessage('Please Enter location');
                 } else if (_selectedTime == null || selectedTime == null) {
-                  Utils.tostMessage('Please Select StartTime and EndTime');
+                  Utils.toastMessage('Please Select StartTime and EndTime');
                 } else if (selectedDate == null || selectedDate2 == null) {
-                  Utils.tostMessage('Please Select StartDate and EndDate');
+                  Utils.toastMessage('Please Select StartDate and EndDate');
                 } else if (minController.text.isEmpty ||
                     maxController.text.isEmpty) {
-                  Utils.tostMessage('Please Enter Min/Max Person');
+                  Utils.toastMessage('Please Enter Min/Max Person');
                 } else if (priceController.text.isEmpty) {
-                  Utils.tostMessage('Please Enter Price');
+                  Utils.toastMessage('Please Enter Price');
                 } else if (image == null) {
-                  Utils.tostMessage('Please Select Fridge Magnet');
+                  Utils.toastMessage('Please Select Fridge Magnet');
                 } else if (selectedMood == null) {
-                  Utils.tostMessage('Please Select Mood');
+                  Utils.toastMessage('Please Select Mood');
                 } else if (selected == null) {
-                  Utils.tostMessage('Please Select Facilities');
+                  Utils.toastMessage('Please Select Facilities');
                 } else {
                   widget.onNextTap!({
                     "location": location,

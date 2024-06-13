@@ -180,9 +180,9 @@ class _AddPlanSheetState extends State<AddPlanSheet> {
               GestureDetector(
                 onTap: () {
                   if (day == null) {
-                    Utils.tostMessage('Please Select Day!');
+                    Utils.toastMessage('Please Select Day!');
                   } else if (noteController.text.isEmpty) {
-                    Utils.tostMessage('Please Enter Your Note !');
+                    Utils.toastMessage('Please Enter Your Note !');
                   } else {
                     Map<String, String> data = {
                       "plan_id": '${widget.id}',

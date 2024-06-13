@@ -21,7 +21,7 @@ class MusicViewModel with ChangeNotifier {
       //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setMusicList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

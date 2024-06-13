@@ -20,7 +20,7 @@ class UploadExperianceViewModel with ChangeNotifier {
       setGetUploadExperianceList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setGetUploadExperianceList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

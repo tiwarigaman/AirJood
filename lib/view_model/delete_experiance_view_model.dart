@@ -11,7 +11,7 @@ class DeleteExperianceViewModel with ChangeNotifier {
   Future<void> deleteExperianceApi(
       String token, int id, BuildContext context) async {
     myRepo.deleteExperiance(token, id).then((value) {
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       UserViewModel().getToken().then((value) async {
         final experianceProvider =
             Provider.of<GetExperianceListViewModel>(context, listen: false);
@@ -24,7 +24,7 @@ class DeleteExperianceViewModel with ChangeNotifier {
       //   (route) => false,
       // );
     }).onError((error, stackTrace) {
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

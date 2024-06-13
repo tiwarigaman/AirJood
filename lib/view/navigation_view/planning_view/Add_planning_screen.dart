@@ -266,7 +266,7 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
               ),
               const SizedBox(height: 10),
               SliderWidget(
-                duration: 1,
+                duration: 0,
                 onValue: ((val) {
                   duration = val.toString();
                   setState(() {});
@@ -276,26 +276,26 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
               GestureDetector(
                 onTap: () {
                   if (image == null) {
-                    Utils.tostMessage('Please Upload Thumbnail !');
+                    Utils.toastMessage('Please Upload Thumbnail !');
                   } else if (titleController.text.isEmpty) {
-                    Utils.tostMessage('Please Enter Title !');
+                    Utils.toastMessage('Please Enter Title !');
                   } else if (selectedItem == null) {
-                    Utils.tostMessage('Please Select Country !');
+                    Utils.toastMessage('Please Select Country !');
                   } else if (selectedDate == null && selectedDate2 == null && duration == null) {
-                    Utils.tostMessage('Please Select Start Date & End Date or Duration !');
+                    Utils.toastMessage('Please Select Start Date & End Date or Duration !');
                   } else if (selectedDate != null && selectedDate2 != null && duration != null) {
-                    Utils.tostMessage('Please Select Either Dates or Duration, not both!');
+                    Utils.toastMessage('Please Select Either Dates or Duration, not both!');
                   } else {
                     Map<String, String> data = {
                       'title': titleController.text.toString(),
-                      'country': selectedItem.toString(),
-                      if (selectedItem2 != null) 'state': selectedItem2.toString(),
+                      'country': '$selectedItem',
+                      if (selectedItem2 != null) 'state': '$selectedItem2',
                       if (selectedDate != null) 'start_date': '${selectedDate?.year}-${selectedDate?.month}-${selectedDate?.day}',
                       if (selectedDate2 != null) 'end_date': '${selectedDate2?.year}-${selectedDate2?.month}-${selectedDate2?.day}',
                       if (duration != null) 'plan_duration': duration.toString() ,
                     };
                     addPlanning
-                        .addPlanningApi(token!, data, image!, context);
+                        .addPlanningApi(token!, data, image!,edit: false, context);
                   }
                 },
                 child: MainButton(

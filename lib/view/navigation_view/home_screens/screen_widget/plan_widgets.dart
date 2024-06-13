@@ -151,7 +151,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: CachedNetworkImage(
-                                    imageUrl: '${data?.planImage}',
+                                    imageUrl: '${data?.imageUrl}',
                                     height: 100,
                                     width: double.infinity,
                                     fit: BoxFit.cover,

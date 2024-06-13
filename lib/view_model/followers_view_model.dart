@@ -36,7 +36,7 @@ class FollowersViewModel with ChangeNotifier {
       _page++;
     }).onError((error, stackTrace) {
       setFollowerList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

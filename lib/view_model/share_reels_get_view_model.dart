@@ -20,7 +20,7 @@ class ShareReelsGetViewModel with ChangeNotifier {
       //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setGetShareReelsData(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

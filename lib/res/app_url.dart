@@ -46,4 +46,5 @@ class AppUrl {
   static var messages = '$baseUrl/api/v1/messages';
   static var messagesConversations = '$baseUrl/api/v1/messages/conversations';
   static var messagesReadAll = '$baseUrl/api/v1/messages/read-all';
+  static var readUnreadNotification = '$baseUrl/api/v1/notification/mark-as-read';
 }

@@ -10,7 +10,7 @@ class Utils {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  static tostMessage(String message) {
+  static toastMessage(String message) {
     Fluttertoast.showToast(
         msg: message, backgroundColor: Colors.black54, fontSize: 18);
   }
@@ -25,7 +25,6 @@ class Utils {
           margin: const EdgeInsets.all(10),
           borderRadius: BorderRadius.circular(7),
           backgroundColor: backgroundColor,
-          //backgroundColor: Colors.black54,
         )..show(context));
   }
 }

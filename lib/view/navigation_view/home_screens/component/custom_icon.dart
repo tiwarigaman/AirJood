@@ -27,7 +27,7 @@ class CustomIcon extends StatefulWidget {
   final Function? commentAdd;
   int? commentCount;
   final String? screen;
-
+  final String? commentOpen;
   CustomIcon(
       {super.key,
       this.reelsId,
@@ -41,7 +41,7 @@ class CustomIcon extends StatefulWidget {
       this.onLikeTap,
       this.commentCount,
       this.commentAdd,
-      this.screen, this.experianceId});
+      this.screen, this.experianceId, this.commentOpen});
 
   @override
   State<CustomIcon> createState() => _CustomIconState();
@@ -57,8 +57,30 @@ class _CustomIconState extends State<CustomIcon> {
   void initState() {
     super.initState();
     dynamicLinks = FirebaseDynamicLinks.instance;
+    if(widget.commentOpen == 'Open'){
+      commentSheet();
+    }
   }
-
+  void commentSheet() {
+    UserViewModel().getToken().then((value) {
+      Provider.of<CommentViewModel>(context, listen: false)
+          .commentGetApi(value!, widget.reelsId!);
+    }).then((value) {
+      showModalBottomSheet(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        context: context,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.84,
+          minWidth: MediaQuery.of(context).size.width,
+        ),
+        isScrollControlled: true,
+        showDragHandle: true,
+        builder: (_) => CommentWidget(
+            reelsId: widget.reelsId, commentAdd: widget.commentAdd),
+      );
+    });
+  }
   @override
   void dispose() {
     super.dispose();

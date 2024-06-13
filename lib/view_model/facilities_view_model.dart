@@ -21,7 +21,7 @@ class FacilitiesViewModel with ChangeNotifier {
       //Utils.tostMessage(value[0].mood.toString());
     }).onError((error, stackTrace) {
       setFacilitiesDataList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

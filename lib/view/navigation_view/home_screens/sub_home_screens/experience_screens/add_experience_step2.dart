@@ -161,9 +161,9 @@ class _AddExperienceStep2State extends State<AddExperienceStep2> {
               InkWell(
                 onTap: () {
                   if (nameController.text.isEmpty) {
-                    Utils.tostMessage('Please Enter Activity Name');
+                    Utils.toastMessage('Please Enter Activity Name');
                   } else if (contentController.text.isEmpty) {
-                    Utils.tostMessage('Please Enter Description');
+                    Utils.toastMessage('Please Enter Description');
                   } else {
                     widget.onNextTap!({
                       'name': nameController.text,

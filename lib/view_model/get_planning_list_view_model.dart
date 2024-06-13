@@ -20,7 +20,7 @@ class GetPlanningListViewModel with ChangeNotifier {
       setPlanningList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setPlanningList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

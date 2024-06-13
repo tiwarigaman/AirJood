@@ -21,7 +21,7 @@ class StateViewModel with ChangeNotifier {
       setStateList(ApiResponse.completed(value));
     } catch (error) {
       setStateList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
       rethrow;
     }
   }

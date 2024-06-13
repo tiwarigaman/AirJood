@@ -62,7 +62,7 @@ class GetExperianceListViewModel with ChangeNotifier {
       setGetExperianceList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setGetExperianceList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -73,7 +73,7 @@ class GetExperianceListViewModel with ChangeNotifier {
       setGetExperianceList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setGetExperianceList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

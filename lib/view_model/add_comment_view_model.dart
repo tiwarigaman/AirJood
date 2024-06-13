@@ -27,10 +27,10 @@ class AddCommentViewModel extends ChangeNotifier {
       }).then((value) {
         callback();
       });
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
     }).onError((error, stackTrace) {
       addCommentsLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

@@ -20,7 +20,7 @@ class PlanningDetailsViewModel with ChangeNotifier {
       setPlanningDetails(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setPlanningDetails(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

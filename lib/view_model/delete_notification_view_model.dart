@@ -10,10 +10,10 @@ class DeleteNotificationViewModel with ChangeNotifier {
   Future<void> deleteNotificationApi(
       String token, String id, BuildContext context) async {
     myRepo.deleteNotification(token, id).then((value) {
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       Provider.of<NotificationListViewModel>(context, listen: false).notificationListGetApi(token);
     }).onError((error, stackTrace) {
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

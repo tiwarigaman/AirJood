@@ -218,6 +218,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                 },
                                                 fit: BoxFit.fill,
                                                 height: 45,
+                                                width: 45,
                                               ),
                                             ),
                                           ),
@@ -526,7 +527,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                             TextButton(
                               onPressed: () {
                                 if (_controller.text.isEmpty) {
-                                  Utils.tostMessage('Enter comment...');
+                                  Utils.toastMessage('Enter comment...');
                                 } else {
                                   Map<String, String> data = {
                                     "parent_id": '${newId == 0 ? '' : newId}',

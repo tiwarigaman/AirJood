@@ -36,7 +36,7 @@ class ReelsViewModel with ChangeNotifier {
     }).onError((error, stackTrace) {
       setReelsList(ApiResponse.error(error.toString()));
       throw error!;
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -81,7 +81,7 @@ class ReelsViewModel with ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       setReelsList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

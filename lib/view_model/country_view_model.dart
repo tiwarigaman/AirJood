@@ -20,7 +20,7 @@ class CountryViewModel with ChangeNotifier {
       setCountryList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setCountryList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

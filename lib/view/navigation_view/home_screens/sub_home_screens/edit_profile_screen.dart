@@ -136,10 +136,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           InkWell(
             onTap: () {
               if (nameController.text.isEmpty) {
-                Utils.tostMessage('please enter name');
+                Utils.toastMessage('please enter name');
               } else if (emailController.text.isEmpty ||
                   !EmailValidator.validate(emailController.text)) {
-                Utils.tostMessage('please enter valid email !');
+                Utils.toastMessage('please enter valid email !');
               } else {
                 Map<String, String> data = {
                   'contact_no': '${widget.number}',

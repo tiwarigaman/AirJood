@@ -21,11 +21,11 @@ class AddRemoveLikeViewModel extends ChangeNotifier {
       //Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       addRemoveLikesLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
-  bool _addReelsRemoveLikeLoading = false;
+  final bool _addReelsRemoveLikeLoading = false;
 
   bool get addReelsRemoveLikeLoading => _addReelsRemoveLikeLoading;
 
@@ -42,7 +42,7 @@ class AddRemoveLikeViewModel extends ChangeNotifier {
       //Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       addReelsRemoveLikesLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

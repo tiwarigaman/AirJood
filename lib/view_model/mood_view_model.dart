@@ -20,7 +20,7 @@ class MoodViewModel with ChangeNotifier {
       setMoodList(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setMoodList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

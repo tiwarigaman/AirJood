@@ -10,10 +10,10 @@ class GetBookingListRepository {
     try {
       dynamic response =
           await apiAServices.getGetApiResponse(AppUrl.getBookingList, token);
-      response['data'].forEach((element) {
-        var user = element['experience']['user'];
-        element['user'] = user;
-      });
+      // response['data'].forEach((element) {
+      //   var user = element['experience']['user'];
+      //   element['user'] = user;
+      // });
       return response = BookingListModel.fromJson(response);
     } catch (e) {
       rethrow;

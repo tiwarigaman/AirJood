@@ -96,7 +96,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       //STEP 3: Display Payment sheet
       displayPaymentSheet();
     } catch (err) {
-      Utils.tostMessage(err.toString());
+      Utils.toastMessage(err.toString());
       throw Exception(err);
     }
   }
@@ -120,7 +120,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       );
       return json.decode(response.body);
     } catch (err) {
-      Utils.tostMessage(err.toString());
+      Utils.toastMessage(err.toString());
       throw Exception(err.toString());
     }
   }
@@ -135,7 +135,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         }
       }).onError((error, stackTrace) {
         if (mounted) {
-          Utils.tostMessage(error.toString());
+          Utils.toastMessage(error.toString());
           throw Exception(error);
         }
       });
@@ -199,7 +199,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         },
         onError: (error) {
           log("onError: $error");
-          Utils.tostMessage(error);
+          Utils.toastMessage(error);
           Navigator.pop(context);
         },
         onCancel: () {

@@ -145,7 +145,7 @@ class _PlanningWidgetState extends State<PlanningWidget> {
                     child: GestureDetector(
                       onTap: () {
                         if (id == null || day == null) {
-                          Utils.tostMessage('Please select plan !');
+                          Utils.toastMessage('Please select plan !');
                         } else {
                           showModalBottomSheet(
                             barrierColor: Colors.transparent,

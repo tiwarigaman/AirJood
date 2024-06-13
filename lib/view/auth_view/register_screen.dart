@@ -152,14 +152,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             InkWell(
               onTap: () {
                 if (nameController.text.isEmpty) {
-                  Utils.tostMessage('Please enter full name');
+                  Utils.toastMessage('Please enter full name');
                 } else if (emailController.text.isEmpty ||
                     !EmailValidator.validate(emailController.text)) {
-                  Utils.tostMessage('please enter valid email !');
+                  Utils.toastMessage('please enter valid email !');
                 } else if (selectedItem == null) {
-                  Utils.tostMessage('Please select Gender');
+                  Utils.toastMessage('Please select Gender');
                 } else if (formattedDate == null) {
-                  Utils.tostMessage('Please select BOD');
+                  Utils.toastMessage('Please select BOD');
                 } else {
                   Map<String, String> data = {
                     'name': nameController.text.toString(),

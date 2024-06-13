@@ -19,7 +19,7 @@ class AddReelsPlanningViewModel with ChangeNotifier {
     addReelsPlanningLoading(true);
     myRepo.addReelsPlanningApi(token, data).then((value) {
       addReelsPlanningLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -30,7 +30,7 @@ class AddReelsPlanningViewModel with ChangeNotifier {
       );
     }).onError((error, stackTrace) {
       addReelsPlanningLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

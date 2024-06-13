@@ -29,12 +29,14 @@ class AddPlanningViewModel with ChangeNotifier {
       Navigator.pop(context);
       Provider.of<GetPlanningListViewModel>(context, listen: false)
           .planningListGetApi(token);
-      Provider.of<PlanningDetailsViewModel>(context, listen: false)
-          .getPlanningDetailsApi(token, planId!);
-      Utils.tostMessage('${value['message']}');
+      if (planId != null) {
+        Provider.of<PlanningDetailsViewModel>(context, listen: false)
+            .getPlanningDetailsApi(token, planId);
+      }
+      Utils.toastMessage('${value['message']}');
     }).onError((error, stackTrace) {
       addPlanningLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

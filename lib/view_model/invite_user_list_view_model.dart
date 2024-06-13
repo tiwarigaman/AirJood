@@ -35,7 +35,7 @@ class InviteUserListViewModel with ChangeNotifier {
       _page++;
     } catch (error) {
       setInviteUserList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
       rethrow;
     }
   }

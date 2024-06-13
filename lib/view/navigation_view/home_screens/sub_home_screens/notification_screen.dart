@@ -1,17 +1,23 @@
+import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/planning_view/planning_details_screen.dart';
 import 'package:airjood/view_model/delete_notification_view_model.dart';
 import 'package:airjood/view_model/notification_list_view_model.dart';
+import 'package:airjood/view_model/read_unread_notification_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/response/status.dart';
+import '../../../../model/conversations_model.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../res/components/custom_shimmer.dart';
 import '../../../../view_model/user_view_model.dart';
-
+import '../../chat_view/chat_details_screen.dart';
+import '../screen_widget/video_player.dart';
+import 'experience_screens/reels_user_detail_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
@@ -22,79 +28,6 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen>
     with SingleTickerProviderStateMixin {
   late final controller = SlidableController(this);
-  final List data = [
-    {
-      'Image': 'assets/images/user.png',
-      'name': 'Saimon jhonson',
-      'dis': ' added a new post',
-      'hei': 45,
-      'wid': 45,
-    },
-    {
-      'Image': 'assets/images/user.png',
-      'name': 'Jack Maa',
-      'dis': ' Started following you',
-      'hei': 45,
-      'wid': 45,
-    },
-    {
-      'Image': 'assets/icons/like.png',
-      'name': 'Saimon jhonson, Leena smith',
-      'dis': ' and 25 others liked your post.',
-      'hei': 20,
-      'wid': 20,
-    },
-    {
-      'Image': 'assets/icons/message.png',
-      'name': 'Magdalina Kubica',
-      'dis': ' Commented on your post click to reply her.',
-      'hei': 20,
-      'wid': 20,
-    },
-    {
-      'Image': 'assets/images/user.png',
-      'name': 'Anjilina Jolie',
-      'dis': 'Started following you',
-      'hei': 45,
-      'wid': 45,
-    },
-    {
-      'Image': 'assets/images/user.png',
-      'name': 'Rose Spartain',
-      'dis': ' Started following you',
-      'hei': 45,
-      'wid': 45,
-    },
-    {
-      'Image': 'assets/icons/like.png',
-      'name': 'Saimon jhonson, Leena smith',
-      'dis': ' and 25 others liked your post.',
-      'hei': 20,
-      'wid': 20,
-    },
-    {
-      'Image': 'assets/icons/message.png',
-      'name': 'Magdalina Kubica',
-      'dis': ' Commented on your post click to reply her.',
-      'hei': 20,
-      'wid': 20,
-    },
-    {
-      'Image': 'assets/images/user.png',
-      'name': 'Jack Maa',
-      'dis': ' Started following you',
-      'hei': 45,
-      'wid': 45,
-    },
-    {
-      'Image': 'assets/icons/like.png',
-      'name': 'Saimon jhonson, Leena smith',
-      'dis': ' and 25 others liked your post.',
-      'hei': 20,
-      'wid': 20,
-    },
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -209,116 +142,274 @@ class _NotificationScreenState extends State<NotificationScreen>
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    ListTile(
-                                      onTap: () {
-                                        var planIdString = data2[index].data?.data?.planId;
-                                        if (data2[index]
-                                                .metadata
-                                                ?.invitation
-                                                ?.status ==
-                                            'accepted') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlanningDetailsScreen(
-                                                id: int.tryParse(planIdString),
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlanningDetailsScreen(
-                                                invitationId: data2[index]
-                                                    .data
-                                                    ?.data
-                                                    ?.invitationId,
-                                                id: int.tryParse(planIdString),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      leading: Container(
-                                        height: 45,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.textFildBGColor,
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                        child: Center(
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                data[index]['hei'] == 20
-                                                    ? 00
-                                                    : 100),
-                                            child: Image.network(
-                                              '${data2[index].metadata?.invitedBy?.profileImageUrl}',
-                                              height:
-                                                  data[index]['hei'].toDouble(),
-                                              width:
-                                                  data[index]['wid'].toDouble(),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      title: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: RichText(
-                                              softWrap: true,
-                                              maxLines: 2,
-                                              text: TextSpan(
-                                                text:
-                                                    '${data2[index].metadata?.invitedBy?.name}',
-                                                style: GoogleFonts.nunitoSans(
-                                                  color:
-                                                      AppColors.blackTextColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
+                                    Container(
+                                      color: data2[index].readAt == null
+                                          ? AppColors.textFildBGColor
+                                          : AppColors.whiteColor,
+                                      child: ListTile(
+                                        onTap: () {
+                                          Map<String,String> data = {
+                                            "notification_ids": '${data2[index].id}'
+                                          };
+                                          Provider.of<ReadNotificationViewModel>(context, listen: false)
+                                              .readUnreadNotificationApi(token!, data, context);
+                                          var planIdString =
+                                              data2[index].data?.data?.planId;
+                                          var invitationIdString = data2[index]
+                                              .data
+                                              ?.data
+                                              ?.invitationId;
+                                          if (data2[index].data?.type ==
+                                              'plan_invitation_request') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PlanningDetailsScreen(
+                                                  id: int.tryParse(
+                                                      planIdString!),
+                                                  invitationId:
+                                                      invitationIdString,
+                                                  status: data2[index]
+                                                      .metadata
+                                                      ?.invitation
+                                                      ?.status,
                                                 ),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                    text:
-                                                        ' ${data2[index].data?.message}',
-                                                    style:
-                                                        GoogleFonts.nunitoSans(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: AppColors
-                                                          .tileTextColor,
-                                                    ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'user_followed'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => ReelsUserDetailScreen(
+                                                  about:data2[index].metadata?.user?.about,
+                                                  image: data2[index].metadata?.user?.profileImageUrl,
+                                                  email: data2[index].metadata?.user?.email,
+                                                  number: data2[index].metadata?.user?.contactNo,
+                                                  name: data2[index].metadata?.user?.name,
+                                                  guide: data2[index].metadata?.user?.isUpgrade,
+                                                  createdAt: data2[index].metadata?.user?.createdAt,
+                                                  language: data2[index].metadata?.user?.languages,
+                                                  userId: data2[index].metadata?.user?.id,
+                                                  screen:"UserDetails",
+                                                  isFollow: data2[index].metadata?.user?.isFollower,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'reel_liked'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => VideoPlayerWidget(
+                                                  videoUrl: '${data2[index].metadata?.reel?.videoUrl}',
+                                                  commentCount:
+                                                  data2[index].metadata?.reel?.commentCount,
+                                                  about: data2[index].metadata?.reel?.user?[0].about,
+                                                  dateTime:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  userId: data2[index].metadata?.reel?.user?[0].id,
+                                                  email: data2[index].metadata?.reel?.user?[0].email,
+                                                  guide:
+                                                  data2[index].metadata?.reel?.user?[0].isUpgrade,
+                                                  number: data2[index].metadata?.reel?.user?[0].contactNo,
+                                                  createdAt:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  image: data2[index].metadata?.reel?.user?[0].profileImageUrl,
+                                                  name: data2[index].metadata?.reel?.user?[0].name,
+                                                  description: data2[index].metadata?.reel?.caption,
+                                                  language:
+                                                  data2[index].metadata?.reel?.user?[0].languages,
+                                                  index: 1,
+                                                  likeCount: data2[index].metadata?.reel?.likeCount,
+                                                  videoImage:
+                                                  data2[index].metadata?.reel?.videoThumbnailUrl,
+                                                  isLike: data2[index].metadata?.reel?.liked,
+                                                  reelsId: data2[index].metadata?.reel?.id,
+                                                  screen: 'UserDetails',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'new_laqta'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => VideoPlayerWidget(
+                                                  videoUrl: '${data2[index].metadata?.reel?.videoUrl}',
+                                                  commentCount:
+                                                  data2[index].metadata?.reel?.commentCount,
+                                                  about: data2[index].metadata?.reel?.user?[0].about,
+                                                  dateTime:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  userId: data2[index].metadata?.reel?.user?[0].id,
+                                                  email: data2[index].metadata?.reel?.user?[0].email,
+                                                  guide:
+                                                  data2[index].metadata?.reel?.user?[0].isUpgrade,
+                                                  number: data2[index].metadata?.reel?.user?[0].contactNo,
+                                                  createdAt:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  image: data2[index].metadata?.reel?.user?[0].profileImageUrl,
+                                                  name: data2[index].metadata?.reel?.user?[0].name,
+                                                  description: data2[index].metadata?.reel?.caption,
+                                                  language:
+                                                  data2[index].metadata?.reel?.user?[0].languages,
+                                                  index: 1,
+                                                  likeCount: data2[index].metadata?.reel?.likeCount,
+                                                  videoImage:
+                                                  data2[index].metadata?.reel?.videoThumbnailUrl,
+                                                  isLike: data2[index].metadata?.reel?.liked,
+                                                  reelsId: data2[index].metadata?.reel?.id,
+                                                  screen: 'UserDetails',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'new_message_received'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => ChatDetailsScreen(
+                                                  user: ConversationsData(
+                                                    id: data2[0].metadata?.user?.id,
+                                                    languages: data2[0].metadata?.user?.languages,
+                                                    about: data2[0].metadata?.user?.about,
+                                                    contactNo: data2[0].metadata?.user?.contactNo,
+                                                    dob:data2[0].metadata?.user?.dob,
+                                                    gender: data2[0].metadata?.user?.gender,
+                                                    name:data2[0].metadata?.user?.name,
+                                                    role:data2[0].metadata?.user?.role,
+                                                    email: data2[0].metadata?.user?.email,
+                                                    profileImageUrl: data2[0].metadata?.user?.profileImageUrl,
                                                   ),
-                                                ],
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'laqta_comment'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => VideoPlayerWidget(
+                                                  videoUrl: '${data2[index].metadata?.reel?.videoUrl}',
+                                                  commentCount:
+                                                  data2[index].metadata?.reel?.commentCount,
+                                                  about: data2[index].metadata?.reel?.user?[0].about,
+                                                  dateTime:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  userId: data2[index].metadata?.reel?.user?[0].id,
+                                                  email: data2[index].metadata?.reel?.user?[0].email,
+                                                  guide:
+                                                  data2[index].metadata?.reel?.user?[0].isUpgrade,
+                                                  number: data2[index].metadata?.reel?.user?[0].contactNo,
+                                                  createdAt:
+                                                  data2[index].metadata?.reel?.user?[0].createdAt,
+                                                  image: data2[index].metadata?.reel?.user?[0].profileImageUrl,
+                                                  name: data2[index].metadata?.reel?.user?[0].name,
+                                                  description: data2[index].metadata?.reel?.caption,
+                                                  language:
+                                                  data2[index].metadata?.reel?.user?[0].languages,
+                                                  index: 1,
+                                                  likeCount: data2[index].metadata?.reel?.likeCount,
+                                                  videoImage:
+                                                  data2[index].metadata?.reel?.videoThumbnailUrl,
+                                                  isLike: data2[index].metadata?.reel?.liked,
+                                                  reelsId: data2[index].metadata?.reel?.id,
+                                                  screen: 'UserDetails',
+                                                  commentOpen: 'Open',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          else {
+                                            Utils.toastMessage(
+                                                'Something went wrong !');
+                                          }
+                                        },
+                                        contentPadding: const EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        leading: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.textFildBGColor,
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                          child: Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Image.network(
+                                                '${data2[index].metadata?.user?.profileImageUrl}',
+                                                height: 50,
+                                                width: 50,
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      subtitle: const CustomText(
-                                        data: '10 min ago',
-                                        fSize: 14,
-                                        fweight: FontWeight.w500,
-                                        fontColor: AppColors.tileTextColor,
+                                        ),
+                                        title: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: RichText(
+                                                softWrap: true,
+                                                maxLines: 2,
+                                                text: TextSpan(
+                                                  text:
+                                                      '${data2[index].metadata?.user?.name}',
+                                                  style: GoogleFonts.nunitoSans(
+                                                    color: AppColors
+                                                        .blackTextColor,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text:
+                                                          ' ${data2[index].data?.message}',
+                                                      style: GoogleFonts
+                                                          .nunitoSans(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: AppColors
+                                                            .tileTextColor,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        subtitle:  CustomText(
+                                          data: timeago.format(
+                                              data2[index].createdAt ??
+                                                  DateTime.now()),
+                                          fSize: 14,
+                                          fweight: FontWeight.w500,
+                                          fontColor: AppColors.tileTextColor,
+                                        ),
                                       ),
                                     ),
-                                    const Divider(
+                                    Divider(
                                       height: 0.5,
                                       thickness: 0.9,
-                                      color: AppColors.textFildBGColor,
+                                      color: data2[index].readAt == null
+                                          ? AppColors.whiteColor
+                                          : AppColors.textFildBGColor,
                                     ),
                                   ],
                                 ),

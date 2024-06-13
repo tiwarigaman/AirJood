@@ -23,7 +23,7 @@ class AddReelViewModel with ChangeNotifier {
     addReelLoading(true);
     myRepo.addReelsApi(token, data, reel, image).then((value) {
       addReelLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       if (screen == 'Laqta') {
         Navigator.pushAndRemoveUntil(
           context,
@@ -44,7 +44,7 @@ class AddReelViewModel with ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       addReelLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

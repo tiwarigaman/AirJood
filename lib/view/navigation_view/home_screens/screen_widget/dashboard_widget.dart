@@ -40,9 +40,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
             DateFormat dateFormat = DateFormat("EEE d,MMM yyyy - hh:mm a");
             String formattedDateTime = dateFormat.format(dateTime);
             return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom:10),
               child: Container(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColors.containerBorderColor),
@@ -52,14 +52,15 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(10),
                           child: CachedNetworkImage(
-                            imageUrl:'${data?.user?.profileImageUrl}',
-                            height: 45,
-                            width: 45,
+                            imageUrl:'${data?.experience?.reel?.videoThumbnailUrl}',
+                            height: 120,
+                            width: 90,
                             fit: BoxFit.cover,
                             errorWidget: (context, url, error) {
                               return Container(
@@ -68,34 +69,40 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                             },
                           ),
                         ),
-                        CustomText(
-                          data: '\$${data?.totalAmount}',
-                          fweight: FontWeight.w800,
-                          fSize: 18,
-                          fontColor: AppColors.mainColor,
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              data: data?.experience?.name ?? "",
+                              fweight: FontWeight.w700,
+                              fSize: 18,
+                              fontColor: AppColors.blackTextColor,
+                            ),
+                            CustomText(
+                              data: data?.experience?.location ??
+                                  '',
+                              fweight: FontWeight.w600,
+                              fSize: 13,
+                              fontColor: AppColors.greyTextColor,
+                            ),
+                            const SizedBox(height: 3), const SizedBox(height: 3),
+                            CustomText(
+                              data: formattedDateTime,
+                              //data: 'Mon 15, Mar 23 - 17:30 PM',
+                              fweight: FontWeight.w600,
+                              fSize: 13,
+                              fontColor: AppColors.blackTextColor,
+                            ),
+                            CustomText(
+                              data: '\$${data?.totalAmount}',
+                              fweight: FontWeight.w800,
+                              fSize: 18,
+                              fontColor: AppColors.mainColor,
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                    CustomText(
-                      data: data?.user?.name ?? "",
-                      fweight: FontWeight.w700,
-                      fSize: 18,
-                      fontColor: AppColors.blackTextColor,
-                    ),
-                    CustomText(
-                      data: data?.experience?.location ??
-                          '',
-                      fweight: FontWeight.w600,
-                      fSize: 13,
-                      fontColor: AppColors.greyTextColor,
-                    ),
-                    const SizedBox(height: 3),
-                     CustomText(
-                      data: formattedDateTime,
-                      //data: 'Mon 15, Mar 23 - 17:30 PM',
-                      fweight: FontWeight.w600,
-                      fSize: 13,
-                      fontColor: AppColors.blackTextColor,
                     ),
                   ],
                 ),

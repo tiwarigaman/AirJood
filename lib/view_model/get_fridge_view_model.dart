@@ -19,7 +19,7 @@ class FridgeViewModel with ChangeNotifier {
       setFridge(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setFridge(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

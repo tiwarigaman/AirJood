@@ -24,7 +24,7 @@ class AddExperianceViewModel with ChangeNotifier {
     addExperianceLoading(true);
     myRepo.addExperianceApi(token, data, image).then((value) {
       addExperianceLoading(false);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
       UserViewModel().getToken().then((value) async {
         final experianceProvider =
             Provider.of<GetExperianceListViewModel>(context, listen: false);
@@ -42,7 +42,7 @@ class AddExperianceViewModel with ChangeNotifier {
       );
     }).onError((error, stackTrace) {
       addExperianceLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

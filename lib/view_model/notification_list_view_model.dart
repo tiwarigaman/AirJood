@@ -24,10 +24,10 @@ class NotificationListViewModel with ChangeNotifier {
     try {
       final value = await myRepo.getNotificationList(token, _page);
       setNotificationList(ApiResponse.completed(value));
-      // _page++;
+      //_page++;
     } catch (error) {
       setNotificationList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
       rethrow;
     }
   }

@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
             InkWell(
               onTap: () {
                 if (controller.text.isEmpty) {
-                  Utils.tostMessage('Please Enter mobile number');
+                  Utils.toastMessage('Please Enter mobile number');
                 } else {
                   Map<String, String> data = {
                     "mobile_number": "+$countryCode $mobileNumber",

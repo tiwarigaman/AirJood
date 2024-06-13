@@ -21,7 +21,7 @@ class CommentViewModel with ChangeNotifier {
       //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
       setCommentList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

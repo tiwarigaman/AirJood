@@ -41,7 +41,6 @@ class NotificationServices {
     const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettings =
     InitializationSettings(android: androidInitializationSettings);
-
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (payload) {
@@ -60,7 +59,6 @@ class NotificationServices {
       }
       showNotification(message);
     });
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       if (kDebugMode) {
         print('A new onMessageOpenedApp event was published!');

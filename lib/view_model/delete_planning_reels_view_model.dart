@@ -25,10 +25,10 @@ class DeletePlanningReelsViewModel extends ChangeNotifier {
       Navigator.pop(context);
       Provider.of<PlanningDetailsViewModel>(context, listen: false)
           .getPlanningDetailsApi(token, planId);
-      Utils.tostMessage('${value['message']}');
+      Utils.toastMessage('${value['message']}');
     }).onError((error, stackTrace) {
       deletePlanningReelsLoadings(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

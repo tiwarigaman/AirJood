@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
-
 import '../app_exception.dart';
 import 'BaseApiServices.dart';
 
@@ -318,6 +315,7 @@ class NetworkApiService extends BaseApiAServices {
 
     return responseJson;
   }
+
 
   @override
   Future likePostApiResponse(

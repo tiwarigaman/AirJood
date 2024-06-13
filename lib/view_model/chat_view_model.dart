@@ -130,7 +130,7 @@ class ChatViewModel extends ChangeNotifier {
       setMetaData(value['data']['metadata']);
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -142,7 +142,7 @@ class ChatViewModel extends ChangeNotifier {
       // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -154,7 +154,7 @@ class ChatViewModel extends ChangeNotifier {
       // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -167,7 +167,7 @@ class ChatViewModel extends ChangeNotifier {
       // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -179,7 +179,7 @@ class ChatViewModel extends ChangeNotifier {
       // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -193,7 +193,7 @@ class ChatViewModel extends ChangeNotifier {
       // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 
@@ -228,7 +228,7 @@ class ChatViewModel extends ChangeNotifier {
       _page++;
     } catch (error) {
       setUserList(ApiResponse.error(error.toString()));
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
       rethrow;
     }
   }

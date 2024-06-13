@@ -25,14 +25,14 @@ class _SplashScreenState extends State<SplashScreen> {
     splashServices.checkAuthentication(context);
     notificationServices.requestNotificationPermission();
     notificationServices.firebaseInit();
-    notificationServices.getDeviceToken().then((value) {
-      final userPreference =
-      Provider.of<UserViewModel>(context, listen: false);
-      userPreference.saveDeviceToken(value);
-      if (kDebugMode) {
-        print('Device Token => $value');
-      }
-    });
+    // notificationServices.getDeviceToken().then((value) {
+    //   final userPreference =
+    //   Provider.of<UserViewModel>(context, listen: false);
+    //   userPreference.saveDeviceToken(value);
+    //   if (kDebugMode) {
+    //     print('Device Token => $value');
+    //   }
+    // });
   }
 
   @override

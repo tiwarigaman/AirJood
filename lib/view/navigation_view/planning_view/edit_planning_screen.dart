@@ -327,15 +327,15 @@ class _EditPlanningScreenState extends State<EditPlanningScreen> {
               GestureDetector(
                 onTap: () {
                   if (widget.imageUrl == null &&image == null) {
-                    Utils.tostMessage('Please Upload Thumbnail !');
+                    Utils.toastMessage('Please Upload Thumbnail !');
                   } else if (titleController.text.isEmpty) {
-                    Utils.tostMessage('Please Enter Title !');
+                    Utils.toastMessage('Please Enter Title !');
                   } else if (selectedItem == null) {
-                    Utils.tostMessage('Please Select Country !');
+                    Utils.toastMessage('Please Select Country !');
                   } else if (selectedDate == null && selectedDate2 == null && duration == null) {
-                    Utils.tostMessage('Please Select Start Date & End Date or Duration !');
+                    Utils.toastMessage('Please Select Start Date & End Date or Duration !');
                   } else if (selectedDate != null && selectedDate2 != null && duration != null) {
-                    Utils.tostMessage('Please Select Either Dates or Duration, not both!');
+                    Utils.toastMessage('Please Select Either Dates or Duration, not both!');
                   } else {
                     Map<String, String> data = {
                       'title': titleController.text.toString(),

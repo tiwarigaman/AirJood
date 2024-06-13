@@ -211,11 +211,11 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
             final returnCode = await session.getReturnCode();
             if (ReturnCode.isSuccess(returnCode)) {
               if (captionController.text.trim().isEmpty) {
-                Utils.tostMessage('please enter caption');
+                Utils.toastMessage('please enter caption');
               } else if (formattedDate!.isEmpty) {
-                Utils.tostMessage('please select Date');
+                Utils.toastMessage('please select Date');
               } else if (locationController.text.isEmpty) {
-                Utils.tostMessage('please enter location');
+                Utils.toastMessage('please enter location');
               } else {
                 Navigator.push(
                   context,
@@ -238,11 +238,11 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
           });
         } else {
           if (captionController.text.trim().isEmpty) {
-            Utils.tostMessage('please enter caption');
+            Utils.toastMessage('please enter caption');
           } else if (formattedDate!.isEmpty) {
-            Utils.tostMessage('please select Date');
+            Utils.toastMessage('please select Date');
           } else if (locationController.text.isEmpty) {
-            Utils.tostMessage('please enter location');
+            Utils.toastMessage('please enter location');
           } else {
             Navigator.push(
               context,

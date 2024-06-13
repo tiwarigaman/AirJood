@@ -39,7 +39,7 @@ class LogoutViewModel extends ChangeNotifier {
       logoutLoadings(false);
     }).onError((error, stackTrace) {
       logoutLoadings(false);
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

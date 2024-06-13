@@ -18,7 +18,7 @@ class DeleteFollowerViewModel with ChangeNotifier {
             .followerGetApi(value!, loginUserId);
       });
     }).onError((error, stackTrace) {
-      Utils.tostMessage('$error');
+      Utils.toastMessage('$error');
     });
   }
 }

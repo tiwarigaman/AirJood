@@ -188,13 +188,13 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
               InkWell(
                 onTap: () {
                   if (image == null) {
-                    Utils.tostMessage('Please Upload ID');
+                    Utils.toastMessage('Please Upload ID');
                   } else if (image1 == null) {
-                    Utils.tostMessage('Please Upload Passport');
+                    Utils.toastMessage('Please Upload Passport');
                   } else if (image2 == null) {
-                    Utils.tostMessage('Please Upload Tourist Certificate');
+                    Utils.toastMessage('Please Upload Tourist Certificate');
                   } else if (image3 == null) {
-                    Utils.tostMessage(
+                    Utils.toastMessage(
                         'Please Upload Terms & Conditions with Signature');
                   } else {
                     authViewModel.updateUserApi(
