@@ -29,7 +29,11 @@ class GetBookingListRepository {
         return response = BookingListModel.fromJson(response);
       }else{
         dynamic response = await apiAServices.getGetApiResponse(
-            AppUrl.getBookingListUser, token);
+            '${AppUrl.getBookingListUser}/$userId', token);
+        // response['data'].forEach((element) {
+        //   var user = element['experience']['user'];
+        //   element['user'] = user;
+        // });
         return response = BookingListModel.fromJson(response);
       }
 

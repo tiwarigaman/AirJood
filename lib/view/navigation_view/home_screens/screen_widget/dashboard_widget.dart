@@ -95,10 +95,16 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                data: data?.experience?.name ?? "",
+                                data: data?.experience?.user?.name ?? "",
                                 fweight: FontWeight.w700,
                                 fSize: 18,
                                 fontColor: AppColors.blackTextColor,
+                              ),
+                              CustomText(
+                                data: data?.experience?.name ?? "",
+                                fweight: FontWeight.w700,
+                                fSize: 18,
+                                fontColor: AppColors.blackTextColor.withOpacity(0.7),
                               ),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width/1.9,
