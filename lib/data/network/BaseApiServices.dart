@@ -2,8 +2,11 @@ import 'dart:io';
 
 abstract class BaseApiAServices {
   Future<dynamic> getGetApiResponse(String url, String token);
+
   Future<dynamic> getSearchGetApiResponse(String url, String token);
+
   Future<dynamic> getDeleteApiResponse(String url, String token);
+
   Future<dynamic> getApiResponse(String url);
 
   Future<dynamic> getPostApiResponse(
@@ -22,6 +25,7 @@ abstract class BaseApiAServices {
     Map<String, String> data,
     dynamic image,
   );
+
   Future<dynamic> reelPostApiResponse(
     String url,
     String token,
@@ -29,12 +33,14 @@ abstract class BaseApiAServices {
     File video,
     File image,
   );
+
   Future<dynamic> experiancePostApiResponse(
     String url,
     String token,
     Map<String, String> data,
     File image,
   );
+
   Future<dynamic> planningPostApiResponse(
     String url,
     String token,
@@ -56,11 +62,13 @@ abstract class BaseApiAServices {
     String token,
     Map<String, dynamic> data,
   );
+
   Future<dynamic> likePostApiResponse(
     String url,
     String token,
     Map<String, dynamic> data,
   );
+
   Future<dynamic> followPostApiResponse(
     String url,
     String token,
@@ -71,5 +79,11 @@ abstract class BaseApiAServices {
     String token,
     Map<String, String> data,
     File file,
+  );
+
+  Future<dynamic> deleteApiResponse(
+    String url,
+    String token,
+    Map<String, dynamic> data,
   );
 }

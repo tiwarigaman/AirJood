@@ -316,7 +316,6 @@ class NetworkApiService extends BaseApiAServices {
     return responseJson;
   }
 
-
   @override
   Future likePostApiResponse(
       String url, String token, Map<String, dynamic> data) async {
@@ -417,5 +416,27 @@ class NetworkApiService extends BaseApiAServices {
           errorMessage,
         );
     }
+  }
+
+  @override
+  Future deleteApiResponse(
+      String url, String token, Map<String, dynamic> data) async {
+    dynamic responseJson;
+    try {
+      Response response = await http.delete(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 20));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+
+    return responseJson;
   }
 }

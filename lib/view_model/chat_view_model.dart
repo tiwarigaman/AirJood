@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:airjood/data/response/api_response.dart';
 import 'package:airjood/model/conversations_model.dart';
 import 'package:airjood/model/invite_user_list_model.dart';
@@ -74,6 +76,28 @@ class ChatViewModel extends ChangeNotifier {
   List<Message> _messagesData = [];
 
   List<Message> get messagesData => _messagesData;
+
+  List<int> selectedMessageIds = [];
+
+  void toggleSelection(int messageId) {
+    if (selectedMessageIds.contains(messageId)) {
+      selectedMessageIds.remove(messageId);
+    } else {
+      selectedMessageIds.add(messageId);
+    }
+    notifyListeners();
+  }
+
+  void clearSelection() {
+    selectedMessageIds.clear();
+    notifyListeners();
+  }
+
+  void deleteSelectedMessages() {
+    messagesData
+        .removeWhere((message) => selectedMessageIds.contains(message.id));
+    clearSelection();
+  }
 
   Metadata? _metadata;
 
@@ -183,11 +207,11 @@ class ChatViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> deleteMessageApi(String token, int? id) async {
+  Future<void> deleteMessageApi(String token) async {
     setLoading(true);
-    _messagesData.removeWhere((item) => item.id == id);
-    notifyListeners();
-    myRepo.deleteMessage(token, '/$id').then((value) {
+    myRepo.deleteSelectedMessage(
+        token, {"message_ids": selectedMessageIds}).then((value) {
+      deleteSelectedMessages();
       setLoading(false);
       print(value);
       // Utils.tostMessage('${value['message']}');
@@ -196,6 +220,20 @@ class ChatViewModel extends ChangeNotifier {
       Utils.toastMessage('$error');
     });
   }
+
+  // Future<void> deleteMessageApi(String token, int? id) async {
+  //   setLoading(true);
+  //   _messagesData.removeWhere((item) => item.id == id);
+  //   notifyListeners();
+  //   myRepo.deleteMessage(token, '/$id').then((value) {
+  //     setLoading(false);
+  //     print(value);
+  //     // Utils.tostMessage('${value['message']}');
+  //   }).onError((error, stackTrace) {
+  //     setLoading(false);
+  //     Utils.toastMessage('$error');
+  //   });
+  // }
 
   int _page = 1;
   List<Datum> usersList = [];
