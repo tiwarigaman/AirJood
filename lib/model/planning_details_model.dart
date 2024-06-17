@@ -44,6 +44,7 @@ class Data {
   DateTime? updatedAt;
   DateTime? createdAt;
   int? createdBy;
+  List<Invitation>? acceptedInvitations;
   String? countryName;
   String? stateName;
   String? imageUrl;
@@ -62,6 +63,7 @@ class Data {
     this.updatedAt,
     this.createdAt,
     this.createdBy,
+    this.acceptedInvitations,
     this.countryName,
     this.stateName,
     this.imageUrl,
@@ -81,6 +83,7 @@ class Data {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     createdBy: json["created_by"],
+    acceptedInvitations: json["accepted_invitations"] == null ? [] : List<Invitation>.from(json["accepted_invitations"]!.map((x) => Invitation.fromJson(x))),
     countryName: json["country_name"],
     stateName: json["state_name"],
     imageUrl: json["image_url"],
@@ -100,6 +103,7 @@ class Data {
     "updated_at": updatedAt?.toIso8601String(),
     "created_at": createdAt?.toIso8601String(),
     "created_by": createdBy,
+    "accepted_invitations": acceptedInvitations == null ? [] : List<dynamic>.from(acceptedInvitations!.map((x) => x.toJson())),
     "country_name": countryName,
     "state_name": stateName,
     "image_url": imageUrl,
@@ -151,7 +155,7 @@ class Invitation {
 class User {
   int? id;
   List<String>? languages;
-  dynamic about;
+  String? about;
   String? contactNo;
   DateTime? dob;
   String? gender;
@@ -166,6 +170,7 @@ class User {
   bool? isUpgrade;
   bool? isFollowing;
   bool? isFollower;
+  dynamic planInvitationStatus;
 
   User({
     this.id,
@@ -185,6 +190,7 @@ class User {
     this.isUpgrade,
     this.isFollowing,
     this.isFollower,
+    this.planInvitationStatus,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -205,6 +211,7 @@ class User {
     isUpgrade: json["is_upgrade"],
     isFollowing: json["is_following"],
     isFollower: json["is_follower"],
+    planInvitationStatus: json["plan_invitation_status"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -225,6 +232,7 @@ class User {
     "is_upgrade": isUpgrade,
     "is_following": isFollowing,
     "is_follower": isFollower,
+    "plan_invitation_status": planInvitationStatus,
   };
 }
 

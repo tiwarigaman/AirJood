@@ -345,7 +345,6 @@ class NetworkApiService extends BaseApiAServices {
   @override
   Future followPostApiResponse(String url, String token) async {
     dynamic responseJson;
-    // String jsonData = json.encode(data);
     try {
       Response response = await http.post(
         Uri.parse(url),
@@ -378,7 +377,6 @@ class NetworkApiService extends BaseApiAServices {
       var multipartFile = await http.MultipartFile.fromPath(
         'file',
         file.path,
-        // contentType: MediaType('audio', 'mpeg'),
       );
       request.files.add(multipartFile);
       request.headers.addAll(headers);

@@ -133,7 +133,7 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                               state: data.state,
                               country: data.country,
                               imageUrl: data.imageUrl,
-                              invitation: data.invitations,
+                              invitation: data.acceptedInvitations,
                             ),
                           ],
                         ),

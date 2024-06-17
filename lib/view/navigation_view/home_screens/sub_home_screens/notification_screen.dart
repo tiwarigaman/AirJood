@@ -327,6 +327,27 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               ),
                                             );
                                           }
+                                          else if (data2[index].data?.type ==
+                                              'experience_booked'){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => ReelsUserDetailScreen(
+                                                  about:data2[index].metadata?.user?.about,
+                                                  image: data2[index].metadata?.user?.profileImageUrl,
+                                                  email: data2[index].metadata?.user?.email,
+                                                  number: data2[index].metadata?.user?.contactNo,
+                                                  name: data2[index].metadata?.user?.name,
+                                                  guide: data2[index].metadata?.user?.isUpgrade,
+                                                  createdAt: data2[index].metadata?.user?.createdAt,
+                                                  language: data2[index].metadata?.user?.languages,
+                                                  userId: data2[index].metadata?.user?.id,
+                                                  screen:"MyScreen",
+                                                  isFollow: data2[index].metadata?.user?.isFollower,
+                                                ),
+                                              ),
+                                            );
+                                          }
                                           else {
                                             Utils.toastMessage(
                                                 'Something went wrong !');

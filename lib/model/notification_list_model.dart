@@ -418,7 +418,7 @@ class User {
 
 class Receiver {
   int? id;
-  List<Language>? languages;
+  List<String>? languages;
   dynamic about;
   String? contactNo;
   DateTime? dob;
@@ -459,7 +459,7 @@ class Receiver {
 
   factory Receiver.fromJson(Map<String, dynamic> json) => Receiver(
     id: json["id"],
-    languages: json["languages"] == null ? [] : List<Language>.from(json["languages"]!.map((x) => languageValues.map[x]!)),
+    languages: json["languages"] == null ? [] : List<String>.from(json["languages"]!.map((x) => x)),
     about: json["about"],
     contactNo: json["contact_no"],
     dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
@@ -480,7 +480,7 @@ class Receiver {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => languageValues.reverse[x])),
+    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => x)),
     "about": about,
     "contact_no": contactNo,
     "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
@@ -499,18 +499,6 @@ class Receiver {
     "plan_invitation_status": planInvitationStatus,
   };
 }
-
-enum Language {
-  EMPTY,
-  ENGLISH,
-  HINDI
-}
-
-final languageValues = EnumValues({
-  "": Language.EMPTY,
-  "English": Language.ENGLISH,
-  "Hindi": Language.HINDI
-});
 
 
 class Reel {

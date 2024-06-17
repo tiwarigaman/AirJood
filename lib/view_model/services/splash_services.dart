@@ -18,6 +18,7 @@ class SplashServices {
         } else {
           await Future.delayed(const Duration(seconds: 2));
           Navigator.pushNamed(context, RoutesName.navigation);
+          print('User_Token => $value');
         }
       },
     ).onError(
