@@ -1,4 +1,4 @@
-import 'package:airjood/view/navigation_view/chat_view/chat_components/FullScreenImage.dart';
+import 'package:airjood/view/navigation_view/chat_view/chat_components/full_screen_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageBox extends StatelessWidget {
