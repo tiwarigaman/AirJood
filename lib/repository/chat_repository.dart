@@ -78,6 +78,17 @@ class ChatRepository {
     }
   }
 
+  Future<dynamic> deleteSelectedMessage(
+      String token, Map<String, dynamic> data) async {
+    try {
+      dynamic response =
+          await apiAServices.deleteApiResponse(AppUrl.messages, token, data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<InviteUserListModel> getUserList(String token, int page,
       {String? search}) async {
     try {

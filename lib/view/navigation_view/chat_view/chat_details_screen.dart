@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:airjood/model/messages_model.dart';
 import 'package:airjood/utils/utils.dart';
 import 'package:airjood/view/navigation_view/chat_view/chat_components/audio_box.dart';
 import 'package:airjood/view/navigation_view/chat_view/chat_components/image_box.dart';
@@ -147,15 +148,14 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     }
   }
 
-  Future<void> deleteMessage(int? id) async {
+  Future<void> deleteMessage() async {
     UserViewModel().getToken().then((value) async {
       final chatProvider = Provider.of<ChatViewModel>(context, listen: false);
-      await chatProvider.deleteMessageApi(value!, id);
+      await chatProvider.deleteMessageApi(value!);
     });
   }
 
-  Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, int? messageId) async {
+  Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -165,7 +165,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure you want to delete this message?'),
+                Text('Are you sure you want to delete the selected messages?'),
               ],
             ),
           ),
@@ -180,8 +180,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               child: const Text('Delete'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                deleteMessage(
-                    messageId); // Call deleteMessage with the message ID
+                deleteMessage(); // Call deleteMessage with the message ID
               },
             ),
           ],
@@ -249,6 +248,31 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     );
   }
 
+  Widget _buildMessageWidget(Message message) {
+    switch (message.type) {
+      case 'audio':
+        return AudioBox(
+          audioUrl: message.filePath,
+          num: message.receiver?.id == widget.user.id ? 0 : 1,
+        );
+      case 'video':
+        return VideoBox(
+          videoUrl: message.filePath ?? '',
+          num: message.receiver?.id == widget.user.id ? 0 : 1,
+        );
+      case 'image':
+        return ImageBox(
+          data: message.filePath ?? '',
+          num: message.receiver?.id == widget.user.id ? 0 : 1,
+        );
+      default:
+        return TextBox(
+          data: message.message ?? '',
+          num: message.receiver?.id == widget.user.id ? 0 : 1,
+        );
+    }
+  }
+
   @override
   void dispose() {
     pusherService.unbind();
@@ -261,6 +285,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final chatProvider = Provider.of<ChatViewModel>(context);
     final padding = MediaQuery.of(context).padding;
 
     return GestureDetector(
@@ -296,8 +321,15 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               fontColor: AppColors.blackColor,
             ),
             const Spacer(),
-            const Icon(CupertinoIcons.ellipsis_vertical),
-            const SizedBox(width: 15),
+            if (chatProvider.selectedMessageIds.isNotEmpty) ...[
+              TextButton(
+                onPressed: () => chatProvider.clearSelection(),
+                child: const Text('Cancel'),
+              )
+            ] else ...[
+              const Icon(CupertinoIcons.ellipsis_vertical),
+              const SizedBox(width: 15),
+            ]
           ],
         ),
         body: Column(
@@ -313,50 +345,26 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                       itemCount: provider.messagesData.length,
                       itemBuilder: (context, index) {
                         final message = provider.messagesData[index];
-
-                        if (message.type == 'audio') {
-                          return GestureDetector(
-                            onLongPress: () => _showDeleteConfirmationDialog(
-                                context, message.id),
-                            child: AudioBox(
-                              audioUrl: message.filePath,
-                              num: message.receiver?.id == widget.user.id
-                                  ? 0
-                                  : 1,
-                            ),
-                          );
-                        }
-                        if (message.type == 'video') {
-                          return GestureDetector(
-                            onLongPress: () => _showDeleteConfirmationDialog(
-                                context, message.id),
-                            child: VideoBox(
-                              videoUrl: message.filePath ?? '',
-                              num: message.receiver?.id == widget.user.id
-                                  ? 0
-                                  : 1,
-                            ),
-                          );
-                        }
-                        if (message.type == 'image') {
-                          return GestureDetector(
-                            onLongPress: () => _showDeleteConfirmationDialog(
-                                context, message.id),
-                            child: ImageBox(
-                              data: message.filePath ?? '',
-                              num: message.receiver?.id == widget.user.id
-                                  ? 0
-                                  : 1,
-                            ),
-                          );
-                        }
+                        final isSelected =
+                            provider.selectedMessageIds.contains(message.id);
 
                         return GestureDetector(
-                          onLongPress: () => _showDeleteConfirmationDialog(
-                              context, message.id),
-                          child: TextBox(
-                            data: message.message ?? '',
-                            num: message.receiver?.id == widget.user.id ? 0 : 1,
+                          onTap: () {
+                            if (provider.selectedMessageIds.isNotEmpty &&
+                                message.receiver?.id == widget.user.id) {
+                              provider.toggleSelection(message.id ?? 0);
+                            }
+                          },
+                          onLongPress: () {
+                            if (message.receiver?.id == widget.user.id) {
+                              provider.toggleSelection(message.id ?? 0);
+                            }
+                          },
+                          child: Container(
+                            color: isSelected
+                                ? Colors.grey[300]
+                                : Colors.transparent,
+                            child: _buildMessageWidget(message),
                           ),
                         );
                       },
@@ -371,107 +379,128 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 );
               }),
             ),
-            Container(
-              color: AppColors.textFildBGColor,
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10 + padding.bottom),
-              child: Column(
-                children: [
-                  if (_isRecording)
+            if (chatProvider.selectedMessageIds.isNotEmpty)
+              Container(
+                color: AppColors.textFildBGColor,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 12 + padding.bottom),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () => _showDeleteConfirmationDialog(context),
+                      icon: const Icon(Icons.delete),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(right: 12.0),
                       child: Text(
-                        'Recording... ${_recordingDuration.inSeconds}s',
-                        style: const TextStyle(color: Colors.red),
-                      ),
+                          '${chatProvider.selectedMessageIds.length} selected'),
                     ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(CupertinoIcons.photo_on_rectangle),
-                        color: AppColors.textFildHintColor,
-                        onPressed: () {
-                          _showImagePickerBottomSheet(context);
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          await _audioRecorder.hasPermission();
-                        },
-                        onLongPressStart: (details) => _startRecording(),
-                        onLongPressEnd: (details) => _stopRecording(),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 8.0),
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: _isRecording
-                              ? const BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                )
-                              : null,
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
-                            child: _isRecording
-                                ? Icon(Icons.mic,
-                                    key: UniqueKey(), color: Colors.white)
-                                : Icon(Icons.mic_none,
-                                    key: UniqueKey(), color: Colors.grey),
-                          ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                color: AppColors.textFildBGColor,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 10 + padding.bottom),
+                child: Column(
+                  children: [
+                    if (_isRecording)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Recording... ${_recordingDuration.inSeconds}s',
+                          style: const TextStyle(color: Colors.red),
                         ),
                       ),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: MainTextFild(
-                          controller: _messageController,
-                          focusNode: _focusNode,
-                          hintText: 'Type Message...',
-                          minLines: 1,
-                          maxLines: 3,
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.sentiment_neutral_sharp),
-                            color: AppColors.textFildHintColor,
-                            onPressed: () {
-                              if (_showEmojiPicker) {
-                                _showEmojiPicker = false;
-                                FocusScope.of(context).requestFocus();
-                              } else {
-                                FocusScope.of(context).unfocus();
-                                _showEmojiPicker = true;
-                              }
-                              setState(() {});
-                            },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(CupertinoIcons.photo_on_rectangle),
+                          color: AppColors.textFildHintColor,
+                          onPressed: () {
+                            _showImagePickerBottomSheet(context);
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await _audioRecorder.hasPermission();
+                          },
+                          onLongPressStart: (details) => _startRecording(),
+                          onLongPressEnd: (details) => _stopRecording(),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: _isRecording
+                                ? const BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  )
+                                : null,
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: _isRecording
+                                  ? Icon(Icons.mic,
+                                      key: UniqueKey(), color: Colors.white)
+                                  : Icon(Icons.mic_none,
+                                      key: UniqueKey(), color: Colors.grey),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 5),
-                      IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () => sendMessage(),
-                      ),
-                    ],
-                  ),
-                  Offstage(
-                    offstage: !_showEmojiPicker,
-                    child: EmojiPicker(
-                      textEditingController: _messageController,
-                      // scrollController: _scrollController,
-                      config: const Config(
-                        height: 256,
-                        checkPlatformCompatibility: true,
-                        emojiViewConfig: EmojiViewConfig(),
-                        swapCategoryAndBottomBar: false,
-                        skinToneConfig: SkinToneConfig(),
-                        categoryViewConfig: CategoryViewConfig(),
-                        bottomActionBarConfig:
-                            BottomActionBarConfig(enabled: false),
-                        searchViewConfig: SearchViewConfig(),
+                        const SizedBox(width: 15),
+                        Expanded(
+                          child: MainTextFild(
+                            controller: _messageController,
+                            focusNode: _focusNode,
+                            hintText: 'Type Message...',
+                            minLines: 1,
+                            maxLines: 3,
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.sentiment_neutral_sharp),
+                              color: AppColors.textFildHintColor,
+                              onPressed: () {
+                                if (_showEmojiPicker) {
+                                  _showEmojiPicker = false;
+                                  FocusScope.of(context).requestFocus();
+                                } else {
+                                  FocusScope.of(context).unfocus();
+                                  _showEmojiPicker = true;
+                                }
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () => sendMessage(),
+                        ),
+                      ],
+                    ),
+                    Offstage(
+                      offstage: !_showEmojiPicker,
+                      child: EmojiPicker(
+                        textEditingController: _messageController,
+                        // scrollController: _scrollController,
+                        config: const Config(
+                          height: 256,
+                          checkPlatformCompatibility: true,
+                          emojiViewConfig: EmojiViewConfig(),
+                          swapCategoryAndBottomBar: false,
+                          skinToneConfig: SkinToneConfig(),
+                          categoryViewConfig: CategoryViewConfig(),
+                          bottomActionBarConfig:
+                              BottomActionBarConfig(enabled: false),
+                          searchViewConfig: SearchViewConfig(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
