@@ -67,7 +67,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _downloadImage();
     setState(() {

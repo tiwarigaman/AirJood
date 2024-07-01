@@ -22,12 +22,12 @@ class _UploadButtonState extends State<UploadButton> {
         Image.asset(
           'assets/images/uploadbg.png',
           fit: BoxFit.fill,
-          height: 190,
+          height: 210,
           width: double.maxFinite,
         ),
         Image.asset(
           'assets/images/uploadbgstack.png',
-          height: 190,
+          height: 210,
           fit: BoxFit.fill,
         ),
         Center(

@@ -60,6 +60,7 @@ class _PostInquiryScreenState extends State<PostInquiryScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16,),
                 child: UploadImage(
                   name: 'Upload Attachment',
+                  image: image,
                   onValue: ((val) {
                     setState(() {
                       image = val;

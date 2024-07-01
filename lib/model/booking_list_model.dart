@@ -88,6 +88,8 @@ class BookingData {
   String? facility;
   String? addonss;
   Experience? experience;
+  User? user;
+  User? displayUser;
 
   BookingData({
     this.id,
@@ -105,6 +107,8 @@ class BookingData {
     this.facility,
     this.addonss,
     this.experience,
+    this.user,
+    this.displayUser,
   });
 
   factory BookingData.fromJson(Map<String, dynamic> json) => BookingData(
@@ -123,6 +127,8 @@ class BookingData {
     facility: json["facility"],
     addonss: json["addonss"],
     experience: json["experience"] == null ? null : Experience.fromJson(json["experience"]),
+    user: json["user"] == null ? null : User.fromJson(json["user"]),
+    displayUser: json["display_user"] == null ? null : User.fromJson(json["display_user"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -141,8 +147,99 @@ class BookingData {
     "facility": facility,
     "addonss": addonss,
     "experience": experience?.toJson(),
+    "user": user?.toJson(),
+    "display_user": displayUser?.toJson(),
   };
 }
+
+class User {
+  int? id;
+  List<String>? languages;
+  String? about;
+  String? contactNo;
+  DateTime? dob;
+  String? gender;
+  String? name;
+  String? role;
+  String? email;
+  dynamic emailVerifiedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  dynamic deletedAt;
+  String? profileImageUrl;
+  bool? isUpgrade;
+  bool? isFollowing;
+  bool? isFollower;
+  dynamic planInvitationStatus;
+
+  User({
+    this.id,
+    this.languages,
+    this.about,
+    this.contactNo,
+    this.dob,
+    this.gender,
+    this.name,
+    this.role,
+    this.email,
+    this.emailVerifiedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.profileImageUrl,
+    this.isUpgrade,
+    this.isFollowing,
+    this.isFollower,
+    this.planInvitationStatus,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+    id: json["id"],
+    languages: json["languages"] == null
+        ? []
+        : List<String>.from(json["languages"]!.map((x) => x)),
+    about: json["about"],
+    contactNo: json["contact_no"],
+    dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+    gender: json["gender"],
+    name: json["name"],
+    role: json["role"],
+    email: json["email"],
+    emailVerifiedAt: json["email_verified_at"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    deletedAt: json["deleted_at"],
+    profileImageUrl: json["profile_image_url"],
+    isUpgrade: json["is_upgrade"],
+    isFollowing: json["is_following"],
+    isFollower: json["is_follower"],
+    planInvitationStatus: json["plan_invitation_status"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "languages": languages == null
+        ? []
+        : List<dynamic>.from(languages!.map((x) => x)),
+    "about": about,
+    "contact_no": contactNo,
+    "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+    "gender": gender,
+    "name": name,
+    "role": role,
+    "email": email,
+    "email_verified_at": emailVerifiedAt,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "deleted_at": deletedAt,
+    "profile_image_url": profileImageUrl,
+    "is_upgrade": isUpgrade,
+    "is_following": isFollowing,
+    "is_follower": isFollower,
+    "plan_invitation_status": planInvitationStatus,
+  };
+}
+
 
 class Experience {
   int? id;
@@ -368,90 +465,6 @@ class Reel {
   };
 }
 
-class User {
-  int? id;
-  List<String>? languages;
-  dynamic about;
-  String? contactNo;
-  DateTime? dob;
-  String? gender;
-  String? name;
-  String? role;
-  String? email;
-  dynamic emailVerifiedAt;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  dynamic deletedAt;
-  String? profileImageUrl;
-  bool? isUpgrade;
-  bool? isFollowing;
-  bool? isFollower;
-  dynamic planInvitationStatus;
-
-  User({
-    this.id,
-    this.languages,
-    this.about,
-    this.contactNo,
-    this.dob,
-    this.gender,
-    this.name,
-    this.role,
-    this.email,
-    this.emailVerifiedAt,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.profileImageUrl,
-    this.isUpgrade,
-    this.isFollowing,
-    this.isFollower,
-    this.planInvitationStatus,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    languages: json["languages"] == null ? [] : List<String>.from(json["languages"]!.map((x) => x)),
-    about: json["about"],
-    contactNo: json["contact_no"],
-    dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-    gender: json["gender"],
-    name: json["name"],
-    role: json["role"],
-    email: json["email"],
-    emailVerifiedAt: json["email_verified_at"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    deletedAt: json["deleted_at"],
-    profileImageUrl: json["profile_image_url"],
-    isUpgrade: json["is_upgrade"],
-    isFollowing: json["is_following"],
-    isFollower: json["is_follower"],
-    planInvitationStatus: json["plan_invitation_status"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => x)),
-    "about": about,
-    "contact_no": contactNo,
-    "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
-    "gender": gender,
-    "name": name,
-    "role": role,
-    "email": email,
-    "email_verified_at": emailVerifiedAt,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "deleted_at": deletedAt,
-    "profile_image_url": profileImageUrl,
-    "is_upgrade": isUpgrade,
-    "is_following": isFollowing,
-    "is_follower": isFollower,
-    "plan_invitation_status": planInvitationStatus,
-  };
-}
-
 class Link {
   String? url;
   String? label;
@@ -474,4 +487,16 @@ class Link {
     "label": label,
     "active": active,
   };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

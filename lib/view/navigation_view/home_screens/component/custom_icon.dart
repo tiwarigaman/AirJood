@@ -1,6 +1,7 @@
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/planning_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/review_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_popup/flutter_popup.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -28,6 +29,7 @@ class CustomIcon extends StatefulWidget {
   int? commentCount;
   final String? screen;
   final String? commentOpen;
+  final int? price;
   CustomIcon(
       {super.key,
       this.reelsId,
@@ -41,7 +43,9 @@ class CustomIcon extends StatefulWidget {
       this.onLikeTap,
       this.commentCount,
       this.commentAdd,
-      this.screen, this.experianceId, this.commentOpen});
+      this.screen,
+      this.experianceId,
+      this.commentOpen, this.price});
 
   @override
   State<CustomIcon> createState() => _CustomIconState();
@@ -57,10 +61,11 @@ class _CustomIconState extends State<CustomIcon> {
   void initState() {
     super.initState();
     dynamicLinks = FirebaseDynamicLinks.instance;
-    if(widget.commentOpen == 'Open'){
+    if (widget.commentOpen == 'Open') {
       commentSheet();
     }
   }
+
   void commentSheet() {
     UserViewModel().getToken().then((value) {
       Provider.of<CommentViewModel>(context, listen: false)
@@ -81,6 +86,7 @@ class _CustomIconState extends State<CustomIcon> {
       );
     });
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -269,9 +275,17 @@ class _CustomIconState extends State<CustomIcon> {
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
-                : SvgPicture.asset(
-                    'assets/svg/pricing.svg',
-                    height: 25,
+                : CustomPopup(
+                    content: CustomText(
+                      data: '\$${widget.price}',
+                      fSize: 18,
+                      fweight: FontWeight.w700,
+                      fontColor: AppColors.mainColor,
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/svg/pricing.svg',
+                      height: 25,
+                    ),
                   ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'

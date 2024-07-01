@@ -8,7 +8,8 @@ import '../../../../res/components/color.dart';
 class UploadImage extends StatefulWidget {
   final String name;
   final Function? onValue;
-  const UploadImage({super.key, this.onValue, required this.name});
+  File? image;
+   UploadImage({super.key, this.onValue, required this.name, this.image});
 
   @override
   State<UploadImage> createState() => _UploadImageState();
@@ -23,7 +24,7 @@ class _UploadImageState extends State<UploadImage> {
 
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        widget.image = File(pickedFile.path);
         widget.onValue!(_image);
         Navigator.pop(context);
       });
@@ -35,8 +36,8 @@ class _UploadImageState extends State<UploadImage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
-        widget.onValue!(_image);
+        widget.image = File(pickedFile.path);
+        widget.onValue!(widget.image);
         Navigator.pop(context);
       });
     }
@@ -48,7 +49,7 @@ class _UploadImageState extends State<UploadImage> {
       alignment: AlignmentDirectional.center,
       children: [
         Image.asset('assets/images/document_upload.png'),
-        _image == null
+        widget.image == null
             ? InkWell(
           onTap: () {
             _showImagePickerBottomSheet(context);
@@ -75,7 +76,7 @@ class _UploadImageState extends State<UploadImage> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.file(
-              _image!,
+              widget.image!,
               height: 140,
               width: 300,
               fit: BoxFit.cover,

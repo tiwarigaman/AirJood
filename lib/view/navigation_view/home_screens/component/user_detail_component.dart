@@ -103,9 +103,7 @@ class _UserDetailsState extends State<UserDetails> {
                   fSize: 14,
                 ),
               ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         result == null || result == ''
             ? const SizedBox()
             : Padding(

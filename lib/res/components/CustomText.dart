@@ -7,14 +7,14 @@ class CustomText extends StatefulWidget {
   final fweight;
   final fontColor;
   final TextOverflow? overflow;
-
+  final int? maxLines;
   const CustomText(
       {super.key,
       this.data,
       this.fSize,
       this.fweight,
       this.fontColor,
-      this.overflow});
+      this.overflow, this.maxLines});
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -26,6 +26,7 @@ class _CustomTextState extends State<CustomText> {
     return Text(
       '${widget.data}',
       overflow: widget.overflow,
+      maxLines: widget.maxLines,
       style: GoogleFonts.nunitoSans(
         color: widget.fontColor,
         fontSize: widget.fSize,

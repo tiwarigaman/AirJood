@@ -33,6 +33,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
+    UserViewModel().getUser().then((value) {
+      image = value?.profileImageUrl;
+      setState(() {});
+    });
     fetchData();
     initPusher();
     super.initState();
@@ -73,7 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollController.dispose();
     super.dispose();
   }
-
+  String? image;
+  String? images;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,15 +86,17 @@ class _ChatScreenState extends State<ChatScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.whiteColor,
         actions: [
-          const SizedBox(width: 20),
+          const SizedBox(
+            width: 20,
+          ),
           const CustomText(
             data: 'My Chats',
             fSize: 22,
-            fweight: FontWeight.w600,
+            fweight: FontWeight.w700,
             fontColor: AppColors.blackColor,
           ),
           const Spacer(),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Navigator.push(
                 context,
@@ -100,18 +107,39 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ).then((value) {
                 UserViewModel().getUser().then((value) {
-                  user = value;
+                  images = value?.profileImageUrl;
+                  // widget.getImage!(value?.profileImageUrl);
                   setState(() {});
                 });
               });
             },
-            child: CircleAvatar(
-              radius: 22,
-              backgroundImage:
-                  CachedNetworkImageProvider(user?.profileImageUrl ?? ''),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: CachedNetworkImage(
+                imageUrl: '$image',
+                fit: BoxFit.cover,
+                height: 40,
+                width: 40,
+                errorWidget: (context, url, error) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
+                      fit: BoxFit.cover,
+                      height: 40,
+                      width: 40,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.error);
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(
+            width: 20,
+          ),
         ],
       ),
       body: Consumer<ChatViewModel>(builder: (context, provider, child) {
@@ -120,7 +148,6 @@ class _ChatScreenState extends State<ChatScreen> {
           final bDate = b.lastMessage?.createdAt ?? DateTime.now();
           return bDate.compareTo(aDate); // Sort in descending order
         });
-
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, top: 16),

@@ -130,6 +130,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       VideoPlayerWidget(
+                                                        experienceId: newData?.id,
                                                     description:
                                                         newData?.description,
                                                     name: newData?.user?.name,

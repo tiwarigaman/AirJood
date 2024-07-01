@@ -61,6 +61,7 @@ class _AddCommunityScreenState extends State<AddCommunityScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16,),
                 child: UploadImage(
                   name: 'Upload Cover Image',
+                  image: image,
                   onValue: ((val) {
                     setState(() {
                       image = val;
@@ -72,6 +73,7 @@ class _AddCommunityScreenState extends State<AddCommunityScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16,),
                 child: UploadImage(
                   name: 'Upload Profile Image',
+                  image: image2,
                   onValue: ((val) {
                     setState(() {
                       image2 = val;

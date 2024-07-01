@@ -7,10 +7,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 import '../../../../view_model/user_view_model.dart';
+
 
 class UserProfile extends StatefulWidget {
   final String? name;
@@ -20,16 +20,25 @@ class UserProfile extends StatefulWidget {
   final String? about;
   final int? userId;
   final String? screen;
-  const UserProfile(
-      {super.key,
-      this.name,
-      this.joinDate,
-      this.image,
-      this.language,
-      this.about,
-      this.userId,
-      this.screen,
-      });
+  final String? contactNo;
+  final DateTime? dob;
+  final String? gender;
+  final String? email;
+
+  const UserProfile({
+    super.key,
+    this.name,
+    this.joinDate,
+    this.image,
+    this.language,
+    this.about,
+    this.userId,
+    this.screen,
+    this.contactNo,
+    this.dob,
+    this.gender,
+    this.email,
+  });
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -38,10 +47,12 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   Future<void> fetchProfileData() async {
     UserViewModel().getToken().then((value) async {
-      final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
-      await counterProvider.profileGetApi(value!,widget.userId!);
+      final counterProvider =
+          Provider.of<ProfileViewModel>(context, listen: false);
+      await counterProvider.profileGetApi(value!, widget.userId!);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     String? formattedDate =
@@ -84,9 +95,7 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ),
         ),
-        const SizedBox(
-          width: 10
-        ),
+        const SizedBox(width: 10),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +182,8 @@ class _UserProfileState extends State<UserProfile> {
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data: '${counterProvider.profileData.data?.followersCount ?? 0}',
+                        data:
+                            '${counterProvider.profileData.data?.followersCount ?? 0}',
                       ),
                       size,
                       const CustomText(
@@ -207,7 +217,8 @@ class _UserProfileState extends State<UserProfile> {
                         fSize: 16,
                         fweight: FontWeight.w700,
                         fontColor: AppColors.blackTextColor,
-                        data: '${counterProvider.profileData.data?.followingsCount ?? 0}',
+                        data:
+                            '${counterProvider.profileData.data?.followingsCount ?? 0}',
                       ),
                       size,
                       const CustomText(
@@ -222,7 +233,7 @@ class _UserProfileState extends State<UserProfile> {
               ],
             )
           ],
-        )
+        ),
       ],
     );
   }

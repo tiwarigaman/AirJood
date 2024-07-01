@@ -8,6 +8,7 @@ import '../../../../res/components/color.dart';
 class SliderWidget extends StatefulWidget {
   final Function? onValue;
   final int? duration;
+
   const SliderWidget({super.key, this.onValue, this.duration});
 
   @override
@@ -15,12 +16,24 @@ class SliderWidget extends StatefulWidget {
 }
 
 class _SliderWidgetState extends State<SliderWidget> {
-  dynamic _low = 12.0;
+  dynamic _low = 0.0;
+
   @override
   void initState() {
     _low = widget.duration?.toDouble();
     super.initState();
   }
+
+  @override
+  void didUpdateWidget(covariant SliderWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.duration != oldWidget.duration) {
+      setState(() {
+        _low = widget.duration?.toDouble();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -47,8 +60,8 @@ class _SliderWidgetState extends State<SliderWidget> {
               alwaysShowTooltip: true,
               custom: (value) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: const Color(0xFFDADDEE),
                     borderRadius: BorderRadius.circular(100),
@@ -87,12 +100,11 @@ class _SliderWidgetState extends State<SliderWidget> {
             decoration: BoxDecoration(
               color: AppColors.textFildBGColor,
               borderRadius: BorderRadius.circular(10),
-              border:
-              Border.all(color: AppColors.textFildBorderColor),
+              border: Border.all(color: AppColors.textFildBorderColor),
             ),
             child: Center(
               child: CustomText(
-                data: '${_low.toInt() ?? 12.0}',
+                data: '${_low.toInt()}',
                 fontColor: AppColors.mainColor,
                 fSize: 16,
                 fweight: FontWeight.w800,

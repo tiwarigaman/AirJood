@@ -120,7 +120,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       var data = value.planningData.data?.data?[index];
-                      var invitationsLength = data?.invitations?.length ?? 0;
+                      var invitationsLength = data?.acceptedInvitations?.length ?? 0;
                       return Padding(
                         padding: const EdgeInsets.only(top: 5,bottom: 5),
                         child: GestureDetector(
@@ -170,7 +170,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                           fSize: 20,
                                         ),
                                         const SizedBox(height: 5),
-                                        data?.invitations == null
+                                        data?.acceptedInvitations == null
                                             ? const SizedBox()
                                             : AvatarStack(
                                                 height: 25,
@@ -185,7 +185,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                                       n < invitationsLength;
                                                       n++)
                                                     CachedNetworkImageProvider(
-                                                      '${data?.invitations?[n].user?.profileImageUrl}',
+                                                      '${data?.acceptedInvitations?[n].user?.profileImageUrl}',
                                                       errorListener: (p0) {
                                                         const Icon(
                                                           CupertinoIcons.person,
@@ -204,7 +204,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                data?.invitations == null
+                                data?.acceptedInvitations == null
                                     ? const SizedBox()
                                     : Row(
                                         children: [
@@ -216,7 +216,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                               n++)
                                             CustomText(
                                               data:
-                                                  '@${data?.invitations?[n].user?.name},',
+                                                  '@${data?.acceptedInvitations?[n].user?.name},',
                                               fweight: FontWeight.w400,
                                               fSize: 13,
                                               fontColor: AppColors.greyTextColor,

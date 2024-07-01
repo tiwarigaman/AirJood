@@ -6,6 +6,7 @@ import 'package:airjood/view_model/notification_list_view_model.dart';
 import 'package:airjood/view_model/read_unread_notification_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen>
     with SingleTickerProviderStateMixin {
   late final controller = SlidableController(this);
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -37,8 +39,13 @@ class _NotificationScreenState extends State<NotificationScreen>
       token = value;
       setState(() {});
       Provider.of<NotificationListViewModel>(context, listen: false)
+          .setPage(1);
+      Provider.of<NotificationListViewModel>(context, listen: false)
+          .clearData();
+      Provider.of<NotificationListViewModel>(context, listen: false)
           .notificationListGetApi(value!);
     });
+    _scrollController.addListener(_onScroll);
   }
 
   String? token;
@@ -46,7 +53,18 @@ class _NotificationScreenState extends State<NotificationScreen>
     Provider.of<DeleteNotificationViewModel>(context, listen: false)
         .deleteNotificationApi(token!, id, context);
   }
-
+  void _onScroll() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      Provider.of<NotificationListViewModel>(context, listen: false)
+          .notificationListGetApi(token!);
+    }
+  }
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,32 +75,32 @@ class _NotificationScreenState extends State<NotificationScreen>
         ),
         color: AppColors.whiteColor,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                children: [
-                  const CustomText(
-                    data: 'Notifications',
-                    fweight: FontWeight.w700,
-                    fSize: 22,
-                    fontColor: AppColors.blackTextColor,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: [
+                const CustomText(
+                  data: 'Notifications',
+                  fweight: FontWeight.w700,
+                  fSize: 22,
+                  fontColor: AppColors.blackTextColor,
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    CupertinoIcons.xmark,
                   ),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      CupertinoIcons.xmark,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Consumer<NotificationListViewModel>(
+          ),
+          Expanded(
+            child: Consumer<NotificationListViewModel>(
               builder: (context, value, child) {
                 switch (value.notificationListData.status) {
                   case Status.LOADING:
@@ -96,9 +114,8 @@ class _NotificationScreenState extends State<NotificationScreen>
                       child: FollowersShimmer(),
                     );
                   case Status.COMPLETED:
-                    var data2 = value.notificationListData.data?.data ?? [];
-                    return value.notificationListData.data == null ||
-                            value.notificationListData.data!.data!.isEmpty
+                    var data2 = value.notificationList;
+                    return value.notificationList.isEmpty
                         ? Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -118,9 +135,10 @@ class _NotificationScreenState extends State<NotificationScreen>
                             ],
                           )
                         : ListView.builder(
+                            controller: _scrollController,
                             shrinkWrap: true,
                             itemCount: data2.length,
-                            physics: const NeverScrollableScrollPhysics(),
+                            physics: const ScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Slidable(
                                 key: const ValueKey(0),
@@ -851,8 +869,8 @@ class _NotificationScreenState extends State<NotificationScreen>
                 return Container();
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

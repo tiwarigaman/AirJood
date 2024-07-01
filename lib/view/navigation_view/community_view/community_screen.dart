@@ -2,7 +2,6 @@ import 'package:airjood/view/navigation_view/community_view/add_community_screen
 import 'package:airjood/view/navigation_view/community_view/community_details_screen.dart';
 import 'package:airjood/view/navigation_view/community_view/widgets/list_container_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../res/components/CustomText.dart';
@@ -104,7 +103,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      'https://airjood.neuronsit.in/storage/profile_images/TOAeh3xMyzAz2SOjz2xYu7GvC2yePHMqoTKd3pWJ.png',
+                      'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
                       fit: BoxFit.cover,
                       height: 40,
                       width: 40,

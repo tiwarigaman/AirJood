@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../model/booking_list_model.dart';
+import '../../../../../model/conversations_model.dart';
 import '../../../../../model/get_experiance_model.dart';
 import '../../../../../model/reels_model.dart';
 import '../../../../../res/components/CustomText.dart';
@@ -14,6 +16,7 @@ import '../../../../../view_model/get_reels_view_model.dart';
 import '../../../../../view_model/get_user_profile_view_model.dart';
 import '../../../../../view_model/home_reels_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
+import '../../../chat_view/chat_details_screen.dart';
 import '../../component/user_detail_component.dart';
 
 class ReelsUserDetailScreen extends StatefulWidget {
@@ -25,10 +28,12 @@ class ReelsUserDetailScreen extends StatefulWidget {
   final String? email;
   final List? language;
   final bool? guide;
+  final DateTime? dob;
   final int? userId;
   final String? screen;
   final bool? isFollow;
-
+  final String? gender;
+  final String? role;
   const ReelsUserDetailScreen(
       {super.key,
       this.image,
@@ -41,7 +46,7 @@ class ReelsUserDetailScreen extends StatefulWidget {
       this.guide,
       this.userId,
       this.screen,
-      this.isFollow});
+      this.isFollow, this.dob, this.gender, this.role});
 
   @override
   State<ReelsUserDetailScreen> createState() => _ReelsUserDetailScreenState();
@@ -193,6 +198,41 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
               ),
             ),
           ),
+          const SizedBox(
+            width: 15,
+          ),
+          if (widget.screen != 'MyScreen')
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatDetailsScreen(
+                      user: ConversationsData(
+                        id: widget.userId,
+                        languages: widget.language,
+                        about: widget.about,
+                        contactNo: widget.number,
+                        dob: widget.dob,
+                        gender: widget.gender,
+                        name: widget.name,
+                        role: widget.role,
+                        email: widget.email,
+                        profileImageUrl: widget.image,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.tabBGColor,
+                ),
+                child: const Icon(CupertinoIcons.chat_bubble_text,color: AppColors.mainColor,size: 22,),
+              ),
+            ),
           const SizedBox(
             width: 15,
           ),

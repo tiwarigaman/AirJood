@@ -19,6 +19,7 @@ class AppUrl {
   static var getExperianceList = '$baseUrl/api/v1/experience';
   static var getPlanningDetails = '$baseUrl/api/v1/plans';
   static var deleteExperiance = '$baseUrl/api/v1/experience';
+  static var deleteReels = '$baseUrl/api/v1/reels';
   static var searchExperiance = '$baseUrl/api/v1/experience/search?';
   static var getComment = '$baseUrl/api/v1/comment';
   static var addComment = '$baseUrl/api/v1/comment';

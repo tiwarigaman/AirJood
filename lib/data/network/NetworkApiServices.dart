@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:airjood/main.dart';
+import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -390,9 +392,35 @@ class NetworkApiService extends BaseApiAServices {
     return responseJson;
   }
 
+  @override
+  Future deleteApiResponse(
+      String url, String token, Map<String, dynamic> data) async {
+    dynamic responseJson;
+    try {
+      Response response = await http.delete(
+        Uri.parse(url),
+        body: jsonEncode(data),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 20));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
   dynamic returnResponse(http.Response response) {
+    Map<String, dynamic> responseData = jsonDecode(response.body);
     if (kDebugMode) {
       print('Response =>${response.body}');
+      print('Response => ${responseData['message']}');
+    }
+    if(responseData['message'] == 'Unauthenticated.'){
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);
     }
     switch (response.statusCode) {
       case 200:
@@ -418,25 +446,5 @@ class NetworkApiService extends BaseApiAServices {
     }
   }
 
-  @override
-  Future deleteApiResponse(
-      String url, String token, Map<String, dynamic> data) async {
-    dynamic responseJson;
-    try {
-      Response response = await http.delete(
-        Uri.parse(url),
-        body: jsonEncode(data),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      ).timeout(const Duration(seconds: 20));
-      responseJson = returnResponse(response);
-    } on SocketException {
-      throw FetchDataException('No Internet Connection');
-    }
 
-    return responseJson;
-  }
 }

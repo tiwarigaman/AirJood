@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import '../../../res/components/color.dart';
+import '../../../view_model/notification_list_view_model.dart';
 import '../../../view_model/user_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,9 +38,19 @@ class _HomeScreenState extends State<HomeScreen>
     _pageController = PreloadPageController(initialPage: currentPage);
     _pageController.addListener(_onPageChanged);
     fetchData();
+    notification();
     UserViewModel().getUser().then((value) {
       image = value?.profileImageUrl;
       setState(() {});
+    });
+
+  }
+
+  void notification() {
+    UserViewModel().getToken().then((value) {
+      setState(() {});
+      Provider.of<NotificationListViewModel>(context, listen: false)
+          .notificationListGetApi(value!);
     });
   }
 
@@ -100,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
-
+    final notificationProvider = Provider.of<NotificationListViewModel>(context);
     return RefreshIndicator(
       onRefresh: refreshData,
       child: Scaffold(
@@ -169,15 +180,19 @@ class _HomeScreenState extends State<HomeScreen>
                   context: context,
                   constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height * 0.85),
                   isScrollControlled: true,
-                  //isDismissible: false,
                   enableDrag: false,
                   builder: (_) => const NotificationScreen(),
-                );
+                ).then((value) {
+                  notification();
+                });
               },
-              child: const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Image(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: notificationProvider.notificationListData.data?.unreadCount == 0 ? const Image(
                   image: AssetImage('assets/icons/notification.png'),
+                  height: 20,
+                ) : const Image(
+                  image: AssetImage('assets/icons/notification_on.png'),
                   height: 20,
                 ),
               ),

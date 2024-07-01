@@ -5,13 +5,18 @@ import 'package:airjood/view/navigation_view/home_screens/screen_widget/plan_wid
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/add_experience_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../../model/booking_list_model.dart';
 import '../../../../model/get_experiance_model.dart';
 import '../../../../model/reels_model.dart';
 import '../../../../res/components/color.dart';
+import '../../../../view_model/delete_experiance_view_model.dart';
+import '../../../../view_model/user_view_model.dart';
+import '../../ExitBar.dart';
 import '../../planning_view/Add_planning_screen.dart';
 import '../sub_home_screens/show_upload_reels.dart';
 
@@ -150,6 +155,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                 ),
               TabData(
                 item: widget.items,
+                screen: widget.screen,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -200,7 +206,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10,top: 20),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 child: Column(
                   children: [
                     if (widget.screen == 'UserDetails')
@@ -211,8 +217,7 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                              const AddPlanningScreen(),
+                              builder: (context) => const AddPlanningScreen(),
                             ),
                           );
                         },
@@ -261,10 +266,11 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
 
 class TabData extends StatefulWidget {
   final List<ReelsData>? item;
-
+  final String? screen;
   const TabData({
     super.key,
     this.item,
+    this.screen,
   });
 
   @override
@@ -313,6 +319,31 @@ class _TabDataState extends State<TabData> {
                           ),
                         ),
                       );
+                    },
+                    onLongPress: () {
+                      if (widget.screen != 'UserDetails') {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (_) => CustomExitCard(
+                            icon: CupertinoIcons.delete_solid,
+                            title: 'Delete',
+                            subTitle: 'Are you sure want to Delete Laqta ?',
+                            positiveButton: 'Delete',
+                            negativeButton: 'Cancel',
+                            onPressed: () {
+                              UserViewModel().getToken().then((value) {
+                                Provider.of<DeleteExperianceViewModel>(context,
+                                        listen: false)
+                                    .deleteExperianceApi(value!,
+                                        widget.item![index].id!, context,
+                                        reels: true,
+                                        userId: widget.item![index].userId);
+                              });
+                            },
+                          ),
+                        );
+                      }
                     },
                     focusColor: Colors.transparent,
                     hoverColor: Colors.transparent,

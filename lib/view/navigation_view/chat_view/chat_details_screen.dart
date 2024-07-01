@@ -304,7 +304,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               },
               child: const Icon(
                 Icons.keyboard_arrow_left_rounded,
-                size: 45,
+                size: 35,
                 weight: 2,
               ),
             ),
@@ -316,7 +316,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             const SizedBox(width: 15),
             CustomText(
               data: widget.user.name ?? '',
-              fSize: 22,
+              fSize: 20,
               fweight: FontWeight.w700,
               fontColor: AppColors.blackColor,
             ),

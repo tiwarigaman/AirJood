@@ -34,7 +34,7 @@ class ConversationsModel {
 
 class ConversationsData {
   int? id;
-  List<String>? languages;
+  final List? languages;
   String? about;
   String? contactNo;
   DateTime? dob;

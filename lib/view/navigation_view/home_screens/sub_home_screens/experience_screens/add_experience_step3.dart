@@ -212,7 +212,8 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                     ? addressComponents[addressComponents.length - 3]
                     : '';
                 String addressQuery = val.replaceAll(' ', '+');
-                String apiKey = 'AIzaSyCGzdWSRPmwqh8Lor3UsWsEO9HArG9u64s';
+                // String apiKey = 'AIzaSyCGzdWSRPmwqh8Lor3UsWsEO9HArG9u64s';
+                String apiKey = 'AIzaSyC5npjbUL8pKHqNXkl7ps3E1H4f9hh8lgo';
                 String apiUrl =
                     'https://maps.googleapis.com/maps/api/geocode/json?address=$addressQuery&key=$apiKey';
                 http.Response response = await http.get(Uri.parse(apiUrl));
@@ -338,6 +339,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
             ),
             UploadImage(
               name: 'Upload Fridge Magnet',
+              image: image,
               onValue: ((val) {
                 setState(() {
                   image = val;
@@ -503,31 +505,3 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
     );
   }
 }
-
-// Row(
-// children: [
-// Expanded(
-// child: SelectCountry(
-// onChanged: (value) {
-// setState(() {
-// selectedItem = value as String?;
-// });
-// },
-// value: selectedItem,
-// ),
-// ),
-// const SizedBox(
-// width: 10,
-// ),
-// Expanded(
-// child: SelectCity(
-// onChanged: (value) {
-// setState(() {
-// selectedItem2 = value as String?;
-// });
-// },
-// value: selectedItem2,
-// ),
-// ),
-// ],
-// ),

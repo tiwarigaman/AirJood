@@ -21,7 +21,7 @@ class _GoogleLocationBoxState extends State<GoogleLocationBox> {
       height: 50,
       child: GooglePlaceAutoCompleteTextField(
         textEditingController: controller,
-        googleAPIKey: 'AIzaSyCGzdWSRPmwqh8Lor3UsWsEO9HArG9u64s',
+        googleAPIKey: 'AIzaSyC5npjbUL8pKHqNXkl7ps3E1H4f9hh8lgo',
         inputDecoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.my_location_rounded,

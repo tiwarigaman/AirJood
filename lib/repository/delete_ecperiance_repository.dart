@@ -13,4 +13,13 @@ class DeleteExperianceRepository {
       rethrow;
     }
   }
+  Future deleteReels(String token, int id) async {
+    try {
+      dynamic response = await apiAServices.getDeleteApiResponse(
+          '${AppUrl.deleteReels}/$id', token);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

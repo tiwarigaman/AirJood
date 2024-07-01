@@ -107,6 +107,7 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                                     1;
                           });
                         },
+                        price: widget.data[widget.index].price,
                         onLikeTap: () {
                           setState(() {
                             if (widget.data[widget.index].reel?.liked == true) {
@@ -143,6 +144,9 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                         about: widget.data[widget.index].user?.about,
                         experienceId: widget.data[widget.index].id,
                         isFollow: widget.data[widget.index].user?.isFollower,
+                        gender: widget.data[widget.index].user?.gender,
+                        dob: widget.data[widget.index].user?.dob,
+                        role:widget.data[widget.index].user?.role,
                         screen: 'UserDetails',
                       ),
                       const SizedBox(

@@ -196,7 +196,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        'https://airjood.neuronsit.in/storage/profile_images/TOAeh3xMyzAz2SOjz2xYu7GvC2yePHMqoTKd3pWJ.png',
+                        'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
                         fit: BoxFit.cover,
                         height: 40,
                         width: 40,
@@ -227,72 +227,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: 130,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/image1.png',
-                            height: 110,
-                            width: 80,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/image1.png',
-                            height: 110,
-                            width: 80,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/image1.png',
-                            height: 110,
-                            width: 80,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            'assets/images/image1.png',
-                            height: 110,
-                            width: 80,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
               InkWell(
                 onTap: () {
                   _getImageFromGallery('Laqta');
@@ -303,7 +237,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               InkWell(
                 onTap: () {

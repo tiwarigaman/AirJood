@@ -84,6 +84,7 @@ class Datum {
   DateTime? updatedAt;
   DateTime? createdAt;
   int? createdBy;
+  List<Invitation>? acceptedInvitations;
   String? countryName;
   String? stateName;
   String? imageUrl;
@@ -102,6 +103,7 @@ class Datum {
     this.updatedAt,
     this.createdAt,
     this.createdBy,
+    this.acceptedInvitations,
     this.countryName,
     this.stateName,
     this.imageUrl,
@@ -121,6 +123,7 @@ class Datum {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     createdBy: json["created_by"],
+    acceptedInvitations: json["accepted_invitations"] == null ? [] : List<Invitation>.from(json["accepted_invitations"]!.map((x) => Invitation.fromJson(x))),
     countryName: json["country_name"],
     stateName: json["state_name"],
     imageUrl: json["image_url"],
@@ -140,6 +143,7 @@ class Datum {
     "updated_at": updatedAt?.toIso8601String(),
     "created_at": createdAt?.toIso8601String(),
     "created_by": createdBy,
+    "accepted_invitations": acceptedInvitations == null ? [] : List<dynamic>.from(acceptedInvitations!.map((x) => x.toJson())),
     "country_name": countryName,
     "state_name": stateName,
     "image_url": imageUrl,
@@ -271,6 +275,7 @@ class User {
     "plan_invitation_status": planInvitationStatus,
   };
 }
+
 
 class PlanReel {
   int? id;
@@ -574,4 +579,16 @@ class Link {
     "label": label,
     "active": active,
   };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

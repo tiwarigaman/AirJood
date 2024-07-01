@@ -182,6 +182,7 @@ class _EditPlanningScreenState extends State<EditPlanningScreen> {
               if (isUploadingNewImage || widget.imageUrl == null || widget.imageUrl!.isEmpty)
                 UploadImage(
                   name: 'Upload Thumbnail Image for your Trip',
+                  image: image,
                   onValue: (val) {
                     image = val;
                     setState(() {});
