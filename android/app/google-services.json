@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "887270465899",
-    "project_id": "airjood",
-    "storage_bucket": "airjood.appspot.com"
+    "project_number": "700095714481",
+    "project_id": "jooders-d8330",
+    "storage_bucket": "jooders-d8330.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887270465899:android:6e6039909c87834a0bec2e",
+        "mobilesdk_app_id": "1:700095714481:android:6255bfc78f126686513e90",
         "android_client_info": {
           "package_name": "com.airjood"
         }
@@ -15,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAnTkbNzmGKOnMcWzHFRzxvAX1-j4l69ao"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:887270465899:android:a2d2f19a1706014d0bec2e",
-        "android_client_info": {
-          "package_name": "com.example.airjood"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAnTkbNzmGKOnMcWzHFRzxvAX1-j4l69ao"
+          "current_key": "AIzaSyBGp1tPZnzX_1vmPq75tjggzYNWnHUGe0A"
         }
       ],
       "services": {

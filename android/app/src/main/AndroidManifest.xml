@@ -15,7 +15,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC5npjbUL8pKHqNXkl7ps3E1H4f9hh8lgo"/>
+            android:value="AIzaSyCixBRBBiL0cWT7JleGlVIE3tYoee9Aa00"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/union" />
