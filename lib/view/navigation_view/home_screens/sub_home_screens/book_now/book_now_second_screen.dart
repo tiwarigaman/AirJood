@@ -58,16 +58,16 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
             }else if(_low == null){
               Utils.toastMessage('Please select No Of Guest');
             }else{
+              print(selected);
               widget.onTap!(
                   {
                     'date':selectedDate,
-                    'selectFacilities':selected ?? [],
+                    'selectFacilities':selected ?? [""],
                     'comment': commentController.text,
                     'noOfGuest': _low.toStringAsFixed(0),
                   }
               );
             }
-
           },
           child: const MainButton(
             data: 'Payments',

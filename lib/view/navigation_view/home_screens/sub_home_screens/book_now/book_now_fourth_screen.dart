@@ -65,9 +65,6 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
   @override
   Widget build(BuildContext context) {
     double totalCharges = calculateTotalCharges();
-    print('Booking Charges: ${widget.userCharges}');
-    print('Addon Charges: ${widget.addon?.map((addon) => addon.price).toList()}');
-    print('Total Charges: $totalCharges');
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(

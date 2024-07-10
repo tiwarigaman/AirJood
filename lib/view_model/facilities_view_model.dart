@@ -8,8 +8,8 @@ import '../utils/utils.dart';
 class FacilitiesViewModel with ChangeNotifier {
   final myRepo = FacilitiesRepository();
 
-  ApiResponse<List<FacilitiesModel>> facilitiesData = ApiResponse.loading();
-  setFacilitiesDataList(ApiResponse<List<FacilitiesModel>> response) {
+  ApiResponse<FacilitiesModel> facilitiesData = ApiResponse.loading();
+  setFacilitiesDataList(ApiResponse<FacilitiesModel> response) {
     facilitiesData = response;
     notifyListeners();
   }

@@ -8,8 +8,8 @@ import '../utils/utils.dart';
 class MoodViewModel with ChangeNotifier {
   final myRepo = MoodRepository();
 
-  ApiResponse<List<MoodModel>> moodData = ApiResponse.loading();
-  setMoodList(ApiResponse<List<MoodModel>> response) {
+  ApiResponse<MoodModel> moodData = ApiResponse.loading();
+  setMoodList(ApiResponse<MoodModel> response) {
     moodData = response;
     notifyListeners();
   }

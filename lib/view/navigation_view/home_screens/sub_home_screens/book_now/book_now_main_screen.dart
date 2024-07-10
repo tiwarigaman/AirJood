@@ -211,7 +211,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
 
   Future<void> paymentSuccessApi(String paymentMethod) async {
     List<int?>? addonIds = addon?.map((e) => e.id).toList();
-    List<dynamic>? facilityIds = facilitates?.map((e) => e.id).toList();
+    List<dynamic>? facilityIds = selectedFacilitates?.map((e) => e).toList() ?? [];
     Map<String, dynamic> data = {
       'experience_id': '$exId',
       'payment_method': paymentMethod,
@@ -221,7 +221,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
       'total_amount': '$totalOfPrice',
       'addons': "$addonIds",
       'comment': '$comment',
-      'facility_id': "$facilityIds",
+      'facility_id': facilityIds.toString(),
     };
     await Provider.of<CreateBookingViewModel>(context, listen: false)
         .createBookingApi(token!, data, context);
@@ -399,7 +399,7 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         reelsUrl: reelsUrl,
         addon: addon,
         videoThumbnailUrl: videoThumbnailUrl,
-        selectedFacilitates: selectedFacilitates,
+        selectedFacilitates: facilitates,
         reelsUserName: reelsUserName,
         reelsUserProfileImage: reelsUserProfileImage,
         address: address,
@@ -412,20 +412,8 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
           } else if (paymentMethod == 'Stripe') {
             makePayment(value);
           }
-          // pagecontroller.nextPage(
-          //   duration: const Duration(milliseconds: 1),
-          //   curve: Curves.bounceIn,
-          // );
         },
       ),
-      // BookNowThirdScreen(
-      //   name: name,
-      //   address: address,
-      //   totalPrice: totalPrice,
-      //   onTap: () {
-      //     makePayment();
-      //   },
-      // ),
     ];
 
     return ClipRRect(

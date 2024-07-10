@@ -1,9 +1,9 @@
 import 'package:airjood/model/follower_model.dart';
 import 'package:airjood/res/components/maintextfild.dart';
 import 'package:airjood/view_model/delete_follower_view_model.dart';
-import 'package:airjood/view_model/follow_view_model.dart';
 import 'package:airjood/view_model/followers_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -95,8 +95,10 @@ class _FollowersScreenState extends State<FollowersScreen> {
                 onChanged: (values) {
                   if (values.length == 3 || values.isEmpty) {
                     UserViewModel().getToken().then((value) {
-                      Provider.of<FollowersViewModel>(context, listen: false).setPage(1);
-                      Provider.of<FollowersViewModel>(context, listen: false).clearData();
+                      Provider.of<FollowersViewModel>(context, listen: false)
+                          .setPage(1);
+                      Provider.of<FollowersViewModel>(context, listen: false)
+                          .clearData();
                       Provider.of<FollowersViewModel>(context, listen: false)
                           .followerGetApi(value!, widget.userId!,
                               search: values);
@@ -105,8 +107,10 @@ class _FollowersScreenState extends State<FollowersScreen> {
                 },
                 onFieldSubmitted: (values) {
                   UserViewModel().getToken().then((value) {
-                    Provider.of<FollowersViewModel>(context, listen: false).setPage(1);
-                    Provider.of<FollowersViewModel>(context, listen: false).clearData();
+                    Provider.of<FollowersViewModel>(context, listen: false)
+                        .setPage(1);
+                    Provider.of<FollowersViewModel>(context, listen: false)
+                        .clearData();
                     Provider.of<FollowersViewModel>(context, listen: false)
                         .followerGetApi(value!, widget.userId!, search: values);
                   });
@@ -164,7 +168,18 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                   imageUrl:
                                       '${data?.createdBy?.profileImageUrl}',
                                   errorWidget: (context, url, error) {
-                                    return const Icon(Icons.error);
+                                    return Container(
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        color: AppColors.blueShade,
+                                      ),
+                                      child: const Icon(
+                                        CupertinoIcons.person,
+                                      ),
+                                    );
                                   },
                                   height: 55,
                                   width: 55,

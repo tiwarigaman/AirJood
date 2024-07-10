@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../model/booking_list_model.dart';
@@ -22,12 +23,13 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomText(
-          data: 'Bookings',
-          fweight: FontWeight.w800,
-          fSize: 18,
-          fontColor: AppColors.blackTextColor,
-        ),
+        if (widget.bookingList!.isNotEmpty)
+          const CustomText(
+            data: 'Bookings',
+            fweight: FontWeight.w800,
+            fSize: 18,
+            fontColor: AppColors.blackTextColor,
+          ),
         const SizedBox(
           height: 10,
         ),
@@ -98,7 +100,8 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                  data: data?.displayUser?.name ?? "Deleted user",
+                                  data:
+                                      data?.displayUser?.name ?? "Deleted user",
                                   fweight: FontWeight.w700,
                                   fSize: 18,
                                   fontColor: AppColors.blackTextColor,
@@ -143,43 +146,57 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                       const SizedBox(height: 5),
                       CustomText(
                         data:
-                            'Number Of Person : ${data?.experience?.maxPerson}',
+                            'Number Of Person : ${data?.noOfGuests}',
                         fweight: FontWeight.w700,
                         fSize: 13,
                         fontColor: AppColors.blackTextColor,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const CustomText(
-                            data: 'Facilities : ',
-                            fweight: FontWeight.w700,
-                            fSize: 14,
-                            fontColor: AppColors.blackTextColor,
-                          ),
-                          Expanded(
-                            child: Wrap(
-                              children: [
-                                ...?data?.experience?.facility?.map(
-                                      (e) => CustomText(
-                                    data: '${e.facility} , ',
-                                    fweight: FontWeight.w600,
-                                    fSize: 13,
-                                    fontColor: AppColors.blackTextColor,
-                                  ),
-                                ),
-                              ],
+                      if (data?.facility != null && data!.facility!.isNotEmpty)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CustomText(
+                              data: 'Facilities : ',
+                              fweight: FontWeight.w700,
+                              fSize: 14,
+                              fontColor: AppColors.blackTextColor,
                             ),
-                          ),
-                        ],
-                      ),
-                      CustomText(
-                        data:
-                        'Comment : ${data?.experience?.description}',
-                        fweight: FontWeight.w700,
-                        fSize: 14,
-                        fontColor: AppColors.blackTextColor,
-                      ),
+                            Expanded(
+                              child: Wrap(
+                                children: [
+                                  ...?data.facility?.map(
+                                    (e) => CustomText(
+                                      data: '${e.facility} , ',
+                                      fweight: FontWeight.w600,
+                                      fSize: 13,
+                                      fontColor: AppColors.blackTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (data?.comment != null)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CustomText(
+                              data: 'Comment : ',
+                              fweight: FontWeight.w700,
+                              fSize: 14,
+                              fontColor: AppColors.blackTextColor,
+                            ),
+                            Expanded(
+                              child: CustomText(
+                                data: '${data?.comment}',
+                                fweight: FontWeight.w500,
+                                fSize: 13,
+                                fontColor: AppColors.blackTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

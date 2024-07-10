@@ -1,6 +1,7 @@
 import 'package:airjood/res/components/maintextfild.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/response/status.dart';
@@ -161,7 +162,18 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                   imageUrl:
                                       '${data?.followedUser?.profileImageUrl}',
                                   errorWidget: (context, url, error) {
-                                    return const Icon(Icons.error);
+                                    return Container(
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(100),
+                                        color: AppColors.blueShade,
+                                      ),
+                                      child: const Icon(
+                                        CupertinoIcons.person,
+                                      ),
+                                    );
                                   },
                                   height: 50,
                                   width: 50,

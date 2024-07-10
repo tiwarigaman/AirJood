@@ -116,21 +116,21 @@ class _ChatScreenState extends State<ChatScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
-                imageUrl: '$image',
+                imageUrl: image ?? 'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
                 fit: BoxFit.cover,
                 height: 40,
                 width: 40,
                 errorWidget: (context, url, error) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
-                      fit: BoxFit.cover,
-                      height: 40,
-                      width: 40,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.error);
-                      },
+                  return Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(100),
+                      color: AppColors.blueShade,
+                    ),
+                    child: const Icon(
+                      CupertinoIcons.person,
                     ),
                   );
                 },
@@ -236,12 +236,19 @@ class _ChatScreenState extends State<ChatScreen> {
                                 borderRadius: BorderRadius.circular(100),
                                 child: CachedNetworkImage(
                                   imageUrl:
-                                      '${provider.usersList[index].profileImageUrl}',
+                                      provider.usersList[index].profileImageUrl ?? 'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
                                   errorWidget: (context, url, error) {
                                     return Container(
-                                      color: AppColors.secondTextColor
-                                          .withOpacity(0.1),
-                                      child: const Icon(CupertinoIcons.person),
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(100),
+                                        color: AppColors.blueShade,
+                                      ),
+                                      child: const Icon(
+                                        CupertinoIcons.person,
+                                      ),
                                     );
                                   },
                                   height: 50,
@@ -304,10 +311,29 @@ class _ChatScreenState extends State<ChatScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 7),
                             child: Row(
                               children: [
-                                CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage:
-                                      NetworkImage(user.profileImageUrl ?? ''),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    user.profileImageUrl ?? 'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
+                                    errorWidget: (context, url, error) {
+                                      return Container(
+                                        width: 45,
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(100),
+                                          color: AppColors.blueShade,
+                                        ),
+                                        child: const Icon(
+                                          CupertinoIcons.person,
+                                        ),
+                                      );
+                                    },
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(

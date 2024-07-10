@@ -14,7 +14,7 @@ class addReelRepository {
           AppUrl.addReels, token, data, reel, image);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

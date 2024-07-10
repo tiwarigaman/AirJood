@@ -21,7 +21,7 @@ class _GoogleLocationBoxState extends State<GoogleLocationBox> {
       height: 50,
       child: GooglePlaceAutoCompleteTextField(
         textEditingController: controller,
-        googleAPIKey: 'AIzaSyC5npjbUL8pKHqNXkl7ps3E1H4f9hh8lgo',
+        googleAPIKey: 'AIzaSyCixBRBBiL0cWT7JleGlVIE3tYoee9Aa00',
         inputDecoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.my_location_rounded,
@@ -36,7 +36,7 @@ class _GoogleLocationBoxState extends State<GoogleLocationBox> {
           enabledBorder: InputBorder.none,
         ),
         debounceTime: 400,
-        countries: const ["in", "fr"],
+        // countries: const ["in", "fr"],
         isLatLngRequired: false,
         itemClick: (Prediction prediction) {
           setState(() {

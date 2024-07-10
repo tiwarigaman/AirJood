@@ -6,6 +6,7 @@ import 'package:avatar_stack/positions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
@@ -100,11 +101,15 @@ class _PlanContainerState extends State<PlanContainer> {
                   size: 18,
                 ),
                 const SizedBox(width: 8),
-                CustomText(
-                  data: widget.location ?? 'Mumbai, Maharastra',
-                  fweight: FontWeight.w400,
-                  fSize: 15,
-                  fontColor: AppColors.greyTextColor,
+                Expanded(
+                  child: CustomText(
+                    data: widget.location ?? 'Mumbai, Maharastra',
+                    fweight: FontWeight.w400,
+                    fSize: 15,
+                    fontColor: AppColors.greyTextColor,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),

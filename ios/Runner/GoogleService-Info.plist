@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDJjQHhuEfPRzy53IYiN30mADLyne-tPdo</string>
+	<string>AIzaSyDnq6Apb0gbBTP8Nq6tSxRwVIrgnqpaugw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>887270465899</string>
+	<string>700095714481</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.airjood</string>
+	<string>com.airjood</string>
 	<key>PROJECT_ID</key>
-	<string>airjood</string>
+	<string>jooders-d8330</string>
 	<key>STORAGE_BUCKET</key>
-	<string>airjood.appspot.com</string>
+	<string>jooders-d8330.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:887270465899:ios:31b7ae6464d11dcd0bec2e</string>
+	<string>1:700095714481:ios:c7f90bae60959ab3513e90</string>
 </dict>
 </plist>

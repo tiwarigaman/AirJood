@@ -192,7 +192,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   switch (value.moodData.status) {
                     case Status.LOADING:
                       return MoodDrop(
-                        items: value.moodData.data?.map((item) {
+                        items: value.moodData.data?.data?.map((item) {
                               return MultiSelectItem(
                                   '${item.id}', '${item.mood}');
                             }).toList() ??
@@ -201,7 +201,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       );
                     case Status.ERROR:
                       return MoodDrop(
-                        items: value.moodData.data?.map((item) {
+                        items: value.moodData.data?.data?.map((item) {
                               return MultiSelectItem(
                                   '${item.id}', '${item.mood}');
                             }).toList() ??
@@ -210,8 +210,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                       );
                     case Status.COMPLETED:
                       List<Map<String, String>> itemsList = [];
-                      for (int i = 0; i < value.moodData.data!.length; i++) {
-                        final moodItem = value.moodData.data![i];
+                      for (int i = 0; i < value.moodData.data!.data!.length; i++) {
+                        final moodItem = value.moodData.data!.data![i];
                         itemsList.add({
                           'id': '${moodItem.id}',
                           'name': '${moodItem.mood}'
@@ -219,7 +219,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       }
                       return MoodDrop(
                         initialValue: selectedMood,
-                        items: value.moodData.data?.map((item) {
+                        items: value.moodData.data?.data?.map((item) {
                               return MultiSelectItem(
                                   '${item.id}', '${item.mood}');
                             }).toList() ??

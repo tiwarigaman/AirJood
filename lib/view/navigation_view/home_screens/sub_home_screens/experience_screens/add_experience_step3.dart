@@ -212,8 +212,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                     ? addressComponents[addressComponents.length - 3]
                     : '';
                 String addressQuery = val.replaceAll(' ', '+');
-                // String apiKey = 'AIzaSyCGzdWSRPmwqh8Lor3UsWsEO9HArG9u64s';
-                String apiKey = 'AIzaSyC5npjbUL8pKHqNXkl7ps3E1H4f9hh8lgo';
+                String apiKey = 'AIzaSyCixBRBBiL0cWT7JleGlVIE3tYoee9Aa00';
                 String apiUrl =
                     'https://maps.googleapis.com/maps/api/geocode/json?address=$addressQuery&key=$apiKey';
                 http.Response response = await http.get(Uri.parse(apiUrl));
@@ -354,7 +353,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                 switch (value.moodData.status) {
                   case Status.LOADING:
                     return MoodDrop(
-                      items: value.moodData.data?.map((item) {
+                      items: value.moodData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.mood}');
                           }).toList() ??
@@ -363,7 +362,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                     );
                   case Status.ERROR:
                     return MoodDrop(
-                      items: value.moodData.data?.map((item) {
+                      items: value.moodData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.mood}');
                           }).toList() ??
@@ -372,14 +371,14 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                     );
                   case Status.COMPLETED:
                     List<Map<String, String>> itemsList = [];
-                    for (int i = 0; i < value.moodData.data!.length; i++) {
-                      final moodItem = value.moodData.data![i];
+                    for (int i = 0; i < value.moodData.data!.data!.length; i++) {
+                      final moodItem = value.moodData.data!.data![i];
                       itemsList.add(
                           {'id': '${moodItem.id}', 'name': '${moodItem.mood}'});
                     }
                     return MoodDrop(
                       initialValue: selectedMood,
-                      items: value.moodData.data?.map((item) {
+                      items: value.moodData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.mood}');
                           }).toList() ??
@@ -404,7 +403,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                   case Status.LOADING:
                     return FacilitiesDrop(
                       initialValue: selected,
-                      items: value.facilitiesData.data?.map((item) {
+                      items: value.facilitiesData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.facility}');
                           }).toList() ??
@@ -418,7 +417,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                   case Status.ERROR:
                     return FacilitiesDrop(
                       initialValue: selected,
-                      items: value.facilitiesData.data?.map((item) {
+                      items: value.facilitiesData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.facility}');
                           }).toList() ??
@@ -432,7 +431,7 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                   case Status.COMPLETED:
                     return FacilitiesDrop(
                       initialValue: selected,
-                      items: value.facilitiesData.data?.map((item) {
+                      items: value.facilitiesData.data?.data?.map((item) {
                             return MultiSelectItem(
                                 '${item.id}', '${item.facility}');
                           }).toList() ??
@@ -473,8 +472,8 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                 } else {
                   widget.onNextTap!({
                     "location": location,
-                    "city": cit,
-                    "state": sta,
+                    "city": cit ?? '',
+                    "state": sta ?? '',
                     "country": cou,
                     "lat": lats,
                     "lng": lngs,

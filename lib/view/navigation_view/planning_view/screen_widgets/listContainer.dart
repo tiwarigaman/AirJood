@@ -4,6 +4,7 @@ import 'package:airjood/view/navigation_view/planning_view/planning_details_scre
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ListContainer extends StatefulWidget {
   final int? id;
@@ -86,11 +87,15 @@ class _ListContainerState extends State<ListContainer> {
                       size: 18,
                     ),
                     const SizedBox(width: 8),
-                    CustomText(
-                      data: widget.location ?? 'Mumbai, Maharastra',
-                      fweight: FontWeight.w400,
-                      fSize: 15,
-                      fontColor: AppColors.greyTextColor,
+                    Expanded(
+                      child: CustomText(
+                        data: widget.location ?? 'Mumbai, Maharastra',
+                        fweight: FontWeight.w400,
+                        fSize: 15,
+                        fontColor: AppColors.greyTextColor,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
                   ],
                 ),

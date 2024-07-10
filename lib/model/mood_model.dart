@@ -4,50 +4,58 @@
 
 import 'dart:convert';
 
-List<MoodModel> moodModelFromJson(dynamic jsonString) {
-  if (jsonString is String) {
-    // If jsonString is a string, parse it as a single JSON object
-    return [MoodModel.fromJson(json.decode(jsonString))];
-  } else if (jsonString is List) {
-    // If jsonString is a list, parse each element as a separate JSON object
-    return List<MoodModel>.from(jsonString.map((x) => MoodModel.fromJson(x)));
-  } else {
-    // Handle unexpected data type
-    throw Exception('Unexpected data type for jsonString');
-  }
-}
+MoodModel moodModelFromJson(String str) => MoodModel.fromJson(json.decode(str));
 
-String moodModelToJson(List<MoodModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String moodModelToJson(MoodModel data) => json.encode(data.toJson());
 
 class MoodModel {
+  bool? success;
+  List<Mood>? data;
+  String? message;
+
+  MoodModel({
+    this.success,
+    this.data,
+    this.message,
+  });
+
+  factory MoodModel.fromJson(Map<String, dynamic> json) => MoodModel(
+    success: json["success"],
+    data: json["data"] == null ? [] : List<Mood>.from(json["data"]!.map((x) => Mood.fromJson(x))),
+    message: json["message"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "message": message,
+  };
+}
+
+class Mood {
   int? id;
   String? mood;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  MoodModel({
+  Mood({
     this.id,
     this.mood,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory MoodModel.fromJson(Map<String, dynamic> json) => MoodModel(
-        id: json["id"],
-        mood: json["mood"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-      );
+  factory Mood.fromJson(Map<String, dynamic> json) => Mood(
+    id: json["id"],
+    mood: json["mood"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "mood": mood,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-      };
+    "id": id,
+    "mood": mood,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+  };
 }

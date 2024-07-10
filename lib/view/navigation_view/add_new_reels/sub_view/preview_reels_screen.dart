@@ -204,7 +204,7 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                     ),
               CustomText(
                 data:
-                    '${widget.date?.year}.${widget.date?.month}.${widget.date?.day}',
+                    '${widget.date?.year} . ${widget.date?.month} . ${widget.date?.day}',
                 fSize: 12,
                 fweight: FontWeight.w400,
                 fontColor: AppColors.whiteTextColor,

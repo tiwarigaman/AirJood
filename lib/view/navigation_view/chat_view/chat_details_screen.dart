@@ -6,6 +6,7 @@ import 'package:airjood/view/navigation_view/chat_view/chat_components/audio_box
 import 'package:airjood/view/navigation_view/chat_view/chat_components/image_box.dart';
 import 'package:airjood/view/navigation_view/chat_view/chat_components/text_box.dart';
 import 'package:airjood/view/navigation_view/chat_view/chat_components/video_box.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -309,9 +310,29 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               ),
             ),
             const SizedBox(width: 10),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(widget.user.profileImageUrl ?? ''),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: CachedNetworkImage(
+                imageUrl:
+                widget.user.profileImageUrl ?? 'https://i.pinimg.com/736x/44/4f/66/444f66853decdc7f052868bf357a0826.jpg',
+                errorWidget: (context, url, error) {
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(100),
+                      color: AppColors.blueShade,
+                    ),
+                    child: const Icon(
+                      CupertinoIcons.person,
+                    ),
+                  );
+                },
+                height: 40,
+                width: 40,
+                fit: BoxFit.fill,
+              ),
             ),
             const SizedBox(width: 15),
             CustomText(

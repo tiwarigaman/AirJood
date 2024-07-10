@@ -151,7 +151,8 @@ class NetworkApiService extends BaseApiAServices {
       var headers = {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
-        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
+        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS',
+        // 'Content-Type': 'multipart/form-data',
       };
       var request = http.MultipartRequest("POST", Uri.parse(url));
       if (video != null) {
@@ -417,7 +418,6 @@ class NetworkApiService extends BaseApiAServices {
     Map<String, dynamic> responseData = jsonDecode(response.body);
     if (kDebugMode) {
       print('Response =>${response.body}');
-      print('Response => ${responseData['message']}');
     }
     if(responseData['message'] == 'Unauthenticated.'){
       navigatorKey.currentState?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);

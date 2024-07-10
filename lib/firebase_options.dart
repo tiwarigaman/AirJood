@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -44,38 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBkJiui3ZT1x-WiI9k12JLvoKaOgLjAn_g',
-    appId: '1:887270465899:web:5e0935278a55d4960bec2e',
-    messagingSenderId: '887270465899',
-    projectId: 'airjood',
-    authDomain: 'airjood.firebaseapp.com',
-    storageBucket: 'airjood.appspot.com',
-    measurementId: 'G-2VW971NTPG',
+    apiKey: 'AIzaSyAvK6-DCS9Do_PNkl0tV7eE6Jp8L8KaOlw',
+    appId: '1:700095714481:web:26dadbaf797f2cf8513e90',
+    messagingSenderId: '700095714481',
+    projectId: 'jooders-d8330',
+    authDomain: 'jooders-d8330.firebaseapp.com',
+    storageBucket: 'jooders-d8330.appspot.com',
+    measurementId: 'G-G6F9TQMMHB',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAnTkbNzmGKOnMcWzHFRzxvAX1-j4l69ao',
-    appId: '1:887270465899:android:a2d2f19a1706014d0bec2e',
-    messagingSenderId: '887270465899',
-    projectId: 'airjood',
-    storageBucket: 'airjood.appspot.com',
+    apiKey: 'AIzaSyBGp1tPZnzX_1vmPq75tjggzYNWnHUGe0A',
+    appId: '1:700095714481:android:6255bfc78f126686513e90',
+    messagingSenderId: '700095714481',
+    projectId: 'jooders-d8330',
+    storageBucket: 'jooders-d8330.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDJjQHhuEfPRzy53IYiN30mADLyne-tPdo',
-    appId: '1:887270465899:ios:31b7ae6464d11dcd0bec2e',
-    messagingSenderId: '887270465899',
-    projectId: 'airjood',
-    storageBucket: 'airjood.appspot.com',
-    iosBundleId: 'com.example.airjood',
+    apiKey: 'AIzaSyDnq6Apb0gbBTP8Nq6tSxRwVIrgnqpaugw',
+    appId: '1:700095714481:ios:c7f90bae60959ab3513e90',
+    messagingSenderId: '700095714481',
+    projectId: 'jooders-d8330',
+    storageBucket: 'jooders-d8330.appspot.com',
+    iosBundleId: 'com.airjood',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDJjQHhuEfPRzy53IYiN30mADLyne-tPdo',
-    appId: '1:887270465899:ios:32221b186b1163c80bec2e',
-    messagingSenderId: '887270465899',
-    projectId: 'airjood',
-    storageBucket: 'airjood.appspot.com',
-    iosBundleId: 'com.example.airjood.RunnerTests',
+    apiKey: 'AIzaSyDnq6Apb0gbBTP8Nq6tSxRwVIrgnqpaugw',
+    appId: '1:700095714481:ios:dcc1ec19e432ab29513e90',
+    messagingSenderId: '700095714481',
+    projectId: 'jooders-d8330',
+    storageBucket: 'jooders-d8330.appspot.com',
+    iosBundleId: 'com.example.airjood',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAvK6-DCS9Do_PNkl0tV7eE6Jp8L8KaOlw',
+    appId: '1:700095714481:web:977918fdadf0765a513e90',
+    messagingSenderId: '700095714481',
+    projectId: 'jooders-d8330',
+    authDomain: 'jooders-d8330.firebaseapp.com',
+    storageBucket: 'jooders-d8330.appspot.com',
+    measurementId: 'G-92S5S6VV07',
+  );
+
 }

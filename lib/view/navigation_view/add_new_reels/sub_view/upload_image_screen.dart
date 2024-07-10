@@ -43,9 +43,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     UserViewModel().getToken().then((value) {
       Provider.of<MusicViewModel>(context, listen: false).musicGetApi(value!);
     });
@@ -54,7 +52,6 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -77,7 +74,6 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
   Future<void> _getImageFromGallery() async {
     final picker = ImagePicker();
     final XFile? pickedFile = await picker.pickMedia();
-
     if (pickedFile != null) {
       setState(() {
         audioFile = File(pickedFile.path);

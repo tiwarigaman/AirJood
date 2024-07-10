@@ -7,7 +7,8 @@ import 'CustomText.dart';
 class UploadButton extends StatefulWidget {
   final String name;
   final String title;
-  const UploadButton({super.key, required this.name, required this.title});
+  final bool? isLoading;
+  const UploadButton({super.key, required this.name, required this.title,this.isLoading});
 
   @override
   State<UploadButton> createState() => _UploadButtonState();
@@ -52,12 +53,18 @@ class _UploadButtonState extends State<UploadButton> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Center(
-                        child: Image.asset(
-                          widget.name,
-                          height: 25,
-                          width: 25,
-                          fit: BoxFit.fill,
-                        ),
+                        child: widget.isLoading == true
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.mainColor,
+                                ),
+                              )
+                            : Image.asset(
+                                widget.name,
+                                height: 25,
+                                width: 25,
+                                fit: BoxFit.fill,
+                              ),
                       ),
                     ),
                   ],

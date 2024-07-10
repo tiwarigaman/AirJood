@@ -5,11 +5,11 @@ import '../res/app_url.dart';
 
 class FacilitiesRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future<List<FacilitiesModel>> getFacilities(String token) async {
+  Future<FacilitiesModel> getFacilities(String token) async {
     try {
       dynamic response =
           await apiAServices.getGetApiResponse(AppUrl.getFacilities, token);
-      return response = facilitiesModelFromJson(response);
+      return response = FacilitiesModel.fromJson(response);
     } catch (e) {
       rethrow;
     }

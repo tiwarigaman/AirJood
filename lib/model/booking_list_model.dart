@@ -78,15 +78,15 @@ class BookingData {
   String? paymentMethod;
   int? experienceId;
   DateTime? date;
-  String? addons;
+  dynamic addons;
   int? noOfGuests;
-  int? bookingCharges;
+  dynamic bookingCharges;
   String? comment;
   DateTime? updatedAt;
   DateTime? createdAt;
   int? createdBy;
-  String? facility;
-  String? addonss;
+  List<Facility>? facility;
+  List<Addonss>? addonss;
   Experience? experience;
   User? user;
   User? displayUser;
@@ -124,8 +124,8 @@ class BookingData {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     createdBy: json["created_by"],
-    facility: json["facility"],
-    addonss: json["addonss"],
+    facility: json["facility"] == null ? [] : List<Facility>.from(json["facility"]!.map((x) => Facility.fromJson(x))),
+    addonss: json["addonss"] == null ? [] : List<Addonss>.from(json["addonss"]!.map((x) => Addonss.fromJson(x))),
     experience: json["experience"] == null ? null : Experience.fromJson(json["experience"]),
     user: json["user"] == null ? null : User.fromJson(json["user"]),
     displayUser: json["display_user"] == null ? null : User.fromJson(json["display_user"]),
@@ -144,18 +144,142 @@ class BookingData {
     "updated_at": updatedAt?.toIso8601String(),
     "created_at": createdAt?.toIso8601String(),
     "created_by": createdBy,
-    "facility": facility,
-    "addonss": addonss,
+    "facility": facility == null ? [] : List<dynamic>.from(facility!.map((x) => x.toJson())),
+    "addonss": addonss == null ? [] : List<dynamic>.from(addonss!.map((x) => x.toJson())),
     "experience": experience?.toJson(),
     "user": user?.toJson(),
     "display_user": displayUser?.toJson(),
   };
 }
 
+class Addonss {
+  int? id;
+  int? reelId;
+  int? experienceId;
+  int? createdBy;
+  String? name;
+  String? description;
+  int? price;
+  String? priceType;
+  Reel? reel;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  Addonss({
+    this.id,
+    this.reelId,
+    this.experienceId,
+    this.createdBy,
+    this.name,
+    this.description,
+    this.price,
+    this.priceType,
+    this.reel,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Addonss.fromJson(Map<String, dynamic> json) => Addonss(
+    id: json["id"],
+    reelId: json["reel_id"],
+    experienceId: json["experience_id"],
+    createdBy: json["created_by"],
+    name: json["name"],
+    description: json["description"],
+    price: json["price"],
+    priceType: json["price_type"],
+    reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "reel_id": reelId,
+    "experience_id": experienceId,
+    "created_by": createdBy,
+    "name": name,
+    "description": description,
+    "price": price,
+    "price_type": priceType,
+    "reel": reel?.toJson(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+  };
+}
+
+class Reel {
+  int? id;
+  int? userId;
+  String? caption;
+  DateTime? dateOfShoot;
+  String? location;
+  int? songId;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  String? videoUrl;
+  String? videoThumbnailUrl;
+  int? likeCount;
+  bool? liked;
+  int? commentCount;
+  List<User>? user;
+
+  Reel({
+    this.id,
+    this.userId,
+    this.caption,
+    this.dateOfShoot,
+    this.location,
+    this.songId,
+    this.updatedAt,
+    this.createdAt,
+    this.videoUrl,
+    this.videoThumbnailUrl,
+    this.likeCount,
+    this.liked,
+    this.commentCount,
+    this.user,
+  });
+
+  factory Reel.fromJson(Map<String, dynamic> json) => Reel(
+    id: json["id"],
+    userId: json["user_id"],
+    caption: json["caption"],
+    dateOfShoot: json["date_of_shoot"] == null ? null : DateTime.parse(json["date_of_shoot"]),
+    location: json["location"],
+    songId: json["song_id"],
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    videoUrl: json["video_url"],
+    videoThumbnailUrl: json["video_thumbnail_url"],
+    likeCount: json["like_count"],
+    liked: json["liked"],
+    commentCount: json["comment_count"],
+    user: json["user"] == null ? [] : List<User>.from(json["user"]!.map((x) => User.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "user_id": userId,
+    "caption": caption,
+    "date_of_shoot": dateOfShoot?.toIso8601String(),
+    "location": location,
+    "song_id": songId,
+    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "video_url": videoUrl,
+    "video_thumbnail_url": videoThumbnailUrl,
+    "like_count": likeCount,
+    "liked": liked,
+    "comment_count": commentCount,
+    "user": user == null ? [] : List<dynamic>.from(user!.map((x) => x.toJson())),
+  };
+}
+
 class User {
   int? id;
   List<String>? languages;
-  String? about;
+  dynamic about;
   String? contactNo;
   DateTime? dob;
   String? gender;
@@ -195,15 +319,13 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
-    languages: json["languages"] == null
-        ? []
-        : List<String>.from(json["languages"]!.map((x) => x)),
+    languages: json["languages"] == null ? [] : List<String>.from(json["languages"]!.map((x) => x)),
     about: json["about"],
     contactNo: json["contact_no"],
     dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-    gender: json["gender"],
+    gender: json["gender"]!,
     name: json["name"],
-    role: json["role"],
+    role: json["role"]!,
     email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
@@ -218,9 +340,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "languages": languages == null
-        ? []
-        : List<dynamic>.from(languages!.map((x) => x)),
+    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => x)),
     "about": about,
     "contact_no": contactNo,
     "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
@@ -239,7 +359,6 @@ class User {
     "plan_invitation_status": planInvitationStatus,
   };
 }
-
 
 class Experience {
   int? id;
@@ -394,74 +513,6 @@ class Facility {
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "mood": mood,
-  };
-}
-
-class Reel {
-  int? id;
-  int? userId;
-  String? caption;
-  DateTime? dateOfShoot;
-  String? location;
-  int? songId;
-  DateTime? updatedAt;
-  DateTime? createdAt;
-  String? videoUrl;
-  String? videoThumbnailUrl;
-  int? likeCount;
-  bool? liked;
-  int? commentCount;
-  List<User>? user;
-
-  Reel({
-    this.id,
-    this.userId,
-    this.caption,
-    this.dateOfShoot,
-    this.location,
-    this.songId,
-    this.updatedAt,
-    this.createdAt,
-    this.videoUrl,
-    this.videoThumbnailUrl,
-    this.likeCount,
-    this.liked,
-    this.commentCount,
-    this.user,
-  });
-
-  factory Reel.fromJson(Map<String, dynamic> json) => Reel(
-    id: json["id"],
-    userId: json["user_id"],
-    caption: json["caption"],
-    dateOfShoot: json["date_of_shoot"] == null ? null : DateTime.parse(json["date_of_shoot"]),
-    location: json["location"],
-    songId: json["song_id"],
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    videoUrl: json["video_url"],
-    videoThumbnailUrl: json["video_thumbnail_url"],
-    likeCount: json["like_count"],
-    liked: json["liked"],
-    commentCount: json["comment_count"],
-    user: json["user"] == null ? [] : List<User>.from(json["user"]!.map((x) => User.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "user_id": userId,
-    "caption": caption,
-    "date_of_shoot": dateOfShoot?.toIso8601String(),
-    "location": location,
-    "song_id": songId,
-    "updated_at": updatedAt?.toIso8601String(),
-    "created_at": createdAt?.toIso8601String(),
-    "video_url": videoUrl,
-    "video_thumbnail_url": videoThumbnailUrl,
-    "like_count": likeCount,
-    "liked": liked,
-    "comment_count": commentCount,
-    "user": user == null ? [] : List<dynamic>.from(user!.map((x) => x.toJson())),
   };
 }
 

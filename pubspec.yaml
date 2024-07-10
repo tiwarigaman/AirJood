@@ -51,7 +51,8 @@ dependencies:
   readmore: ^2.2.0
   flutter_rating_bar: ^4.0.1
   multiselect: ^0.1.0
-  image_picker: ^1.0.6
+#  image_picker: ^1.0.6
+  image_picker: ^1.1.2
   intl: ^0.18.0
   ffmpeg_kit_flutter: ^6.0.3
   path_provider: ^2.1.2

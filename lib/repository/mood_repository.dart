@@ -6,11 +6,11 @@ import '../res/app_url.dart';
 
 class MoodRepository {
   BaseApiAServices apiAServices = NetworkApiService();
-  Future<List<MoodModel>> getMood(String token) async {
+  Future<MoodModel> getMood(String token) async {
     try {
       dynamic response =
           await apiAServices.getGetApiResponse(AppUrl.getMood, token);
-      return response = moodModelFromJson(response);
+      return response = MoodModel.fromJson(response);
     } catch (e) {
       rethrow;
     }

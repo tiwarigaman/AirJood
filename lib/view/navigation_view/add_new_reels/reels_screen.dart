@@ -1,16 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-
 import 'package:airjood/view/navigation_view/add_new_reels/sub_view/upload_image_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../../../res/components/CustomText.dart';
 import '../../../res/components/color.dart';
 import '../../../res/components/upload_button.dart';
@@ -26,18 +25,30 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class _ReelsScreenState extends State<ReelsScreen> {
+  static const int maxFileSize = 16 * 1024 * 1024; // 200 MB in bytes
+  bool _isLoading = false;
   Future<void> _getImageFromCamera(String screen) async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final picker = ImagePicker();
       final XFile? pickedFile =
           await picker.pickVideo(source: ImageSource.camera);
 
       if (pickedFile != null) {
+        final File videoFile = File(pickedFile.path);
+        if (await videoFile.length() > maxFileSize) {
+          _showFileSizeError();
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        }
         String localPath = await _findLocalPath();
         String thumbnailPath =
             '$localPath${Platform.pathSeparator}thumbnail.png';
 
-        // Delete existing thumbnail if it exists
         File existingThumbnail = File(thumbnailPath);
         if (await existingThumbnail.exists()) {
           await existingThumbnail.delete();
@@ -70,6 +81,10 @@ class _ReelsScreenState extends State<ReelsScreen> {
       if (kDebugMode) {
         print('Error: $e');
       }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -82,16 +97,31 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   Future<void> _getImageFromGallery(String screen) async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
+
       final picker = ImagePicker();
+
       final XFile? pickedFile =
           await picker.pickVideo(source: ImageSource.gallery);
 
       if (pickedFile != null) {
+        final File videoFile = File(pickedFile.path);
+
+        if (await videoFile.length() > maxFileSize) {
+          print(6);
+          _showFileSizeError();
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        }
+
         String localPath = await _findLocalPath();
         String thumbnailPath =
             '$localPath${Platform.pathSeparator}thumbnail.png';
 
-        // Delete existing thumbnail if it exists
         File existingThumbnail = File(thumbnailPath);
         if (await existingThumbnail.exists()) {
           await existingThumbnail.delete();
@@ -123,7 +153,41 @@ class _ReelsScreenState extends State<ReelsScreen> {
       if (kDebugMode) {
         print('Error: $e');
       }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
+  }
+
+  void _showFileSizeError() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const CustomText(
+            data: 'File Size Error',
+            fontColor: AppColors.blackColor,
+            fweight: FontWeight.w800,
+            fSize: 18,
+          ),
+          content: const CustomText(
+            data: 'Please select a video file smaller than 16 MB.',
+            fontColor: AppColors.blackColor,
+            fweight: FontWeight.w400,
+            fSize: 14,
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -209,47 +273,53 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 ),
               ),
             ),
-            /*CircleAvatar(
-              radius: 25,
-              backgroundImage: AssetImage(
-                'assets/images/personbig.png',
-              ),
-            ),*/
             const SizedBox(
               width: 20,
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
+        body: Column(
+          children: [
+            _isLoading
+                ? const Center(
+                    child: LinearProgressIndicator(
+                      color: AppColors.mainColor,
+                      minHeight: 2,
+                    ),
+                  )
+                : const SizedBox(),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _getImageFromGallery('Laqta');
+                    },
+                    child: const UploadButton(
+                      name: 'assets/icons/videoupload.png',
+                      title: 'Upload Video',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _getImageFromCamera('Laqta');
+                    },
+                    child: const UploadButton(
+                      name: 'assets/icons/uploadCamera.png',
+                      title: 'Open Camera',
+                    ),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () {
-                  _getImageFromGallery('Laqta');
-                },
-                child: const UploadButton(
-                  name: 'assets/icons/videoupload.png',
-                  title: 'Upload Video',
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              InkWell(
-                onTap: () {
-                  _getImageFromCamera('Laqta');
-                },
-                child: const UploadButton(
-                  name: 'assets/icons/uploadCamera.png',
-                  title: 'Open Camera',
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
