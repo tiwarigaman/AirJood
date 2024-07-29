@@ -63,15 +63,15 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
           children: [
             const CustomText(
               data: 'Addons',
-              fontColor: AppColors.blackTextColor,
+              color: AppColors.blackTextColor,
               fSize: 22,
-              fweight: FontWeight.w700,
+              fontWeight: FontWeight.w700,
             ),
             const CustomText(
               data: 'You can add extra facilities from here',
-              fontColor: AppColors.secondTextColor,
+              color: AppColors.secondTextColor,
               fSize: 12,
-              fweight: FontWeight.w300,
+              fontWeight: FontWeight.w300,
             ),
             const SizedBox(
               height: 10,
@@ -110,9 +110,9 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
                   ),
                   CustomText(
                     data: 'Add More Addon',
-                    fontColor: AppColors.blueShadeColor,
+                    color: AppColors.blueShadeColor,
                     fSize: 18,
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                   ),
                 ],
               ),
@@ -152,9 +152,9 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
         shape: InputBorder.none,
         title: CustomText(
           data: 'Addon ${index + 1}',
-          fweight: FontWeight.w700,
+          fontWeight: FontWeight.w700,
           fSize: 18,
-          fontColor: AppColors.mainColor,
+          color: AppColors.mainColor,
         ),
         children: [
           Container(
@@ -233,8 +233,8 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
                           const CustomText(
                             data: 'Add Latqa',
                             fSize: 17,
-                            fweight: FontWeight.w700,
-                            fontColor: AppColors.mainColor,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.mainColor,
                           ),
                           const Spacer(),
                           forms[index].laqtaImage == ''
@@ -266,11 +266,13 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
                   ),
                   const CustomText(
                     data: 'Addons Price',
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                     fSize: 18,
-                    fweight: FontWeight.w600,
+                    fontWeight: FontWeight.w600,
                   ),
                   RadioWidget(
+                    firstData: 'Price Per Person',
+                    secondData: 'Price Per Experience',
                     selectedOption: forms[index].priceType,
                     setValue: ((val) {
                       forms[index].priceType = val;

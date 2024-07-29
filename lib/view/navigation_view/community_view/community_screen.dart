@@ -1,11 +1,15 @@
 import 'package:airjood/view/navigation_view/community_view/add_community_screen.dart';
 import 'package:airjood/view/navigation_view/community_view/community_details_screen.dart';
 import 'package:airjood/view/navigation_view/community_view/widgets/list_container_widget.dart';
+import 'package:airjood/view_model/get_community_list_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../data/response/status.dart';
 import '../../../res/components/CustomText.dart';
 import '../../../res/components/color.dart';
+import '../../../res/components/custom_shimmer.dart';
 import '../../../res/components/maintextfild.dart';
 import '../../../view_model/user_view_model.dart';
 import '../home_screens/sub_home_screens/user_details_screen.dart';
@@ -25,11 +29,19 @@ class _CommunityScreenState extends State<CommunityScreen> {
       image = value?.profileImageUrl;
       setState(() {});
     });
+    _refreshPlanningList();
+  }
+
+  Future<void> _refreshPlanningList() async {
+    UserViewModel().getToken().then((value) {
+      Provider.of<GetCommunityListViewModel>(context, listen: false)
+          .communityListGetApi(value!, '');
+    });
   }
 
   String? image;
   String? images;
-
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +59,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
         child: Container(
           height: 56,
           width: 56,
-          margin: const EdgeInsets.only(bottom: 80),
+          margin: const EdgeInsets.only(bottom: 60),
           decoration: BoxDecoration(
             color: AppColors.mainColor,
             borderRadius: BorderRadius.circular(100),
@@ -71,8 +83,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
           const CustomText(
             data: 'Community',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           InkWell(
@@ -126,33 +138,97 @@ class _CommunityScreenState extends State<CommunityScreen> {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
             children: [
-              const MainTextFild(
+              MainTextFild(
+                controller: searchController,
                 hintText: 'Search Community...',
                 maxLines: 1,
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search_sharp,
                   color: AppColors.textFildHintColor,
                 ),
+                onChanged: (values) {
+                  if (values.length == 3 || values.isEmpty) {
+                    UserViewModel().getToken().then((value) {
+                      Provider.of<GetCommunityListViewModel>(context, listen: false)
+                          .communityListGetApi(value!, values);
+                    });
+                  }
+                },
+                onFieldSubmitted: (values) {
+                  UserViewModel().getToken().then((value) {
+                    Provider.of<GetCommunityListViewModel>(context, listen: false)
+                        .communityListGetApi(value!, values);
+                  });
+                },
               ),
               const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CommunityDetailsScreen(),
-                        ),
-                      );
-                    },
-                    child: const ListContainerWidget(),
-                  );
-                },
+              RefreshIndicator(
+                onRefresh: _refreshPlanningList,
+                child: Consumer<GetCommunityListViewModel>(
+                  builder: (context, value, child) {
+                    switch (value.communityData.status) {
+                      case Status.LOADING:
+                        return const PlanningShimmer();
+                      case Status.ERROR:
+                        return Container();
+                      case Status.COMPLETED:
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 80),
+                          child: value.communityData.data == null ||
+                                  value.communityData.data!.data!.data!.isEmpty
+                              ? Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/rejected.png',
+                                        height: 70,
+                                        width: 70,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      const CustomText(
+                                        data: 'Not found',
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.blueColor,
+                                        fSize: 18,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: value.communityData.data!.data!.data?.length,
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var community = value.communityData.data!.data!.data?[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CommunityDetailsScreen(
+                                                  communityId: community?.id,
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      child: ListContainerWidget(
+                                        title: community?.name,
+                                        member: community?.memberCount,
+                                        coverImage: community?.coverImage,
+                                        profileImage: community?.profileImage,
+                                      ),
+                                    );
+                                  },
+                                ),
+                        );
+                      default:
+                        return Container();
+                    }
+                  },
+                ),
               ),
               const SizedBox(height: 100),
             ],

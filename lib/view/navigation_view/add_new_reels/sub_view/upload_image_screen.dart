@@ -111,7 +111,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                   Navigator.pop(context);
                 },
                 child: const Padding(
-                  padding: EdgeInsets.only(left: 20, top: 40),
+                  padding: EdgeInsets.only(left: 20, top: 55),
                   child: Icon(
                     CupertinoIcons.clear_thick,
                     color: AppColors.whiteTextColor,
@@ -201,10 +201,25 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
       onPreviewTap: () async {
         String f = await _findLocalPath();
         if (music != null) {
-          FFmpegKit.execute(
-                  "-i ${widget.file.path} -i $music -y -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest $f${Platform.pathSeparator}out.mp4")
-              .then((session) async {
+          String quotePath(String path) {
+            return "'${path.replaceAll("'", "'\\''")}'";
+          }
+
+          String videoFilePath = quotePath(widget.file.path);
+          String musicFilePath = quotePath(music!);
+          String outputFilePath =
+              quotePath("$f${Platform.pathSeparator}out.mp4");
+
+          String command =
+              "-i $videoFilePath -i $musicFilePath -y -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest $outputFilePath";
+          print("Executing FFmpeg command: $command");
+
+          FFmpegKit.execute(command).then((session) async {
             final returnCode = await session.getReturnCode();
+            final output = await session.getOutput();
+            final log = await session.getLogs();
+            final error = await session.getFailStackTrace();
+
             if (ReturnCode.isSuccess(returnCode)) {
               if (captionController.text.trim().isEmpty) {
                 Utils.toastMessage('please enter caption');
@@ -230,7 +245,14 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 );
               }
             } else if (ReturnCode.isCancel(returnCode)) {
-            } else {}
+              Utils.toastMessage('Something went wrong!');
+            } else {
+              Utils.toastMessage('Something went wrong!');
+              print('FFmpeg command failed with return code: $returnCode');
+              print('FFmpeg output: $output');
+              print('FFmpeg log: $log');
+              print('FFmpeg error: $error');
+            }
           });
         } else {
           if (captionController.text.trim().isEmpty) {

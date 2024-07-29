@@ -39,6 +39,7 @@ class ExperienceModel {
   List<Facility>? facility;
   List<Addon>? addons;
   Reel? reel;
+  int? rating;
 
   ExperienceModel({
     this.id,
@@ -69,6 +70,7 @@ class ExperienceModel {
     this.facility,
     this.addons,
     this.reel,
+    this.rating,
   });
 
   factory ExperienceModel.fromJson(Map<String, dynamic> json) =>
@@ -116,6 +118,7 @@ class ExperienceModel {
             ? []
             : List<Addon>.from(json["addons"]!.map((x) => Addon.fromJson(x))),
         reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
+        rating: json["rating"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -153,6 +156,7 @@ class ExperienceModel {
             ? []
             : List<dynamic>.from(addons!.map((x) => x.toJson())),
         "reel": reel?.toJson(),
+        "rating": rating,
       };
 }
 

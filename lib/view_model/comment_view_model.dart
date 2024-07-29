@@ -18,7 +18,6 @@ class CommentViewModel with ChangeNotifier {
     setCommentList(ApiResponse.loading());
     myRepo.getComment(token, reelId).then((value) {
       setCommentList(ApiResponse.completed(value));
-      //Utils.tostMessage(value.data.toString());
     }).onError((error, stackTrace) {
       setCommentList(ApiResponse.error(error.toString()));
       Utils.toastMessage('$error');

@@ -67,9 +67,9 @@ class _ReelsTimeWidgetState extends State<ReelsTimeWidget> {
               ),
               CustomText(
                 data: 'Day $currentDay',
-                fweight: FontWeight.w800,
+                fontWeight: FontWeight.w800,
                 fSize: 18,
-                fontColor: AppColors.mainColor,
+                color: AppColors.mainColor,
               ),
               IconButton(
                 icon: const Icon(

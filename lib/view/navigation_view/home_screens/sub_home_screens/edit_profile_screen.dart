@@ -128,8 +128,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           const CustomText(
             data: 'Edit Profile',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           InkWell(
@@ -193,8 +193,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           const CustomText(
                             data: 'Save',
                             fSize: 14,
-                            fweight: FontWeight.w400,
-                            fontColor: AppColors.blueShadeColor,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.blueShadeColor,
                           )
                         ],
                       ),

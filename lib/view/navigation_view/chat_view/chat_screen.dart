@@ -92,8 +92,8 @@ class _ChatScreenState extends State<ChatScreen> {
           const CustomText(
             data: 'My Chats',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           InkWell(
@@ -265,15 +265,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                     data: provider.usersList[index].name ??
                                         'Saimon Jhonson',
                                     fSize: 15,
-                                    fontColor: AppColors.blackTextColor,
-                                    fweight: FontWeight.w600,
+                                    color: AppColors.blackTextColor,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                   CustomText(
                                     data: provider.usersList[index].email ??
                                         'davidwarner21@gmail.com',
                                     fSize: 13,
-                                    fontColor: AppColors.secondTextColor,
-                                    fweight: FontWeight.w500,
+                                    color: AppColors.secondTextColor,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ],
                               ),
@@ -345,8 +345,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                       CustomText(
                                         data: user.name ?? '',
                                         fSize: 15,
-                                        fontColor: AppColors.blackTextColor,
-                                        fweight: FontWeight.w600,
+                                        color: AppColors.blackTextColor,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                       Row(
                                         children: [
@@ -394,9 +394,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                   ?.message ??
                                                               '',
                                               fSize: 13,
-                                              fontColor:
+                                              color:
                                                   AppColors.secondTextColor,
-                                              fweight: FontWeight.w500,
+                                              fontWeight: FontWeight.w500,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -417,7 +417,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         child: Center(
                                           child: CustomText(
                                             data: '${user.unreadCount}',
-                                            fontColor: AppColors.whiteTextColor,
+                                            color: AppColors.whiteTextColor,
                                             fSize: 10,
                                           ),
                                         ),
@@ -427,8 +427,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                       data: timeago.format(
                                           user.lastMessage?.createdAt ??
                                               DateTime.now()),
-                                      fontColor: AppColors.secondTextColor,
-                                      fweight: FontWeight.w500,
+                                      color: AppColors.secondTextColor,
+                                      fontWeight: FontWeight.w500,
                                       fSize: 13,
                                     ),
                                   ],

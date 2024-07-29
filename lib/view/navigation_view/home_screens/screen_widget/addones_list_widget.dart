@@ -32,9 +32,9 @@ class _AddonesListWidgetState extends State<AddonesListWidget> {
           children: [
             CustomText(
               data: 'Addons ${index + 1} :',
-              fweight: FontWeight.w600,
+              fontWeight: FontWeight.w600,
               fSize: 16,
-              fontColor: AppColors.greyTextColor,
+              color: AppColors.greyTextColor,
             ),
             const SizedBox(
               height: 10,
@@ -93,9 +93,9 @@ class _AddonesListWidgetState extends State<AddonesListWidget> {
                         children: [
                           const CustomText(
                             data: 'Addons Name : ',
-                            fweight: FontWeight.w500,
+                            fontWeight: FontWeight.w500,
                             fSize: 14,
-                            fontColor: AppColors.greyTextColor,
+                            color: AppColors.greyTextColor,
                           ),
                           Expanded(
                             child: Text(
@@ -113,15 +113,15 @@ class _AddonesListWidgetState extends State<AddonesListWidget> {
                         children: [
                           const CustomText(
                             data: 'Price : ',
-                            fweight: FontWeight.w500,
+                            fontWeight: FontWeight.w500,
                             fSize: 14,
-                            fontColor: AppColors.greyTextColor,
+                            color: AppColors.greyTextColor,
                           ),
                           CustomText(
                             data: '\$${newData!.price}',
-                            fweight: FontWeight.w600,
+                            fontWeight: FontWeight.w600,
                             fSize: 14,
-                            fontColor: AppColors.blackTextColor,
+                            color: AppColors.blackTextColor,
                           ),
                         ],
                       ),

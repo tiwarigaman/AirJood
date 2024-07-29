@@ -110,6 +110,7 @@ class Datum {
   String? fridgetMagnetUrl;
   List<Facility>? mood;
   List<Facility>? facility;
+  int? rating;
   Reel? reel;
 
   Datum({
@@ -139,6 +140,7 @@ class Datum {
     this.fridgetMagnetUrl,
     this.mood,
     this.facility,
+    this.rating,
     this.reel,
   });
 
@@ -182,6 +184,7 @@ class Datum {
             ? []
             : List<Facility>.from(
                 json["facility"]!.map((x) => Facility.fromJson(x))),
+        rating: json["rating"],
         reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
       );
 
@@ -216,6 +219,7 @@ class Datum {
         "facility": facility == null
             ? []
             : List<dynamic>.from(facility!.map((x) => x.toJson())),
+        "rating": rating,
         "reel": reel?.toJson(),
       };
 }

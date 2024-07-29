@@ -72,8 +72,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
             data:
                 'Following (${Provider.of<FollowingViewModel>(context).followingData.data?.data?.length ?? 0})',
             fSize: 20,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],
@@ -183,15 +183,15 @@ class _FollowingScreenState extends State<FollowingScreen> {
                             ),
                             title: CustomText(
                               data: '${data?.followedUser?.name}',
-                              fontColor: AppColors.blackTextColor,
+                              color: AppColors.blackTextColor,
                               fSize: 14,
-                              fweight: FontWeight.w500,
+                              fontWeight: FontWeight.w500,
                             ),
                             subtitle: CustomText(
                               data: '${data?.followedUser?.email}',
-                              fontColor: AppColors.greyTextColor,
+                              color: AppColors.greyTextColor,
                               fSize: 14,
-                              fweight: FontWeight.w500,
+                              fontWeight: FontWeight.w500,
                             ),
                             trailing: GestureDetector(
                               onTap: () {
@@ -213,11 +213,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                           data: isFollowing
                                               ? 'Follow'
                                               : 'Following',
-                                          fontColor: isFollowing
+                                          color: isFollowing
                                               ? AppColors.blackColor
                                               : const Color(0xFF14C7FF),
                                           fSize: 13,
-                                          fweight: FontWeight.w600,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     )

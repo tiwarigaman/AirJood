@@ -70,8 +70,8 @@ class _SettingScreenState extends State<SettingScreen> {
           const CustomText(
             data: 'Setting',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],

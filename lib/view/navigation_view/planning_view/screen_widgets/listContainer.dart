@@ -72,9 +72,9 @@ class _ListContainerState extends State<ListContainer> {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: CustomText(
                   data: widget.planningName ?? 'Plan Title Name Here',
-                  fweight: FontWeight.w700,
+                  fontWeight: FontWeight.w700,
                   fSize: 16,
-                  fontColor: AppColors.blackTextColor,
+                  color: AppColors.blackTextColor,
                 ),
               ),
               Padding(
@@ -90,9 +90,9 @@ class _ListContainerState extends State<ListContainer> {
                     Expanded(
                       child: CustomText(
                         data: widget.location ?? 'Mumbai, Maharastra',
-                        fweight: FontWeight.w400,
+                        fontWeight: FontWeight.w400,
                         fSize: 15,
-                        fontColor: AppColors.greyTextColor,
+                        color: AppColors.greyTextColor,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -113,9 +113,9 @@ class _ListContainerState extends State<ListContainer> {
                     CustomText(
                       data:
                       widget.startDate!.isNotEmpty || widget.endDate!.isNotEmpty ? '${widget.startDate} - ${widget.endDate} (${widget.duration} Days)' : '${widget.duration} Days',
-                      fweight: FontWeight.w400,
+                      fontWeight: FontWeight.w400,
                       fSize: 14,
-                      fontColor: AppColors.greyTextColor,
+                      color: AppColors.greyTextColor,
                     ),
                   ],
                 ),

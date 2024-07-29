@@ -167,15 +167,15 @@ class _AddExperienceStep1State extends State<AddExperienceStep1> {
           children: [
             const CustomText(
               data: 'Add Latqa',
-              fontColor: AppColors.blackTextColor,
+              color: AppColors.blackTextColor,
               fSize: 22,
-              fweight: FontWeight.w700,
+              fontWeight: FontWeight.w700,
             ),
             const CustomText(
               data: 'You can create latqa fom below options',
-              fontColor: AppColors.secondTextColor,
+              color: AppColors.secondTextColor,
               fSize: 12,
-              fweight: FontWeight.w300,
+              fontWeight: FontWeight.w300,
             ),
             const SizedBox(
               height: 30,

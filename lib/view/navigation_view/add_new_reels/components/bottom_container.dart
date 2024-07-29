@@ -165,9 +165,9 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                     const Spacer(),
                     const CustomText(
                       data: 'Add Music',
-                      fweight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                       fSize: 16,
-                      fontColor: AppColors.mainColor,
+                      color: AppColors.mainColor,
                     ),
                     const Spacer(),
                     const SizedBox(
@@ -318,7 +318,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                                     data:
                                         '${value.musicData.data?.data?[index].title}',
                                     fSize: 16,
-                                    fweight: FontWeight.w600,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                   subtitle: Row(
                                     children: [
@@ -333,7 +333,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                                         data:
                                             '${value.musicData.data?.data?[index].artistName}',
                                         fSize: 12,
-                                        fweight: FontWeight.w400,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -348,7 +348,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                                       const CustomText(
                                         data: '4:18',
                                         fSize: 12,
-                                        fweight: FontWeight.w400,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ],
                                   ),

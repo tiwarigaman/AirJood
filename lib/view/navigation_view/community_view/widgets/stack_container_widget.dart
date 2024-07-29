@@ -1,12 +1,34 @@
+import 'package:airjood/model/community_details_model.dart';
+import 'package:airjood/utils/utils.dart';
+import 'package:airjood/view_model/join_community_view_model.dart';
 import 'package:avatar_stack/avatar_stack.dart';
 import 'package:avatar_stack/positions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../../../res/components/CustomText.dart';
 import '../../../../res/components/color.dart';
 
 class StackContainerWidget extends StatefulWidget {
-  const StackContainerWidget({super.key});
+  final String? coverImage;
+  final String? profileImage;
+  final String? name;
+  final int? member;
+  final List<LatestMember>? latestMembers;
+  final bool? hasJoined;
+  final String? token;
+  final int? communityId;
+  const StackContainerWidget(
+      {super.key,
+      this.coverImage,
+      this.profileImage,
+      this.name,
+      this.member,
+      this.latestMembers,
+      this.hasJoined,
+      this.token,
+      this.communityId});
 
   @override
   State<StackContainerWidget> createState() => _StackContainerWidgetState();
@@ -16,28 +38,32 @@ class _StackContainerWidgetState extends State<StackContainerWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.bottomLeft,
+      alignment: Alignment.center,
       children: [
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               children: [
-                Image.asset(
-                  'assets/images/Maskgroup.png',
+                CachedNetworkImage(
+                  imageUrl: widget.profileImage ?? '',
                   width: MediaQuery.of(context).size.width,
                   height: 250,
                   fit: BoxFit.fill,
                 ),
                 Positioned(
-                  top: 60,
+                  top: 30,
                   left: 15,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
-                      color: Colors.black.withOpacity(0.2),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.black.withOpacity(0.2),
+                      ),
                       child: const Icon(
                         Icons.arrow_back_ios_new,
                         color: AppColors.whiteTextColor,
@@ -47,92 +73,135 @@ class _StackContainerWidgetState extends State<StackContainerWidget> {
                 ),
               ],
             ),
-            const SizedBox(height: 55),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 95,
-              width: 95,
-              margin: const EdgeInsets.only(left: 10, bottom: 0),
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColors.greenColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Image.asset('assets/images/appicon.png'),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisSize: MainAxisSize.min,
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
-                const CustomText(
-                  data: 'Community Name Here',
-                  fSize: 17,
-                  fweight: FontWeight.w600,
-                  fontColor: AppColors.blackTextColor,
-                ),
-                Row(
+                const Spacer(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AvatarStack(
-                      height: 25,
-                      width: 75,
-                      settings: RestrictedAmountPositions(
-                        maxAmountItems: 5,
-                        maxCoverage: 0.5,
-                        minCoverage: 0.1,
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: 200,
+                      child: CustomText(
+                        data: widget.name ?? '',
+                        fSize: 17,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.blackTextColor,
                       ),
-                      avatars: [
-                        for (var n = 0; n < 5; n++)
-                          NetworkImage(
-                              'https://i.pravatar.cc/150?img=$n'),
-                      ],
                     ),
-                    const SizedBox(width: 10),
-                    const CustomText(
-                      data: '25k Members',
-                      fSize: 14,
-                      fweight: FontWeight.w500,
-                      fontColor: AppColors.secondTextColor,
+                    Row(
+                      children: [
+                        if (widget.latestMembers!.isNotEmpty)
+                          AvatarStack(
+                            height: 22,
+                            width: widget.latestMembers!.length == 1
+                                ? 20
+                                : widget.latestMembers!.length == 2
+                                ? 40
+                                : widget.latestMembers!.length == 3
+                                ? 60
+                                : 70,
+                            settings: RestrictedAmountPositions(
+                              maxAmountItems: 5,
+                              maxCoverage: 0.5,
+                              minCoverage: 0.1,
+                            ),
+                            avatars: [
+                              for (var n = 0; n < widget.latestMembers!.length; n++)
+                                CachedNetworkImageProvider(
+                                  '${widget.latestMembers?[n].user?.profileImageUrl}',
+                                  errorListener: (p0) {
+                                    const Icon(CupertinoIcons.person);
+                                  },
+                                ),
+                            ],
+                          ),
+                        if (widget.latestMembers!.isNotEmpty)
+                          const SizedBox(width: 10),
+                        CustomText(
+                          data: '${widget.member} Members',
+                          fSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.secondTextColor,
+                        ),
+                      ],
                     ),
                   ],
                 ),
+                GestureDetector(
+                  onTap: () {
+                    if (widget.hasJoined == true) {
+                      Utils.toastMessage('You have already join this community');
+                    } else {
+                      Map<String, String> data = {
+                        "community_id": '${widget.communityId}',
+                      };
+                      Provider.of<JoinCommunityViewModel>(context, listen: false)
+                          .joinCommunityApi(widget.token, data, context,
+                          communityId: widget.communityId);
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: widget.hasJoined == false
+                          ? AppColors.mainColor
+                          : AppColors.greyTextColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: AppColors.whiteColor,
+                          size: 15,
+                        ),
+                        SizedBox(width: 5),
+                        CustomText(
+                          data: 'Join',
+                          color: AppColors.whiteTextColor,
+                          fontWeight: FontWeight.w500,
+                          fSize: 15,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
               ],
             ),
-            const Spacer(),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 6),
-              margin: const EdgeInsets.only(top: 25),
+          ],
+        ),
+        Positioned(
+          top: 205,
+          left: 8,
+          child: Container(
+            height: 95,
+            width: 95,
+            margin: const EdgeInsets.only(left: 10, bottom: 0),
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: AppColors.mainColor,
-                borderRadius: BorderRadius.circular(5),
+                color: AppColors.greenColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(100),
               ),
-              child: const Row(
-                children: [
-                  Icon(Icons.add,color: AppColors.whiteColor,size: 15,),
-                  SizedBox(width: 5),
-                  CustomText(
-                    data: 'Join',
-                    fontColor: AppColors.whiteTextColor,
-                    fweight: FontWeight.w500,
-                    fSize: 15,
-                  )
-                ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CachedNetworkImage(
+                  imageUrl: widget.coverImage ?? '',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-            const SizedBox(width: 10),
-          ],
+          ),
         ),
       ],
     );

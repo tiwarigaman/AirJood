@@ -1,5 +1,4 @@
 import 'package:airjood/model/home_reels_model.dart';
-import 'package:airjood/model/reels_model.dart';
 import 'package:airjood/repository/home_reels_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';

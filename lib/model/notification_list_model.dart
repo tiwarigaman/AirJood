@@ -157,6 +157,10 @@ class DataData {
   int? followerId;
   int? senderId;
   int? receiverId;
+  String? type;
+  int? user;
+  int? bookingId;
+  dynamic experienceId;
 
   DataData({
     this.userId,
@@ -167,6 +171,10 @@ class DataData {
     this.followerId,
     this.senderId,
     this.receiverId,
+    this.type,
+    this.user,
+    this.bookingId,
+    this.experienceId,
   });
 
   factory DataData.fromJson(Map<String, dynamic> json) => DataData(
@@ -178,6 +186,10 @@ class DataData {
     followerId: json["follower_id"],
     senderId: json["sender_id"],
     receiverId: json["receiver_id"],
+    type: json["type"],
+    user: json["user"],
+    bookingId: json["booking_id"],
+    experienceId: json["experience_id"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -189,6 +201,10 @@ class DataData {
     "follower_id": followerId,
     "sender_id": senderId,
     "receiver_id": receiverId,
+    "type":type,
+    "user":user,
+    "booking_id":bookingId,
+    "experience_id":experienceId,
   };
 }
 
@@ -199,6 +215,8 @@ class Metadata {
   Invitation? invitation;
   Receiver? receiver;
   dynamic message;
+  Booking? booking;
+  Experience? experience;
 
   Metadata({
     this.reel,
@@ -207,6 +225,8 @@ class Metadata {
     this.invitation,
     this.receiver,
     this.message,
+    this.booking,
+    this.experience,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) => Metadata(
@@ -216,6 +236,8 @@ class Metadata {
     invitation: json["invitation"] == null ? null : Invitation.fromJson(json["invitation"]),
     receiver: json["receiver"] == null ? null : Receiver.fromJson(json["receiver"]),
     message: json["message"],
+    booking: json["booking"] == null ? null : Booking.fromJson(json["booking"]),
+    experience: json["experience"] == null ? null : Experience.fromJson(json["experience"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -225,9 +247,293 @@ class Metadata {
     "invitation": invitation?.toJson(),
     "receiver": receiver?.toJson(),
     "message": message,
+    "booking": booking?.toJson(),
+    "experience": experience?.toJson(),
+  };
+}
+class Booking {
+  int? id;
+  int? totalAmount;
+  String? paymentMethod;
+  int? experienceId;
+  DateTime? date;
+  String? addons;
+  int? noOfGuests;
+  int? bookingCharges;
+  String? comment;
+  int? reviewId;
+  int? reviewNotificationSent;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  int? createdBy;
+  List<Facility>? facility;
+  List<Addonss>? addonss;
+
+  Booking({
+    this.id,
+    this.totalAmount,
+    this.paymentMethod,
+    this.experienceId,
+    this.date,
+    this.addons,
+    this.noOfGuests,
+    this.bookingCharges,
+    this.comment,
+    this.reviewId,
+    this.reviewNotificationSent,
+    this.updatedAt,
+    this.createdAt,
+    this.createdBy,
+    this.facility,
+    this.addonss,
+  });
+
+  factory Booking.fromJson(Map<String, dynamic> json) => Booking(
+    id: json["id"],
+    totalAmount: json["total_amount"],
+    paymentMethod: json["payment_method"],
+    experienceId: json["experience_id"],
+    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    addons: json["addons"],
+    noOfGuests: json["no_of_guests"],
+    bookingCharges: json["booking_charges"],
+    comment: json["comment"],
+    reviewId: json["review_id"],
+    reviewNotificationSent: json["review_notification_sent"],
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    createdBy: json["created_by"],
+    facility: json["facility"] == null ? [] : List<Facility>.from(json["facility"]!.map((x) => Facility.fromJson(x))),
+    addonss: json["addonss"] == null ? [] : List<Addonss>.from(json["addonss"]!.map((x) => Addonss.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "total_amount": totalAmount,
+    "payment_method": paymentMethod,
+    "experience_id": experienceId,
+    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "addons": addons,
+    "no_of_guests": noOfGuests,
+    "booking_charges": bookingCharges,
+    "comment": comment,
+    "review_id": reviewId,
+    "review_notification_sent": reviewNotificationSent,
+    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "created_by": createdBy,
+    "facility": facility == null ? [] : List<dynamic>.from(facility!.map((x) => x.toJson())),
+    "addonss": addonss == null ? [] : List<dynamic>.from(addonss!.map((x) => x.toJson())),
   };
 }
 
+class Addonss {
+  int? id;
+  int? reelId;
+  int? experienceId;
+  int? createdBy;
+  String? name;
+  String? description;
+  int? price;
+  String? priceType;
+  dynamic reel;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  Addonss({
+    this.id,
+    this.reelId,
+    this.experienceId,
+    this.createdBy,
+    this.name,
+    this.description,
+    this.price,
+    this.priceType,
+    this.reel,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Addonss.fromJson(Map<String, dynamic> json) => Addonss(
+    id: json["id"],
+    reelId: json["reel_id"],
+    experienceId: json["experience_id"],
+    createdBy: json["created_by"],
+    name: json["name"],
+    description: json["description"],
+    price: json["price"],
+    priceType: json["price_type"],
+    reel: json["reel"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "reel_id": reelId,
+    "experience_id": experienceId,
+    "created_by": createdBy,
+    "name": name,
+    "description": description,
+    "price": price,
+    "price_type": priceType,
+    "reel": reel,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+  };
+}
+
+class Facility {
+  int? id;
+  String? facility;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? mood;
+
+  Facility({
+    this.id,
+    this.facility,
+    this.createdAt,
+    this.updatedAt,
+    this.mood,
+  });
+
+  factory Facility.fromJson(Map<String, dynamic> json) => Facility(
+    id: json["id"],
+    facility: json["facility"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    mood: json["mood"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "facility": facility,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "mood": mood,
+  };
+}
+
+class Experience {
+  int? id;
+  int? relatedToMyPlan;
+  int? reelId;
+  String? latitude;
+  String? longitude;
+  dynamic availabilityForPersonFrom;
+  dynamic availabilityForPersonTo;
+  String? city;
+  String? country;
+  String? state;
+  DateTime? createdAt;
+  int? createdBy;
+  String? description;
+  DateTime? endDate;
+  dynamic file;
+  String? location;
+  int? maxPerson;
+  int? minPerson;
+  String? name;
+  int? price;
+  String? priceType;
+  DateTime? startDate;
+  DateTime? updatedAt;
+  String? fridgetMagnetUrl;
+  List<Facility>? mood;
+  List<Facility>? facility;
+  int? rating;
+
+  Experience({
+    this.id,
+    this.relatedToMyPlan,
+    this.reelId,
+    this.latitude,
+    this.longitude,
+    this.availabilityForPersonFrom,
+    this.availabilityForPersonTo,
+    this.city,
+    this.country,
+    this.state,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.endDate,
+    this.file,
+    this.location,
+    this.maxPerson,
+    this.minPerson,
+    this.name,
+    this.price,
+    this.priceType,
+    this.startDate,
+    this.updatedAt,
+    this.fridgetMagnetUrl,
+    this.mood,
+    this.facility,
+    this.rating,
+  });
+
+  factory Experience.fromJson(Map<String, dynamic> json) => Experience(
+    id: json["id"],
+    relatedToMyPlan: json["related_to_my_plan"],
+    reelId: json["reel_id"],
+    latitude: json["latitude"],
+    longitude: json["longitude"],
+    availabilityForPersonFrom: json["availability_for_person_from"],
+    availabilityForPersonTo: json["availability_for_person_to"],
+    city: json["city"],
+    country: json["country"],
+    state: json["state"],
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    createdBy: json["created_by"],
+    description: json["description"],
+    endDate: json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+    file: json["file"],
+    location: json["location"],
+    maxPerson: json["max_person"],
+    minPerson: json["min_person"],
+    name: json["name"],
+    price: json["price"],
+    priceType: json["price_type"],
+    startDate: json["start_date"] == null ? null : DateTime.parse(json["start_date"]),
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    fridgetMagnetUrl: json["fridget_magnet_url"],
+    mood: json["mood"] == null ? [] : List<Facility>.from(json["mood"]!.map((x) => Facility.fromJson(x))),
+    facility: json["facility"] == null ? [] : List<Facility>.from(json["facility"]!.map((x) => Facility.fromJson(x))),
+    rating: json["rating"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "related_to_my_plan": relatedToMyPlan,
+    "reel_id": reelId,
+    "latitude": latitude,
+    "longitude": longitude,
+    "availability_for_person_from": availabilityForPersonFrom,
+    "availability_for_person_to": availabilityForPersonTo,
+    "city": city,
+    "country": country,
+    "state": state,
+    "created_at": createdAt?.toIso8601String(),
+    "created_by": createdBy,
+    "description": description,
+    "end_date": endDate?.toIso8601String(),
+    "file": file,
+    "location": location,
+    "max_person": maxPerson,
+    "min_person": minPerson,
+    "name": name,
+    "price": price,
+    "price_type": priceType,
+    "start_date": startDate?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "fridget_magnet_url": fridgetMagnetUrl,
+    "mood": mood == null ? [] : List<dynamic>.from(mood!.map((x) => x.toJson())),
+    "facility": facility == null ? [] : List<dynamic>.from(facility!.map((x) => x.toJson())),
+    "rating": rating,
+  };
+}
 class Invitation {
   int? id;
   int? planId;

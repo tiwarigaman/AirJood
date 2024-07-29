@@ -58,8 +58,8 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
           const CustomText(
             data: 'Upgrade as Guide',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],
@@ -73,8 +73,8 @@ class _UpgradeGuideScreenState extends State<UpgradeGuideScreen> {
             children: [
               const CustomText(
                 data: 'To sign up as guide, we need following fields',
-                fontColor: AppColors.greyTextColor,
-                fweight: FontWeight.w400,
+                color: AppColors.greyTextColor,
+                fontWeight: FontWeight.w400,
                 fSize: 14,
               ),
               const SizedBox(

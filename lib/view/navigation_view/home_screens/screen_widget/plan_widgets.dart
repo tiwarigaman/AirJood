@@ -4,7 +4,6 @@ import 'package:avatar_stack/positions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/response/status.dart';
@@ -36,17 +35,6 @@ class _PlanWidgetsState extends State<PlanWidgets> {
     });
   }
 
-  String formatDateString(String? dateString) {
-    if (dateString == null || dateString.isEmpty) {
-      return '';
-    }
-    try {
-      DateTime parsedDate = DateTime.parse(dateString);
-      return DateFormat('dd MMM yyyy').format(parsedDate);
-    } catch (e) {
-      return 'Invalid date';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +42,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
       builder: (context, value, child) {
         switch (value.planningData.status) {
           case Status.LOADING:
-            return const Padding(
-              padding: EdgeInsets.all(20),
-              child: PlanningShimmer(),
-            );
+            return const PlanningShimmer();
           case Status.ERROR:
             return Container();
           case Status.COMPLETED:
@@ -75,8 +60,8 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                         const SizedBox(height: 10),
                         const CustomText(
                           data: 'Not found',
-                          fweight: FontWeight.w700,
-                          fontColor: AppColors.blueColor,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.blueColor,
                           fSize: 18,
                         ),
                         const SizedBox(height: 10),
@@ -104,8 +89,8 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                               const SizedBox(width: 5),
                               const CustomText(
                                 data: 'Add Plan',
-                                fweight: FontWeight.w700,
-                                fontColor: AppColors.blueColor,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.blueColor,
                                 fSize: 18,
                               ),
                             ],
@@ -166,7 +151,7 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                       children: [
                                         CustomText(
                                           data: '${data?.title}',
-                                          fweight: FontWeight.w700,
+                                          fontWeight: FontWeight.w700,
                                           fSize: 20,
                                         ),
                                         const SizedBox(height: 5),
@@ -217,17 +202,17 @@ class _PlanWidgetsState extends State<PlanWidgets> {
                                             CustomText(
                                               data:
                                                   '@${data?.acceptedInvitations?[n].user?.name},',
-                                              fweight: FontWeight.w400,
+                                              fontWeight: FontWeight.w400,
                                               fSize: 13,
-                                              fontColor: AppColors.greyTextColor,
+                                              color: AppColors.greyTextColor,
                                             ),
                                           const SizedBox(width: 5),
                                           if (invitationsLength >= 3)
                                             const CustomText(
                                               data: '+ more ',
-                                              fweight: FontWeight.w800,
+                                              fontWeight: FontWeight.w800,
                                               fSize: 14,
-                                              fontColor: AppColors.greyTextColor,
+                                              color: AppColors.greyTextColor,
                                             ),
                                         ],
                                       ),

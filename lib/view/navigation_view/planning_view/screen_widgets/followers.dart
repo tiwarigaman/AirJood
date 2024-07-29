@@ -172,14 +172,14 @@ class _FollowersUserState extends State<FollowersUser> {
                           CustomText(
                             data: followerListProvider.followersList[index].createdBy?.name ?? 'Saimon Jhonson',
                             fSize: 15,
-                            fontColor: AppColors.blackTextColor,
-                            fweight: FontWeight.w600,
+                            color: AppColors.blackTextColor,
+                            fontWeight: FontWeight.w600,
                           ),
                           CustomText(
                             data: followerListProvider.followersList[index].createdBy?.email ?? 'davidwarner21@gmail.com',
                             fSize: 13,
-                            fontColor: AppColors.secondTextColor,
-                            fweight: FontWeight.w500,
+                            color: AppColors.secondTextColor,
+                            fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),
@@ -202,13 +202,13 @@ class _FollowersUserState extends State<FollowersUser> {
                           child: Center(
                             child: CustomText(
                               data: inviteStatus,
-                              fontColor: inviteStatus == 'Invite Now'
+                              color: inviteStatus == 'Invite Now'
                                   ? const Color(0xFF14C7FF)
                                   : inviteStatus == 'Invited'
                                   ? Colors.black
                                   : Colors.black,
                               fSize: 13,
-                              fweight: FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

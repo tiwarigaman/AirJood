@@ -65,8 +65,8 @@ class _UploadImageState extends State<UploadImage> {
                CustomText(
                 data: widget.name,
                 fSize: 14,
-                fweight: FontWeight.w400,
-                fontColor: AppColors.greyTextColor,
+                fontWeight: FontWeight.w400,
+                color: AppColors.greyTextColor,
               ),
             ],
           ),

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 
 class UserViewModel with ChangeNotifier {
+
   Future<bool> saveUser(Map<String, dynamic> user) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     // sp.setString('token', user.data.token);

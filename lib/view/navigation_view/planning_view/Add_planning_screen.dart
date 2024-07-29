@@ -121,8 +121,8 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
           const CustomText(
             data: 'Create Planning',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           const SizedBox(width: 15),
@@ -137,8 +137,8 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
               child: const CustomText(
                 data: 'Reset',
                 fSize: 16,
-                fweight: FontWeight.w700,
-                fontColor: AppColors.whiteTextColor,
+                fontWeight: FontWeight.w700,
+                color: AppColors.whiteTextColor,
               ),
             ),
           ),
@@ -287,8 +287,8 @@ class _AddPlanningScreenState extends State<AddPlanningScreen> {
               const CustomText(
                 data: 'Or you can select the duration (In Days)',
                 fSize: 17,
-                fweight: FontWeight.w500,
-                fontColor: AppColors.blackColor,
+                fontWeight: FontWeight.w500,
+                color: AppColors.blackColor,
               ),
               const SizedBox(height: 10),
               SliderWidget(

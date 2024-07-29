@@ -132,9 +132,9 @@ class _ShowUploadReelsDataState extends State<ShowUploadReelsData> {
                                 color: AppColors.whiteTextColor),
                             CustomText(
                               data: 'Previous',
-                              fweight: FontWeight.w700,
+                              fontWeight: FontWeight.w700,
                               fSize: 18,
-                              fontColor: AppColors.whiteTextColor,
+                              color: AppColors.whiteTextColor,
                             ),
                           ],
                         ),

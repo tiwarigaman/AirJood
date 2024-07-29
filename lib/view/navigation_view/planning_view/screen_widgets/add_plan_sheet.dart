@@ -104,9 +104,9 @@ class _AddPlanSheetState extends State<AddPlanSheet> {
                 ),
                 title: const CustomText(
                   data: 'Latqa Details',
-                  fontColor: AppColors.whiteTextColor,
+                  color: AppColors.whiteTextColor,
                   fSize: 16,
-                  fweight: FontWeight.w600,
+                  fontWeight: FontWeight.w600,
                 ),
                 children: [
                   const Divider(
@@ -118,9 +118,9 @@ class _AddPlanSheetState extends State<AddPlanSheet> {
                       const SizedBox(width: 10),
                       CustomText(
                         data: widget.experianceName ?? 'Place Name would be here',
-                        fontColor: AppColors.whiteTextColor,
+                        color: AppColors.whiteTextColor,
                         fSize: 16,
-                        fweight: FontWeight.w500,
+                        fontWeight: FontWeight.w500,
                       ),
                     ],
                   ),
@@ -136,9 +136,9 @@ class _AddPlanSheetState extends State<AddPlanSheet> {
                       const SizedBox(width: 8),
                       CustomText(
                         data: widget.experianceLocation ?? 'Mumbai, Maharastra',
-                        fweight: FontWeight.w400,
+                        fontWeight: FontWeight.w400,
                         fSize: 15,
-                        fontColor: AppColors.whiteTextColor.withOpacity(0.7),
+                        color: AppColors.whiteTextColor.withOpacity(0.7),
                       ),
                     ],
                   ),
@@ -155,9 +155,9 @@ class _AddPlanSheetState extends State<AddPlanSheet> {
                       CustomText(
                         data: widget.experianceTime ??
                             '25th Jan 2023 - 30th Jan 2023 (5 Days)',
-                        fweight: FontWeight.w400,
+                        fontWeight: FontWeight.w400,
                         fSize: 14,
-                        fontColor: AppColors.whiteTextColor.withOpacity(0.7),
+                        color: AppColors.whiteTextColor.withOpacity(0.7),
                       ),
                     ],
                   ),

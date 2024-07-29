@@ -26,9 +26,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
         if (widget.bookingList!.isNotEmpty)
           const CustomText(
             data: 'Bookings',
-            fweight: FontWeight.w800,
+            fontWeight: FontWeight.w800,
             fSize: 18,
-            fontColor: AppColors.blackTextColor,
+            color: AppColors.blackTextColor,
           ),
         const SizedBox(
           height: 10,
@@ -102,41 +102,41 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                                 CustomText(
                                   data:
                                       data?.displayUser?.name ?? "Deleted user",
-                                  fweight: FontWeight.w700,
+                                  fontWeight: FontWeight.w700,
                                   fSize: 18,
-                                  fontColor: AppColors.blackTextColor,
+                                  color: AppColors.blackTextColor,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
                                 CustomText(
                                   data: data?.experience?.name ?? "",
-                                  fweight: FontWeight.w700,
+                                  fontWeight: FontWeight.w700,
                                   fSize: 18,
-                                  fontColor:
+                                  color:
                                       AppColors.blackTextColor.withOpacity(0.7),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
                                 CustomText(
                                   data: data?.experience?.location ?? '',
-                                  fweight: FontWeight.w600,
+                                  fontWeight: FontWeight.w600,
                                   fSize: 13,
-                                  fontColor: AppColors.greyTextColor,
+                                  color: AppColors.greyTextColor,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                 ),
                                 const SizedBox(height: 3),
                                 CustomText(
                                   data: formattedDateTime,
-                                  fweight: FontWeight.w600,
+                                  fontWeight: FontWeight.w600,
                                   fSize: 13,
-                                  fontColor: AppColors.blackTextColor,
+                                  color: AppColors.blackTextColor,
                                 ),
                                 CustomText(
                                   data: '\$${data?.totalAmount}',
-                                  fweight: FontWeight.w800,
+                                  fontWeight: FontWeight.w800,
                                   fSize: 18,
-                                  fontColor: AppColors.mainColor,
+                                  color: AppColors.mainColor,
                                 ),
                               ],
                             ),
@@ -147,9 +147,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                       CustomText(
                         data:
                             'Number Of Person : ${data?.noOfGuests}',
-                        fweight: FontWeight.w700,
+                        fontWeight: FontWeight.w700,
                         fSize: 13,
-                        fontColor: AppColors.blackTextColor,
+                        color: AppColors.blackTextColor,
                       ),
                       if (data?.facility != null && data!.facility!.isNotEmpty)
                         Row(
@@ -157,9 +157,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                           children: [
                             const CustomText(
                               data: 'Facilities : ',
-                              fweight: FontWeight.w700,
+                              fontWeight: FontWeight.w700,
                               fSize: 14,
-                              fontColor: AppColors.blackTextColor,
+                              color: AppColors.blackTextColor,
                             ),
                             Expanded(
                               child: Wrap(
@@ -167,9 +167,9 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                                   ...?data.facility?.map(
                                     (e) => CustomText(
                                       data: '${e.facility} , ',
-                                      fweight: FontWeight.w600,
+                                      fontWeight: FontWeight.w600,
                                       fSize: 13,
-                                      fontColor: AppColors.blackTextColor,
+                                      color: AppColors.blackTextColor,
                                     ),
                                   ),
                                 ],
@@ -183,16 +183,16 @@ class _DashBoardWidgetState extends State<DashBoardWidget> {
                           children: [
                             const CustomText(
                               data: 'Comment : ',
-                              fweight: FontWeight.w700,
+                              fontWeight: FontWeight.w700,
                               fSize: 14,
-                              fontColor: AppColors.blackTextColor,
+                              color: AppColors.blackTextColor,
                             ),
                             Expanded(
                               child: CustomText(
                                 data: '${data?.comment}',
-                                fweight: FontWeight.w500,
+                                fontWeight: FontWeight.w500,
                                 fSize: 13,
-                                fontColor: AppColors.blackTextColor,
+                                color: AppColors.blackTextColor,
                               ),
                             ),
                           ],

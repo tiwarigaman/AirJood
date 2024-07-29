@@ -289,8 +289,8 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(height: 30),
                     const CustomText(
                       data: 'Not found',
-                      fweight: FontWeight.w700,
-                      fontColor: AppColors.whiteTextColor,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.whiteTextColor,
                       fSize: 18,
                     ),
                   ],

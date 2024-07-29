@@ -105,9 +105,9 @@ class _SliderWidgetState extends State<SliderWidget> {
             child: Center(
               child: CustomText(
                 data: '${_low.toInt()}',
-                fontColor: AppColors.mainColor,
+                color: AppColors.mainColor,
                 fSize: 16,
-                fweight: FontWeight.w800,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),

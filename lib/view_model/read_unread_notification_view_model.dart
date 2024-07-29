@@ -22,7 +22,6 @@ class ReadNotificationViewModel with ChangeNotifier {
       readNotificationLoading(false);
       Provider.of<NotificationListViewModel>(context, listen: false)
           .notificationListGetApi(token);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       readNotificationLoading(false);
       Utils.toastMessage('$error');

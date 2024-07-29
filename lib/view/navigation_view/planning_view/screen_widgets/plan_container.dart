@@ -64,9 +64,9 @@ class _PlanContainerState extends State<PlanContainer> {
               children: [
                 CustomText(
                   data: widget.title ?? 'Plan Title Name Here',
-                  fweight: FontWeight.w700,
+                  fontWeight: FontWeight.w700,
                   fSize: 16,
-                  fontColor: AppColors.blackTextColor,
+                  color: AppColors.blackTextColor,
                 ),
                 const Spacer(),
                 GestureDetector(
@@ -104,9 +104,9 @@ class _PlanContainerState extends State<PlanContainer> {
                 Expanded(
                   child: CustomText(
                     data: widget.location ?? 'Mumbai, Maharastra',
-                    fweight: FontWeight.w400,
+                    fontWeight: FontWeight.w400,
                     fSize: 15,
-                    fontColor: AppColors.greyTextColor,
+                    color: AppColors.greyTextColor,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -124,9 +124,9 @@ class _PlanContainerState extends State<PlanContainer> {
                 const SizedBox(width: 10),
                 CustomText(
                   data: widget.date ?? '25th Jan 2023 - 30th Jan 2023 (5 Days)',
-                  fweight: FontWeight.w400,
+                  fontWeight: FontWeight.w400,
                   fSize: 14,
-                  fontColor: AppColors.greyTextColor,
+                  color: AppColors.greyTextColor,
                 ),
               ],
             ),
@@ -175,9 +175,9 @@ class _PlanContainerState extends State<PlanContainer> {
                             ),
                             child: const CustomText(
                               data: 'Invite',
-                              fweight: FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fSize: 15,
-                              fontColor: AppColors.whiteTextColor,
+                              color: AppColors.whiteTextColor,
                             ),
                           ),
                         )
@@ -198,17 +198,17 @@ class _PlanContainerState extends State<PlanContainer> {
                           n++)
                         CustomText(
                           data: '@${widget.invitation?[n].user?.name},',
-                          fweight: FontWeight.w400,
+                          fontWeight: FontWeight.w400,
                           fSize: 13,
-                          fontColor: AppColors.greyTextColor,
+                          color: AppColors.greyTextColor,
                         ),
                       const SizedBox(width: 5),
                       if (widget.invitation!.length >= 3)
                         const CustomText(
                           data: '+ more ',
-                          fweight: FontWeight.w800,
+                          fontWeight: FontWeight.w800,
                           fSize: 14,
-                          fontColor: AppColors.greyTextColor,
+                          color: AppColors.greyTextColor,
                         ),
                     ],
                   ),

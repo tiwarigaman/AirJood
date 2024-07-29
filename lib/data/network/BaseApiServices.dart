@@ -48,6 +48,21 @@ abstract class BaseApiAServices {
     File image,
   );
 
+  Future<dynamic> communityPostApiResponse(
+    String url,
+    String token,
+    Map<String, String> data,
+    File coverImage,
+    File profileImage,
+  );
+
+  Future<dynamic> communityCommentPostApiResponse(
+    String url,
+    String token,
+    Map<String, String> data,
+      {File? attachment}
+  );
+
   Future<dynamic> documentPostApiResponse(
     String url,
     String? token,

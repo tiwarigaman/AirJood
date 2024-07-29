@@ -43,9 +43,9 @@ class _SelectLaqtaReelsState extends State<SelectLaqtaReels> {
                 const Spacer(),
                 const CustomText(
                   data: 'Select Laqta',
-                  fontColor: AppColors.mainColor,
+                  color: AppColors.mainColor,
                   fSize: 20,
-                  fweight: FontWeight.w700,
+                  fontWeight: FontWeight.w700,
                 ),
                 const Spacer(),
                 InkWell(

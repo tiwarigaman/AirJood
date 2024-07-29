@@ -147,8 +147,8 @@ class _CustomTabDataState extends State<CustomTabData>
                           children: [
                             const CustomText(
                               data: 'Programs',
-                              fontColor: AppColors.blackTextColor,
-                              fweight: FontWeight.w800,
+                              color: AppColors.blackTextColor,
+                              fontWeight: FontWeight.w800,
                               fSize: 22,
                             ),
                             Image.asset(

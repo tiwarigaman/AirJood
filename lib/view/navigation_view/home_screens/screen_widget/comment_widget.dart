@@ -122,8 +122,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         child: CustomText(
                           data:
                               'Comments (${value.commentData.data?.data?.length})',
-                          fontColor: AppColors.blackTextColor,
-                          fweight: FontWeight.w800,
+                          color: AppColors.blackTextColor,
+                          fontWeight: FontWeight.w800,
                           fSize: 18,
                         ),
                       ),
@@ -225,13 +225,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                                           title: CustomText(
                                             data: data?.user?.name ?? '',
                                             fSize: 16,
-                                            fweight: FontWeight.w700,
-                                            fontColor: AppColors.blackTextColor,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.blackTextColor,
                                           ),
                                           subtitle: CustomText(
                                             data: '$result   @$formattedTime',
                                             fSize: 13,
-                                            fweight: FontWeight.w500,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                           trailing: Column(
                                             mainAxisAlignment:
@@ -255,8 +255,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                               CustomText(
                                                 data: '${data?.likeCount}',
                                                 fSize: 12,
-                                                fweight: FontWeight.w500,
-                                                fontColor:
+                                                fontWeight: FontWeight.w500,
+                                                color:
                                                     AppColors.textFildHintColor,
                                               )
                                             ],
@@ -405,10 +405,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                               data:
                                                                   '${data2?.replies?[indexs].user?.name}',
                                                               fSize: 14,
-                                                              fweight:
+                                                              fontWeight:
                                                                   FontWeight
                                                                       .w700,
-                                                              fontColor: AppColors
+                                                              color: AppColors
                                                                   .blackTextColor,
                                                             ),
                                                             subtitle:
@@ -416,7 +416,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                               data:
                                                                   '$result1   @$formattedTime1',
                                                               fSize: 10,
-                                                              fweight:
+                                                              fontWeight:
                                                                   FontWeight
                                                                       .w500,
                                                             ),
@@ -471,8 +471,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                                     CustomText(
                                                       data: 'Reply',
                                                       fSize: 15,
-                                                      fweight: FontWeight.w600,
-                                                      fontColor: AppColors
+                                                      fontWeight: FontWeight.w600,
+                                                      color: AppColors
                                                           .blackTextColor,
                                                     ),
                                                   ],

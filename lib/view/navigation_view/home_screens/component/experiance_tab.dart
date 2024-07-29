@@ -2,6 +2,7 @@ import 'package:airjood/res/components/CustomText.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/dashboard_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/experience_list_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/plan_widgets.dart';
+import 'package:airjood/view/navigation_view/home_screens/screen_widget/review_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/experience_screens/add_experience_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,12 +26,13 @@ class ExperianceTabData extends StatefulWidget {
   final List<Datum>? list;
   final List<BookingData>? bookingList;
   final String? screen;
+  final int? userId;
   const ExperianceTabData({
     super.key,
     this.items,
     this.list,
     this.screen,
-    this.bookingList,
+    this.bookingList, this.userId,
   });
 
   @override
@@ -185,8 +187,8 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                           children: [
                             const CustomText(
                               data: 'Our Experiences',
-                              fontColor: AppColors.blackTextColor,
-                              fweight: FontWeight.w800,
+                              color: AppColors.blackTextColor,
+                              fontWeight: FontWeight.w800,
                               fSize: 22,
                             ),
                             Image.asset(
@@ -226,8 +228,8 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                           children: [
                             const CustomText(
                               data: 'Programs',
-                              fontColor: AppColors.blackTextColor,
-                              fweight: FontWeight.w800,
+                              color: AppColors.blackTextColor,
+                              fontWeight: FontWeight.w800,
                               fSize: 22,
                             ),
                             Image.asset(
@@ -247,13 +249,8 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('assets/images/rev.png'),
-                    const Divider(),
-                    Image.asset('assets/images/userrev.png'),
-                  ],
+                child: ReviewWidget(
+                  userId: widget.userId,
                 ),
               ),
             ][_tabController.index],

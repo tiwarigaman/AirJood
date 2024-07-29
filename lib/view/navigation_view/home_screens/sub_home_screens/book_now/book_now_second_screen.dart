@@ -92,26 +92,26 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                     children: [
                       CustomText(
                         data: widget.name ??'AL khayma Camp',
-                        fweight: FontWeight.w800,
+                        fontWeight: FontWeight.w800,
                         fSize: 18,
-                        fontColor: AppColors.blackTextColor,
+                        color: AppColors.blackTextColor,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width/1.4,
                         child: CustomText(
                           data: widget.address??'9 Al Khayma Camp, Dubai, UAE',
-                          fweight: FontWeight.w600,
+                          fontWeight: FontWeight.w600,
                           fSize: 13,
-                          fontColor: AppColors.greyTextColor,
+                          color: AppColors.greyTextColor,
                         ),
                       ),
                     ],
                   ),
                   CustomText(
                     data: '\$${widget.price ?? "195.67"}',
-                    fweight: FontWeight.w800,
+                    fontWeight: FontWeight.w800,
                     fSize: 20,
-                    fontColor: AppColors.mainColor,
+                    color: AppColors.mainColor,
                   ),
                 ],
               ),
@@ -148,9 +148,9 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
               const SizedBox(height: 15),
               const CustomText(
                 data: 'No of Guests',
-                fweight: FontWeight.w500,
+                fontWeight: FontWeight.w500,
                 fSize: 17,
-                fontColor: AppColors.blackTextColor,
+                color: AppColors.blackTextColor,
               ),
               const SizedBox(height: 10),
               Row(
@@ -222,9 +222,9 @@ class _BookNowSecondScreenState extends State<BookNowSecondScreen> {
                       child: Center(
                         child: CustomText(
                           data: '${_low == null ? widget.minGuest!+2 : _low.toInt()}',
-                          fontColor: AppColors.mainColor,
+                          color: AppColors.mainColor,
                           fSize: 16,
-                          fweight: FontWeight.w800,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),

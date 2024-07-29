@@ -338,8 +338,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             CustomText(
               data: widget.user.name ?? '',
               fSize: 20,
-              fweight: FontWeight.w700,
-              fontColor: AppColors.blackColor,
+              fontWeight: FontWeight.w700,
+              color: AppColors.blackColor,
             ),
             const Spacer(),
             if (chatProvider.selectedMessageIds.isNotEmpty) ...[

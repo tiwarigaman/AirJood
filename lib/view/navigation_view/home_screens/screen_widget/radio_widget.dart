@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class RadioWidget extends StatefulWidget {
   final String? selectedOption;
   final Function? setValue;
-
-  const RadioWidget({super.key, this.setValue, this.selectedOption = 'person'});
+  final String? firstData;
+  final String? secondData;
+  const RadioWidget(
+      {super.key, this.setValue, this.selectedOption = 'person', this.firstData, this.secondData});
 
   @override
   State<RadioWidget> createState() => _RadioWidgetState();
@@ -29,8 +31,8 @@ class _RadioWidgetState extends State<RadioWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         RadioListTile(
-          title: const Text('Price Per Person',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          title:  Text(widget.firstData ?? 'Price Per Person',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
           value: 'person',
           contentPadding: EdgeInsets.zero,
           groupValue: selectedOption,
@@ -47,8 +49,8 @@ class _RadioWidgetState extends State<RadioWidget> {
           },
         ),
         RadioListTile(
-          title: const Text('Price Per Experience',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          title:  Text(widget.secondData ?? 'Price Per Experience',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
           value: 'experience',
           contentPadding: EdgeInsets.zero,
           toggleable: false,

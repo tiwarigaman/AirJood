@@ -49,7 +49,7 @@ class _UserProfileState extends State<UserProfile> {
     UserViewModel().getToken().then((value) async {
       final counterProvider =
           Provider.of<ProfileViewModel>(context, listen: false);
-      await counterProvider.profileGetApi(value!, widget.userId!);
+      await counterProvider.profileGetApi(value!,userId: widget.userId!);
     });
   }
 
@@ -102,12 +102,12 @@ class _UserProfileState extends State<UserProfile> {
           children: [
             CustomText(
               data: widget.name,
-              fontColor: AppColors.splashTextColor,
-              fweight: FontWeight.w700,
+              color: AppColors.splashTextColor,
+              fontWeight: FontWeight.w700,
               fSize: 18,
             ),
             RatingBar(
-              initialRating: 4,
+              initialRating: counterProvider.profileData.data?.rating?.toDouble() ?? 0.0,
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
@@ -122,11 +122,12 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 empty: const Icon(
                   Icons.star_rounded,
-                  color: AppColors.greyTextColor,
+                  color: AppColors.deviderColor,
                 ),
               ),
               itemSize: 20.0,
               itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+              ignoreGestures: true,
               onRatingUpdate: (double value) {},
             ),
             Text.rich(
@@ -180,16 +181,16 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       CustomText(
                         fSize: 16,
-                        fweight: FontWeight.w700,
-                        fontColor: AppColors.blackTextColor,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.blackTextColor,
                         data:
                             '${counterProvider.profileData.data?.followersCount ?? 0}',
                       ),
                       size,
                       const CustomText(
                         fSize: 12,
-                        fweight: FontWeight.w500,
-                        fontColor: AppColors.splashTextColor,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.splashTextColor,
                         data: 'Followers',
                       ),
                     ],
@@ -215,16 +216,16 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       CustomText(
                         fSize: 16,
-                        fweight: FontWeight.w700,
-                        fontColor: AppColors.blackTextColor,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.blackTextColor,
                         data:
                             '${counterProvider.profileData.data?.followingsCount ?? 0}',
                       ),
                       size,
                       const CustomText(
                         fSize: 12,
-                        fweight: FontWeight.w500,
-                        fontColor: AppColors.splashTextColor,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.splashTextColor,
                         data: 'Following',
                       ),
                     ],

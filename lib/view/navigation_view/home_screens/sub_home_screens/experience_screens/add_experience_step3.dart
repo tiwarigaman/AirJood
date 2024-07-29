@@ -178,9 +178,9 @@ class _AddExperienceStep3State extends State<AddExperienceStep3> {
                     children: [
                       CustomText(
                         data: '${widget.activity}',
-                        fweight: FontWeight.w700,
+                        fontWeight: FontWeight.w700,
                         fSize: 18,
-                        fontColor: AppColors.blackTextColor,
+                        color: AppColors.blackTextColor,
                       ),
                       CustomReadMoreText(
                         mColor: AppColors.mainColor,

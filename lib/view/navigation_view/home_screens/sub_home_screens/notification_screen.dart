@@ -1,12 +1,13 @@
 import 'package:airjood/utils/utils.dart';
+import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/review_screen.dart';
 import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/user_details_screen.dart';
 import 'package:airjood/view/navigation_view/planning_view/planning_details_screen.dart';
 import 'package:airjood/view_model/delete_notification_view_model.dart';
 import 'package:airjood/view_model/notification_list_view_model.dart';
 import 'package:airjood/view_model/read_unread_notification_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -83,9 +84,9 @@ class _NotificationScreenState extends State<NotificationScreen>
               children: [
                 const CustomText(
                   data: 'Notifications',
-                  fweight: FontWeight.w700,
+                  fontWeight: FontWeight.w700,
                   fSize: 22,
-                  fontColor: AppColors.blackTextColor,
+                  color: AppColors.blackTextColor,
                 ),
                 const Spacer(),
                 InkWell(
@@ -128,8 +129,8 @@ class _NotificationScreenState extends State<NotificationScreen>
                               const SizedBox(height: 10),
                               const CustomText(
                                 data: 'Not found',
-                                fweight: FontWeight.w700,
-                                fontColor: AppColors.blueColor,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.blueColor,
                                 fSize: 18,
                               ),
                             ],
@@ -170,13 +171,13 @@ class _NotificationScreenState extends State<NotificationScreen>
                                         onTap: () {
                                           Map<String, String> data = {
                                             "notification_ids":
-                                                '${data2[index].id}'
+                                            '${data2[index].id}'
                                           };
                                           Provider.of<ReadNotificationViewModel>(
-                                                  context,
-                                                  listen: false)
+                                              context,
+                                              listen: false)
                                               .readUnreadNotificationApi(
-                                                  token!, data, context);
+                                              token!, data, context);
                                           var planIdString =
                                               data2[index].data?.data?.planId;
                                           var invitationIdString = data2[index]
@@ -190,15 +191,15 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     PlanningDetailsScreen(
-                                                  id: int.tryParse(
-                                                      planIdString!),
-                                                  invitationId:
+                                                      id: int.tryParse(
+                                                          planIdString!),
+                                                      invitationId:
                                                       invitationIdString,
-                                                  status: data2[index]
-                                                      .metadata
-                                                      ?.invitation
-                                                      ?.status,
-                                                ),
+                                                      status: data2[index]
+                                                          .metadata
+                                                          ?.invitation
+                                                          ?.status,
+                                                    ),
                                               ),
                                             );
                                           }
@@ -209,227 +210,230 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     ReelsUserDetailScreen(
-                                                  about: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.about,
-                                                  image: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.profileImageUrl,
-                                                  email: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.email,
-                                                  number: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.contactNo,
-                                                  name: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.name,
-                                                  guide: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.isUpgrade,
-                                                  createdAt: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.createdAt,
-                                                  language: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.languages,
-                                                  userId: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.id,
-                                                  screen: "UserDetails",
-                                                  isFollow: data2[index]
-                                                      .metadata
-                                                      ?.user
-                                                      ?.isFollower,
-                                                ),
+                                                      about: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.about,
+                                                      image: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.profileImageUrl,
+                                                      email: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.email,
+                                                      number: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.contactNo,
+                                                      name: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.name,
+                                                      guide: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.isUpgrade,
+                                                      createdAt: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.createdAt,
+                                                      language: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.languages,
+                                                      userId: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.id,
+                                                      screen: "UserDetails",
+                                                      isFollow: data2[index]
+                                                          .metadata
+                                                          ?.user
+                                                          ?.isFollower,
+                                                    ),
                                               ),
                                             );
-                                          } else if (data2[index].data?.type ==
+                                          }
+                                          else if (data2[index].data?.type ==
                                               'reel_liked') {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     VideoPlayerWidget(
-                                                  videoUrl:
+                                                      videoUrl:
                                                       '${data2[index].metadata?.reel?.videoUrl}',
-                                                  commentCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.commentCount,
-                                                  about: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .about,
-                                                  dateTime: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  userId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .id,
-                                                  email: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .email,
-                                                  guide: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .isUpgrade,
-                                                  number: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .contactNo,
-                                                  createdAt: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  image: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .profileImageUrl,
-                                                  name: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .name,
-                                                  description: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.caption,
-                                                  language: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .languages,
-                                                  index: 1,
-                                                  likeCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.likeCount,
-                                                  videoImage: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.videoThumbnailUrl,
-                                                  isLike: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.liked,
-                                                  reelsId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.id,
-                                                  screen: 'UserDetails',
-                                                ),
+                                                      commentCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.commentCount,
+                                                      about: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .about,
+                                                      dateTime: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      userId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .id,
+                                                      email: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .email,
+                                                      guide: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .isUpgrade,
+                                                      number: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .contactNo,
+                                                      createdAt: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      image: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .profileImageUrl,
+                                                      name: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .name,
+                                                      description: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.caption,
+                                                      language: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .languages,
+                                                      index: 1,
+                                                      likeCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.likeCount,
+                                                      videoImage: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.videoThumbnailUrl,
+                                                      isLike: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.liked,
+                                                      reelsId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.id,
+                                                      screen: 'UserDetails',
+                                                    ),
                                               ),
                                             );
-                                          } else if (data2[index].data?.type ==
+                                          }
+                                          else if (data2[index].data?.type ==
                                               'new_laqta') {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     VideoPlayerWidget(
-                                                  videoUrl:
+                                                      videoUrl:
                                                       '${data2[index].metadata?.reel?.videoUrl}',
-                                                  commentCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.commentCount,
-                                                  about: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .about,
-                                                  dateTime: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  userId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .id,
-                                                  email: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .email,
-                                                  guide: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .isUpgrade,
-                                                  number: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .contactNo,
-                                                  createdAt: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  image: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .profileImageUrl,
-                                                  name: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .name,
-                                                  description: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.caption,
-                                                  language: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .languages,
-                                                  index: 1,
-                                                  likeCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.likeCount,
-                                                  videoImage: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.videoThumbnailUrl,
-                                                  isLike: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.liked,
-                                                  reelsId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.id,
-                                                  screen: 'UserDetails',
-                                                ),
+                                                      commentCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.commentCount,
+                                                      about: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .about,
+                                                      dateTime: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      userId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .id,
+                                                      email: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .email,
+                                                      guide: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .isUpgrade,
+                                                      number: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .contactNo,
+                                                      createdAt: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      image: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .profileImageUrl,
+                                                      name: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .name,
+                                                      description: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.caption,
+                                                      language: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .languages,
+                                                      index: 1,
+                                                      likeCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.likeCount,
+                                                      videoImage: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.videoThumbnailUrl,
+                                                      isLike: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.liked,
+                                                      reelsId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.id,
+                                                      screen: 'UserDetails',
+                                                    ),
                                               ),
                                             );
-                                          } else if (data2[index].data?.type ==
+                                          }
+                                          else if (data2[index].data?.type ==
                                               'new_experience_added') {
                                             Navigator.push(
                                               context,
@@ -517,56 +521,57 @@ class _NotificationScreenState extends State<NotificationScreen>
                                                     ),
                                               ),
                                             );
-                                          } else if (data2[index].data?.type ==
+                                          }
+                                          else if (data2[index].data?.type ==
                                               'new_message_received') {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     ChatDetailsScreen(
-                                                  user: ConversationsData(
-                                                    id: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.id,
-                                                    languages: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.languages,
-                                                    about: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.about,
-                                                    contactNo: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.contactNo,
-                                                    dob: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.dob,
-                                                    gender: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.gender,
-                                                    name: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.name,
-                                                    role: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.role,
-                                                    email: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.email,
-                                                    profileImageUrl: data2[0]
-                                                        .metadata
-                                                        ?.user
-                                                        ?.profileImageUrl,
-                                                  ),
-                                                ),
+                                                      user: ConversationsData(
+                                                        id: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.id,
+                                                        languages: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.languages,
+                                                        about: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.about,
+                                                        contactNo: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.contactNo,
+                                                        dob: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.dob,
+                                                        gender: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.gender,
+                                                        name: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.name,
+                                                        role: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.role,
+                                                        email: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.email,
+                                                        profileImageUrl: data2[0]
+                                                            .metadata
+                                                            ?.user
+                                                            ?.profileImageUrl,
+                                                      ),
+                                                    ),
                                               ),
                                             );
                                           }
@@ -577,86 +582,86 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     VideoPlayerWidget(
-                                                  videoUrl:
+                                                      videoUrl:
                                                       '${data2[index].metadata?.reel?.videoUrl}',
-                                                  commentCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.commentCount,
-                                                  about: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .about,
-                                                  dateTime: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  userId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .id,
-                                                  email: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .email,
-                                                  guide: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .isUpgrade,
-                                                  number: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .contactNo,
-                                                  createdAt: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .createdAt,
-                                                  image: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .profileImageUrl,
-                                                  name: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .name,
-                                                  description: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.caption,
-                                                  language: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.user?[0]
-                                                      .languages,
-                                                  index: 1,
-                                                  likeCount: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.likeCount,
-                                                  videoImage: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.videoThumbnailUrl,
-                                                  isLike: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.liked,
-                                                  reelsId: data2[index]
-                                                      .metadata
-                                                      ?.reel
-                                                      ?.id,
-                                                  screen: 'UserDetails',
-                                                  commentOpen: 'Open',
-                                                ),
+                                                      commentCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.commentCount,
+                                                      about: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .about,
+                                                      dateTime: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      userId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .id,
+                                                      email: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .email,
+                                                      guide: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .isUpgrade,
+                                                      number: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .contactNo,
+                                                      createdAt: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .createdAt,
+                                                      image: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .profileImageUrl,
+                                                      name: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .name,
+                                                      description: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.caption,
+                                                      language: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.user?[0]
+                                                          .languages,
+                                                      index: 1,
+                                                      likeCount: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.likeCount,
+                                                      videoImage: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.videoThumbnailUrl,
+                                                      isLike: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.liked,
+                                                      reelsId: data2[index]
+                                                          .metadata
+                                                          ?.reel
+                                                          ?.id,
+                                                      screen: 'UserDetails',
+                                                      commentOpen: 'Open',
+                                                    ),
                                               ),
                                             );
                                           }
@@ -752,7 +757,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                                           }
                                           else if (data2[index].data?.type ==
                                               'experience_booked') {
-                                              Navigator.push(
+                                            Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => const UserDetailsScreen(
@@ -768,14 +773,29 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     PlanningDetailsScreen(
-                                                  id: data2[index]
-                                                      .data
-                                                      ?.data
-                                                      ?.planId,
+                                                      id: data2[index]
+                                                          .data
+                                                          ?.data
+                                                          ?.planId,
+                                                    ),
+                                              ),
+                                            );
+                                          }
+                                          else if (data2[index].data?.type ==
+                                              'experience_review_request') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => ReviewScreen(
+                                                  title: data2[index].metadata?.experience?.name,
+                                                  location: data2[index].metadata?.experience?.location,
+                                                  date: data2[index].metadata?.booking?.date,
+                                                  id: data2[index].data?.data?.bookingId,
                                                 ),
                                               ),
                                             );
-                                          } else {
+                                          }
+                                          else {
                                             Utils.toastMessage(
                                                 'Something went wrong !');
                                           }
@@ -794,11 +814,14 @@ class _NotificationScreenState extends State<NotificationScreen>
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(100),
-                                              child: Image.network(
-                                                '${data2[index].metadata?.user?.profileImageUrl}',
+                                              child: CachedNetworkImage(
+                                                imageUrl: '${data2[index].metadata?.user?.profileImageUrl}',
                                                 height: 50,
                                                 width: 50,
                                                 fit: BoxFit.cover,
+                                                errorWidget: (context, url, error) {
+                                                  return const Icon(Icons.person);
+                                                },
                                               ),
                                             ),
                                           ),
@@ -816,7 +839,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                                                 maxLines: 2,
                                                 text: TextSpan(
                                                   text:
-                                                      '${data2[index].metadata?.user?.name}',
+                                                      data2[index].metadata?.user?.name ?? 'Deleted User',
                                                   style: GoogleFonts.nunitoSans(
                                                     color: AppColors
                                                         .blackTextColor,
@@ -847,8 +870,8 @@ class _NotificationScreenState extends State<NotificationScreen>
                                               data2[index].createdAt ??
                                                   DateTime.now()),
                                           fSize: 14,
-                                          fweight: FontWeight.w500,
-                                          fontColor: AppColors.tileTextColor,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.tileTextColor,
                                         ),
                                       ),
                                     ),

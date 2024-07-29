@@ -48,10 +48,13 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
   String? token;
   @override
   Widget build(BuildContext context) {
-    print(widget.invitationId);
     final padding = MediaQuery.of(context).padding;
     final invitation = Provider.of<AcceptRejectInvitationViewModel>(context);
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 00,
+      ),
       body: Consumer<PlanningDetailsViewModel>(
         builder: (context, value, child) {
           switch (value.getPlanningDetailsData.status) {
@@ -102,7 +105,7 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                                       fit: BoxFit.fill,
                                     ),
                                     Positioned(
-                                      top: 60,
+                                      top: 40,
                                       left: 15,
                                       child: GestureDetector(
                                         onTap: () {
@@ -116,7 +119,7 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 160),
+                                const SizedBox(height: 150),
                               ],
                             ),
                             PlanContainer(
@@ -143,8 +146,8 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                           child: CustomText(
                             data: 'My Planning',
                             fSize: 22,
-                            fweight: FontWeight.w600,
-                            fontColor: AppColors.blackColor,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.blackColor,
                           ),
                         ),
                         const Padding(
@@ -153,8 +156,8 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                             data:
                                 'Create a plan & add or schedule plan from Laqta.',
                             fSize: 13,
-                            fweight: FontWeight.w400,
-                            fontColor: AppColors.greyTextColor,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.greyTextColor,
                           ),
                         ),
                         //if (widget.status == 'invited')
@@ -171,8 +174,8 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
                                   const SizedBox(height: 10),
                                   const CustomText(
                                     data: 'Not found',
-                                    fweight: FontWeight.w700,
-                                    fontColor: AppColors.blackTextColor,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.blackTextColor,
                                     fSize: 18,
                                   ),
                                 ],
@@ -470,8 +473,8 @@ class _PlanningDetailsScreenState extends State<PlanningDetailsScreen> {
           ),
           CustomText(
             data: name,
-            fontColor: color == 0 ? AppColors.redColor : AppColors.whiteColor,
-            fweight: FontWeight.w500,
+            color: color == 0 ? AppColors.redColor : AppColors.whiteColor,
+            fontWeight: FontWeight.w500,
             fSize: 18,
           ),
         ],

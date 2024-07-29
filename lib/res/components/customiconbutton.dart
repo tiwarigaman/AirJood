@@ -36,8 +36,8 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           ),
           CustomText(
             data: '${widget.data}',
-            fontColor: AppColors.blackTextColor,
-            fweight: FontWeight.w500,
+            color: AppColors.blackTextColor,
+            fontWeight: FontWeight.w500,
             fSize: 16,
           ),
           const Spacer(),

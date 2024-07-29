@@ -4,17 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomText extends StatefulWidget {
   final String? data;
   final double? fSize;
-  final fweight;
-  final fontColor;
+  final FontWeight? fontWeight;
+  final Color? color;
   final TextOverflow? overflow;
   final int? maxLines;
+  final Color? decorationColor;
+  final TextDecoration? decoration;
+  final TextAlign? textAlign;
   const CustomText(
       {super.key,
       this.data,
       this.fSize,
-      this.fweight,
-      this.fontColor,
-      this.overflow, this.maxLines});
+      this.fontWeight,
+      this.color,
+      this.overflow,
+      this.maxLines,
+      this.decorationColor,
+      this.decoration, this.textAlign});
 
   @override
   State<CustomText> createState() => _CustomTextState();
@@ -27,11 +33,13 @@ class _CustomTextState extends State<CustomText> {
       '${widget.data}',
       overflow: widget.overflow,
       maxLines: widget.maxLines,
+      textAlign: widget.textAlign,
       style: GoogleFonts.nunitoSans(
-        color: widget.fontColor,
+        color: widget.color,
         fontSize: widget.fSize,
-        //fontFamily: 'Euclid Circular A',
-        fontWeight: widget.fweight,
+        fontWeight: widget.fontWeight,
+        decorationColor: widget.decorationColor,
+        decoration: widget.decoration,
       ),
     );
   }

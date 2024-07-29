@@ -2,12 +2,15 @@ import 'package:airjood/utils/routes/routes.dart';
 import 'package:airjood/utils/routes/routes_name.dart';
 import 'package:airjood/view_model/accept_reject_invitation_view_model.dart';
 import 'package:airjood/view_model/add_comment_view_model.dart';
+import 'package:airjood/view_model/add_community_comment_view_model.dart';
+import 'package:airjood/view_model/add_community_view_model.dart';
 import 'package:airjood/view_model/add_experiance_view_model.dart';
 import 'package:airjood/view_model/add_invitation_view_model.dart';
 import 'package:airjood/view_model/add_planning_view_model.dart';
 import 'package:airjood/view_model/add_reels_planning_view_model.dart';
 import 'package:airjood/view_model/add_reels_view_model.dart';
 import 'package:airjood/view_model/add_remove_like_view_model.dart';
+import 'package:airjood/view_model/add_review_view_model.dart';
 import 'package:airjood/view_model/auth_view_model.dart';
 import 'package:airjood/view_model/chat_view_model.dart';
 import 'package:airjood/view_model/comment_view_model.dart';
@@ -22,13 +25,20 @@ import 'package:airjood/view_model/follow_view_model.dart';
 import 'package:airjood/view_model/followers_view_model.dart';
 import 'package:airjood/view_model/following_view_model.dart';
 import 'package:airjood/view_model/get_booking_list_view_model.dart';
+import 'package:airjood/view_model/get_community_comment_view_model.dart';
+import 'package:airjood/view_model/get_community_details_view_model.dart';
+import 'package:airjood/view_model/get_community_list_view_model.dart';
+import 'package:airjood/view_model/get_contactus_view_model.dart';
 import 'package:airjood/view_model/get_experiance_list_view_model.dart';
+import 'package:airjood/view_model/get_experience_review_view_model.dart';
 import 'package:airjood/view_model/get_fridge_view_model.dart';
 import 'package:airjood/view_model/get_planning_list_view_model.dart';
 import 'package:airjood/view_model/get_reels_view_model.dart';
 import 'package:airjood/view_model/get_user_profile_view_model.dart';
+import 'package:airjood/view_model/get_user_review_view_model.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:airjood/view_model/invite_user_list_view_model.dart';
+import 'package:airjood/view_model/join_community_view_model.dart';
 import 'package:airjood/view_model/logout_view_model.dart';
 import 'package:airjood/view_model/mood_view_model.dart';
 import 'package:airjood/view_model/music_view_model.dart';
@@ -47,6 +57,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +71,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FlutterDownloader.initialize(
+      debug: true,
+      ignoreSsl: true,
   );
   Stripe.publishableKey = "pk_test_Pyu4oj7fU3CFtbcP0gH16Ila";
   await dotenv.load(fileName: "assets/.env");
@@ -177,6 +192,16 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => LogoutViewModel()),
         ChangeNotifierProvider(create: (context) => ChatViewModel()),
         ChangeNotifierProvider(create: (context) => ReadNotificationViewModel()),
+        ChangeNotifierProvider(create: (context) => AddCommunityViewModel()),
+        ChangeNotifierProvider(create: (context) => GetCommunityListViewModel()),
+        ChangeNotifierProvider(create: (context) => GetCommunityDetailsViewModel()),
+        ChangeNotifierProvider(create: (context) => GetCommunityCommentViewModel()),
+        ChangeNotifierProvider(create: (context) => JoinCommunityViewModel()),
+        ChangeNotifierProvider(create: (context) => AddCommunityCommentViewModel()),
+        ChangeNotifierProvider(create: (context) => GetContactUsViewModel()),
+        ChangeNotifierProvider(create: (context) => AddReviewViewModel()),
+        ChangeNotifierProvider(create: (context) => GetUserReviewViewModel()),
+        ChangeNotifierProvider(create: (context) => GetExperienceReviewViewModel()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

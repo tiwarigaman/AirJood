@@ -149,9 +149,9 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
               ),
               CustomText(
                 data: 'Preview',
-                fontColor: AppColors.whiteTextColor,
+                color: AppColors.whiteTextColor,
                 fSize: 22,
-                fweight: FontWeight.w500,
+                fontWeight: FontWeight.w500,
               ),
             ],
           ),
@@ -172,9 +172,9 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
               ? const SizedBox()
               : CustomText(
                   data: '${widget.location}',
-                  fweight: FontWeight.w600,
+                  fontWeight: FontWeight.w600,
                   fSize: 16,
-                  fontColor: AppColors.whiteTextColor,
+                  color: AppColors.whiteTextColor,
                 ),
           const SizedBox(
             height: 10,
@@ -194,8 +194,8 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                   : CustomText(
                       data: '${widget.artName}',
                       fSize: 12,
-                      fweight: FontWeight.w400,
-                      fontColor: AppColors.whiteTextColor,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.whiteTextColor,
                     ),
               widget.artName == null || widget.artName == ''
                   ? const SizedBox()
@@ -206,8 +206,8 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                 data:
                     '${widget.date?.year} . ${widget.date?.month} . ${widget.date?.day}',
                 fSize: 12,
-                fweight: FontWeight.w400,
-                fontColor: AppColors.whiteTextColor,
+                fontWeight: FontWeight.w400,
+                color: AppColors.whiteTextColor,
               ),
     // ${widget.date?.hour} : ${widget.date?.minute}
             ],
@@ -219,9 +219,9 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
               ? const SizedBox()
               : CustomText(
                   data: '${widget.caption}',
-                  fweight: FontWeight.w400,
+                  fontWeight: FontWeight.w400,
                   fSize: 14,
-                  fontColor: AppColors.whiteTextColor,
+                  color: AppColors.whiteTextColor,
                 ),
           const SizedBox(
             height: 10,
@@ -261,9 +261,9 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                       )
                     : const CustomText(
                         data: 'Publish',
-                        fweight: FontWeight.w500,
+                        fontWeight: FontWeight.w500,
                         fSize: 16,
-                        fontColor: Color(0xFF14C6FF),
+                        color: Color(0xFF14C6FF),
                       ),
               ),
             ),

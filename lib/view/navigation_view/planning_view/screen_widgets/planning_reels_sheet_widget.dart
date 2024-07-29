@@ -131,9 +131,9 @@ class _PlanningReelsSheetWidgetState extends State<PlanningReelsSheetWidget> {
                         Expanded(
                           child: CustomText(
                             data: widget.location ?? 'Mumbai, Maharashtra',
-                            fweight: FontWeight.w600,
+                            fontWeight: FontWeight.w600,
                             fSize: 14,
-                            fontColor: AppColors.splashTextColor,
+                            color: AppColors.splashTextColor,
                           ),
                         ),
                       ],

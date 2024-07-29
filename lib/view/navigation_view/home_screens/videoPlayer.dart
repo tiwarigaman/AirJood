@@ -88,6 +88,7 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                     children: [
                       CustomIcon(
                         name: widget.data[widget.index].user?.name,
+                        rating: widget.data[widget.index].rating,
                         experianceId: widget.data[widget.index].id,
                         description: widget.data[widget.index].description,
                         reelsId: widget.data[widget.index].reelId,

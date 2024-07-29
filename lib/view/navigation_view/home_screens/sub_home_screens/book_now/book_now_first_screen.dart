@@ -1,5 +1,4 @@
 import 'package:airjood/res/components/mainbutton.dart';
-import 'package:airjood/utils/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -116,16 +115,17 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                         children: [
                           CustomText(
                             data: '\$${data?.price}',
-                            fontColor: AppColors.mainColor,
+                            color: AppColors.mainColor,
                             fSize: 25,
-                            fweight: FontWeight.w800,
+                            fontWeight: FontWeight.w800,
                           ),
                           const Spacer(),
                           RatingBar(
-                            initialRating: 4,
+                            initialRating: value.getUploadExperianceData.data?.rating?.toDouble() ?? 0.0,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
+                            ignoreGestures: true,
                             ratingWidget: RatingWidget(
                               full: const Icon(
                                 Icons.star_rounded,
@@ -137,7 +137,7 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                               ),
                               empty: const Icon(
                                 Icons.star_rounded,
-                                color: AppColors.secondTextColor,
+                                color: AppColors.deviderColor,
                               ),
                             ),
                             itemSize: 25.0,
@@ -175,16 +175,16 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                         children: [
                           CustomText(
                             data: 'Add ons (${data?.addons?.length ?? 0})',
-                            fontColor: AppColors.blackTextColor,
+                            color: AppColors.blackTextColor,
                             fSize: 18,
-                            fweight: FontWeight.w600,
+                            fontWeight: FontWeight.w600,
                           ),
                           const Spacer(),
                           CustomText(
                             data: '\$${calculateSelectedAddonsPrice().toStringAsFixed(0)}',
-                            fontColor: AppColors.mainColor,
+                            color: AppColors.mainColor,
                             fSize: 18,
-                            fweight: FontWeight.w700,
+                            fontWeight: FontWeight.w700,
                           ),
                         ],
                       ),
@@ -252,9 +252,9 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                       children: [
                         CustomText(
                           data: '${data?[index].name}',
-                          fweight: FontWeight.w700,
+                          fontWeight: FontWeight.w700,
                           fSize: 15,
-                          fontColor: AppColors.blackTextColor,
+                          color: AppColors.blackTextColor,
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 1.5,
@@ -273,9 +273,9 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                     ),
                     CustomText(
                       data: '${data?[index].price}',
-                      fweight: FontWeight.w700,
+                      fontWeight: FontWeight.w700,
                       fSize: 15,
-                      fontColor: AppColors.blackTextColor,
+                      color: AppColors.blackTextColor,
                     ),
                   ],
                 ),

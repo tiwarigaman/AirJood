@@ -39,9 +39,9 @@ class _SearchSliderWidgetState extends State<SearchSliderWidget> {
             child: Center(
               child: CustomText(
                 data: '${_low == null ? 30 : _low.toInt()}',
-                fontColor: AppColors.mainColor,
+                color: AppColors.mainColor,
                 fSize: 16,
-                fweight: FontWeight.w800,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -119,9 +119,9 @@ class _SearchSliderWidgetState extends State<SearchSliderWidget> {
             child: Center(
               child: CustomText(
                 data: '${_hei == null ? 420 : _hei.toInt()}',
-                fontColor: AppColors.mainColor,
+                color: AppColors.mainColor,
                 fSize: 16,
-                fweight: FontWeight.w800,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),

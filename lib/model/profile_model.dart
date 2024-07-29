@@ -26,6 +26,7 @@ class ProfileModel {
   bool? isUpgrade;
   int? followingsCount;
   int? followersCount;
+  num? rating;
 
   ProfileModel({
     this.id,
@@ -45,6 +46,7 @@ class ProfileModel {
     this.isUpgrade,
     this.followingsCount,
     this.followersCount,
+    this.rating,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
@@ -65,6 +67,7 @@ class ProfileModel {
     isUpgrade: json["is_upgrade"],
     followingsCount: json["followings_count"],
     followersCount: json["followers_count"],
+    rating: json["rating"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +88,6 @@ class ProfileModel {
     "is_upgrade": isUpgrade,
     "followings_count": followingsCount,
     "followers_count": followersCount,
+    "rating": rating,
   };
 }

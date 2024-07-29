@@ -74,7 +74,7 @@ class ShimmerScreen extends StatelessWidget {
                     children: [
                       Container(
                         height: 10,
-                        width: 170,
+                        width: 160,
                         decoration: BoxDecoration(
                           color: Colors.white30,
                           borderRadius: BorderRadius.circular(10),
@@ -85,7 +85,7 @@ class ShimmerScreen extends StatelessWidget {
                       ),
                       Container(
                         height: 10,
-                        width: 170,
+                        width: 160,
                         decoration: BoxDecoration(
                           color: Colors.white30,
                           borderRadius: BorderRadius.circular(10),
@@ -96,7 +96,7 @@ class ShimmerScreen extends StatelessWidget {
                       ),
                       Container(
                         height: 80,
-                        width: 300,
+                        width: 290,
                         decoration: BoxDecoration(
                           color: Colors.white30,
                           borderRadius: BorderRadius.circular(10),
@@ -146,7 +146,18 @@ class ShimmerScreen extends StatelessWidget {
                 children: [
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white30,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 30,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -168,7 +179,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -179,18 +190,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white30,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -216,7 +216,7 @@ class ShimmerScreen extends StatelessWidget {
                 children: [
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -227,7 +227,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -238,7 +238,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -249,7 +249,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -260,7 +260,7 @@ class ShimmerScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 30,
-                    width: 60,
+                    width: 50,
                     decoration: BoxDecoration(
                       color: Colors.white30,
                       borderRadius: BorderRadius.circular(10),
@@ -810,7 +810,6 @@ class BookNowShimmer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 height: 15,

@@ -41,8 +41,8 @@ class _SearchResultWidgetState extends State<SearchResultWidget> {
                 const CustomText(
                   data: 'Search Results',
                   fSize: 22,
-                  fweight: FontWeight.w700,
-                  fontColor: AppColors.blackTextColor,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.blackTextColor,
                 ),
                 InkWell(
                     onTap: () {

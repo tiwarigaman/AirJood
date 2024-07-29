@@ -35,8 +35,8 @@ class _InviteScreenState extends State<InviteScreen> {
           const CustomText(
             data: 'Invite users in your plan',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],

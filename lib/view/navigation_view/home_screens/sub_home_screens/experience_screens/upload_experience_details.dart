@@ -8,6 +8,7 @@ import 'package:airjood/view/navigation_view/home_screens/screen_widget/addones_
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/content_details_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/facilities_list_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/tabbar_widget.dart';
+import 'package:airjood/view_model/get_experience_review_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../../data/response/status.dart';
-import '../../../../../model/experience_model.dart';
 import '../../../../../res/components/customiconbutton.dart';
 import '../../../../../view_model/upload_experiance_view_model.dart';
 import '../../../../../view_model/user_view_model.dart';
@@ -24,7 +24,7 @@ import '../book_now/book_now_main_screen.dart';
 
 class UploadExperienceDetails extends StatefulWidget {
   final int? id;
-final String? screen;
+  final String? screen;
   const UploadExperienceDetails({super.key, this.id, this.screen});
 
   @override
@@ -39,13 +39,13 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
     fetchExperianceData();
   }
 
-  final List<ExperienceModel> data = [];
-
   Future<void> fetchExperianceData() async {
     UserViewModel().getToken().then((value) async {
       final experianceProvider =
           Provider.of<UploadExperianceViewModel>(context, listen: false);
       await experianceProvider.getUploadExperianceListApi(value!, widget.id!);
+      Provider.of<GetExperienceReviewViewModel>(context, listen: false)
+          .experienceReviewGetApi(value, widget.id!);
       setState(() {});
     });
   }
@@ -70,8 +70,8 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
               children: [
                 const CustomText(
                   data: 'Details',
-                  fontColor: AppColors.blackTextColor,
-                  fweight: FontWeight.w700,
+                  color: AppColors.blackTextColor,
+                  fontWeight: FontWeight.w700,
                   fSize: 22,
                 ),
                 InkWell(
@@ -91,20 +91,10 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                 case Status.ERROR:
                   return Container();
                 case Status.COMPLETED:
-                  String? formattedDate =
-                      '${value.getUploadExperianceData.data?.startDate?.day ?? '18'}-${value.getUploadExperianceData.data?.startDate?.month ?? '03'}-${value.getUploadExperianceData.data?.startDate?.year ?? '2024'}';
-                  DateTime dateTime =
-                      DateFormat('dd-MM-yyyy').parse(formattedDate);
-                  String result = DateFormat('dd MMM yyyy').format(dateTime);
                   DateTime? createdAt =
                       value.getUploadExperianceData.data?.startDate;
                   String formattedTime =
                       DateFormat('h:mm a').format(createdAt ?? DateTime.now());
-                  String? formattedDate2 =
-                      '${value.getUploadExperianceData.data?.endDate?.day ?? '18'}-${value.getUploadExperianceData.data?.endDate?.month ?? '03'}-${value.getUploadExperianceData.data?.endDate?.year ?? '2024'}';
-                  DateTime dateTime2 =
-                      DateFormat('dd-MM-yyyy').parse(formattedDate2);
-                  String result2 = DateFormat('dd MMM yyyy').format(dateTime2);
                   DateTime? createdAt2 =
                       value.getUploadExperianceData.data?.endDate;
                   String formattedTime2 =
@@ -233,22 +223,22 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                   CustomText(
                                     data:
                                         '\$${value.getUploadExperianceData.data?.price}',
-                                    fontColor: AppColors.mainColor,
+                                    color: AppColors.mainColor,
                                     fSize: 25,
-                                    fweight: FontWeight.w800,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                   const SizedBox(
                                     width: 10,
                                   ),
                                   const CustomText(
                                     data: '/ Experience',
-                                    fontColor: AppColors.secondTextColor,
+                                    color: AppColors.secondTextColor,
                                     fSize: 14,
-                                    fweight: FontWeight.w600,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                   const Spacer(),
                                   RatingBar(
-                                    initialRating: 4,
+                                    initialRating: value.getUploadExperianceData.data?.rating?.toDouble() ?? 0.0,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
@@ -263,9 +253,10 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                       ),
                                       empty: const Icon(
                                         Icons.star_rounded,
-                                        color: AppColors.secondTextColor,
+                                        color: AppColors.deviderColor,
                                       ),
                                     ),
+                                    ignoreGestures: true,
                                     itemSize: 25.0,
                                     itemPadding: const EdgeInsets.symmetric(
                                         horizontal: 0.0),
@@ -291,16 +282,16 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                 children: [
                                   const CustomText(
                                     data: "Availability for persons : ",
-                                    fweight: FontWeight.w600,
+                                    fontWeight: FontWeight.w600,
                                     fSize: 14,
-                                    fontColor: AppColors.greyTextColor,
+                                    color: AppColors.greyTextColor,
                                   ),
                                   CustomText(
                                     data:
                                         "${value.getUploadExperianceData.data?.minPerson}-${value.getUploadExperianceData.data?.maxPerson}",
-                                    fweight: FontWeight.w800,
+                                    fontWeight: FontWeight.w800,
                                     fSize: 15,
-                                    fontColor: AppColors.mainColor,
+                                    color: AppColors.mainColor,
                                   ),
                                 ],
                               ),
@@ -311,15 +302,15 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                 children: [
                                   const CustomText(
                                     data: "Start Time : ",
-                                    fweight: FontWeight.w600,
+                                    fontWeight: FontWeight.w600,
                                     fSize: 14,
-                                    fontColor: AppColors.greyTextColor,
+                                    color: AppColors.greyTextColor,
                                   ),
                                   CustomText(
                                     data: formattedTime,
-                                    fweight: FontWeight.w800,
+                                    fontWeight: FontWeight.w800,
                                     fSize: 15,
-                                    fontColor: AppColors.mainColor,
+                                    color: AppColors.mainColor,
                                   ),
                                 ],
                               ),
@@ -330,15 +321,15 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                 children: [
                                   const CustomText(
                                     data: "End Time : ",
-                                    fweight: FontWeight.w600,
+                                    fontWeight: FontWeight.w600,
                                     fSize: 14,
-                                    fontColor: AppColors.greyTextColor,
+                                    color: AppColors.greyTextColor,
                                   ),
                                   CustomText(
                                     data: formattedTime2,
-                                    fweight: FontWeight.w800,
+                                    fontWeight: FontWeight.w800,
                                     fSize: 15,
-                                    fontColor: AppColors.mainColor,
+                                    color: AppColors.mainColor,
                                   ),
                                 ],
                               ),
@@ -347,9 +338,9 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               ),
                               const CustomText(
                                 data: 'Mood : ',
-                                fweight: FontWeight.w600,
+                                fontWeight: FontWeight.w600,
                                 fSize: 15,
-                                fontColor: AppColors.greyTextColor,
+                                color: AppColors.greyTextColor,
                               ),
                               SizedBox(
                                 height: 40,
@@ -379,10 +370,9 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                           child: Center(
                                             child: CustomText(
                                               data: '${data?.mood}',
-                                              fontColor:
-                                                  AppColors.greyTextColor,
+                                              color: AppColors.greyTextColor,
                                               fSize: 14,
-                                              fweight: FontWeight.w600,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),
@@ -399,9 +389,9 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                                   ? const SizedBox()
                                   : const CustomText(
                                       data: 'Facilities : ',
-                                      fweight: FontWeight.w600,
+                                      fontWeight: FontWeight.w600,
                                       fSize: 15,
-                                      fontColor: AppColors.greyTextColor,
+                                      color: AppColors.greyTextColor,
                                     ),
                               value.getUploadExperianceData.data!.facility!
                                       .isEmpty
@@ -419,11 +409,33 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              TabBarWidget(
-                                late: value
-                                    .getUploadExperianceData.data?.latitude,
-                                lang: value
-                                    .getUploadExperianceData.data?.longitude,
+                              Consumer<GetExperienceReviewViewModel>(
+                                builder: (context, val, child) {
+                                  switch (val.experienceReviewData.status) {
+                                    case Status.LOADING:
+                                      return const ShimmerScreen();
+                                    case Status.ERROR:
+                                      return Container();
+                                    case Status.COMPLETED:
+                                      return TabBarWidget(
+                                        late: double.tryParse(value
+                                            .getUploadExperianceData
+                                            .data
+                                            ?.latitude ??
+                                            '') ??
+                                            0.0,
+                                        lang: double.tryParse(value
+                                            .getUploadExperianceData
+                                            .data
+                                            ?.longitude ??
+                                            '') ??
+                                            0.0,
+                                        data: val.experienceReviewData.data?.data?.data,
+                                      );
+                                    default:
+                                  }
+                                  return Container();
+                                },
                               ),
                               const SizedBox(
                                 height: 20,
@@ -437,30 +449,33 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  if(widget.screen== 'UserDetails'){
+                                  if (widget.screen == 'UserDetails') {
                                     showModalBottomSheet(
                                       backgroundColor: Colors.transparent,
                                       context: context,
                                       enableDrag: false,
                                       isDismissible: false,
                                       constraints: BoxConstraints.expand(
-                                          height:
-                                          MediaQuery.of(context).size.height *
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.90,
-                                          width:
-                                          MediaQuery.of(context).size.width),
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width),
                                       isScrollControlled: true,
                                       builder: (_) => BookNowMainScreen(
                                         experienceId: widget.id,
                                       ),
                                     );
-                                  }else{
+                                  } else {
                                     Navigator.pop(context);
                                   }
-
                                 },
-                                child:  MainButton(
-                                  data:widget.screen== 'UserDetails' ? 'Book Now' : 'Close',
+                                child: MainButton(
+                                  data: widget.screen == 'UserDetails'
+                                      ? 'Book Now'
+                                      : 'Close',
                                 ),
                               ),
                             ],

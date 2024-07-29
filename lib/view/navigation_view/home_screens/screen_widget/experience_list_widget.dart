@@ -153,9 +153,9 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                       MediaQuery.of(context).size.width / 1.6,
                                   child: CustomText(
                                     data: "${data.location}",
-                                    fweight: FontWeight.w500,
+                                    fontWeight: FontWeight.w500,
                                     fSize: 14,
-                                    fontColor: AppColors.secondTextColor,
+                                    color: AppColors.secondTextColor,
                                   ),
                                 ),
                               ],
@@ -173,9 +173,10 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 RatingBar(
-                                  initialRating: 4,
+                                  initialRating: data.rating?.toDouble() ?? 0.0,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
+                                  ignoreGestures: true,
                                   itemCount: 5,
                                   ratingWidget: RatingWidget(
                                     full: const Icon(
@@ -188,7 +189,7 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                     ),
                                     empty: const Icon(
                                       Icons.star_rounded,
-                                      color: AppColors.secondTextColor,
+                                      color: AppColors.deviderColor,
                                     ),
                                   ),
                                   itemSize: 25.0,
@@ -198,9 +199,9 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                 ),
                                 CustomText(
                                   data: "\$${data.price}",
-                                  fweight: FontWeight.w800,
+                                  fontWeight: FontWeight.w800,
                                   fSize: 19,
-                                  fontColor: AppColors.mainColor,
+                                  color: AppColors.mainColor,
                                 ),
                               ],
                             ),
@@ -285,9 +286,9 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                       child: const Center(
                                         child: CustomText(
                                           data: 'Book Now',
-                                          fontColor: AppColors.whiteTextColor,
+                                          color: AppColors.whiteTextColor,
                                           fSize: 15,
-                                          fweight: FontWeight.w700,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
@@ -329,9 +330,9 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                       child: const Center(
                                         child: CustomText(
                                           data: 'Remove',
-                                          fontColor: Color(0xFFD43672),
+                                          color: Color(0xFFD43672),
                                           fSize: 16,
-                                          fweight: FontWeight.w700,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),

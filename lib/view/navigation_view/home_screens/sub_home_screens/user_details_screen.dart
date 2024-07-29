@@ -40,6 +40,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       language = value?.languages;
       guide = value?.is_upgrade;
       userId = value?.id;
+      review = value?.rating;
       setState(() {});
     });
     UserViewModel().getToken().then((value) {
@@ -67,6 +68,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   DateTime? dob;
   bool? guide;
   int? userId;
+  int? review;
   void _onPageChanged() {
     final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
     if (_pageController.page == _pageController.page!.toInt()) {
@@ -110,7 +112,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Future<void> fetchProfileData() async {
     UserViewModel().getToken().then((value) async {
       final counterProvider = Provider.of<ProfileViewModel>(context, listen: false);
-      await counterProvider.profileGetApi(value!,userId!);
+      await counterProvider.profileGetApi(value!,userId:  userId!);
     });
   }
 
@@ -150,8 +152,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           const CustomText(
             data: 'Profile',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           widget.screen == 'MyScreen'

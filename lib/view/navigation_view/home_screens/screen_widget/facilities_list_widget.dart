@@ -36,9 +36,9 @@ class _FacilitiesListWidgetState extends State<FacilitiesListWidget> {
                   padding: const EdgeInsets.only(left: 3, right: 3),
                   child: CustomText(
                     data: '${abc.facility}',
-                    fontColor: AppColors.greyTextColor,
+                    color: AppColors.greyTextColor,
                     fSize: 14,
-                    fweight: FontWeight.w600,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

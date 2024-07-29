@@ -126,9 +126,9 @@ class _ReelsUserState extends State<ReelsUser> {
                 children: [
                   CustomText(
                     data: '${widget.name}',
-                    fweight: FontWeight.w600,
+                    fontWeight: FontWeight.w600,
                     fSize: 17,
-                    fontColor: AppColors.whiteTextColor,
+                    color: AppColors.whiteTextColor,
                   ),
                   Row(
                     children: [
@@ -142,9 +142,9 @@ class _ReelsUserState extends State<ReelsUser> {
                       ),
                       CustomText(
                         data: formattedDate,
-                        fweight: FontWeight.w400,
+                        fontWeight: FontWeight.w400,
                         fSize: 12,
-                        fontColor: AppColors.whiteTextColor,
+                        color: AppColors.whiteTextColor,
                       ),
                       const SizedBox(
                         width: 10,

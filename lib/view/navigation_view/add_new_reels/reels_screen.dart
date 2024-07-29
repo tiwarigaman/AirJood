@@ -100,17 +100,16 @@ class _ReelsScreenState extends State<ReelsScreen> {
       setState(() {
         _isLoading = true;
       });
-
       final picker = ImagePicker();
-
-      final XFile? pickedFile =
-          await picker.pickVideo(source: ImageSource.gallery);
-
+      final XFile? pickedFile;
+      if (Platform.isIOS) {
+        pickedFile = await picker.pickMedia();
+      } else {
+        pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+      }
       if (pickedFile != null) {
         final File videoFile = File(pickedFile.path);
-
         if (await videoFile.length() > maxFileSize) {
-          print(6);
           _showFileSizeError();
           setState(() {
             _isLoading = false;
@@ -137,7 +136,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => UploadImageScreen(
-                file: pickedFile,
+                file: pickedFile!,
                 thumbNail: thumbnailPath,
                 screen: screen,
               ),
@@ -167,14 +166,14 @@ class _ReelsScreenState extends State<ReelsScreen> {
         return CupertinoAlertDialog(
           title: const CustomText(
             data: 'File Size Error',
-            fontColor: AppColors.blackColor,
-            fweight: FontWeight.w800,
+            color: AppColors.blackColor,
+            fontWeight: FontWeight.w800,
             fSize: 18,
           ),
           content: const CustomText(
             data: 'Please select a video file smaller than 16 MB.',
-            fontColor: AppColors.blackColor,
-            fweight: FontWeight.w400,
+            color: AppColors.blackColor,
+            fontWeight: FontWeight.w400,
             fSize: 14,
           ),
           actions: [
@@ -220,14 +219,14 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 CustomText(
                   data: 'Laqta',
                   fSize: 22,
-                  fweight: FontWeight.w700,
-                  fontColor: AppColors.blackColor,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.blackColor,
                 ),
                 CustomText(
                   data: 'You can create latqa fom below options',
                   fSize: 12,
-                  fweight: FontWeight.w400,
-                  fontColor: AppColors.blackColor,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.blackColor,
                 ),
               ],
             ),

@@ -100,9 +100,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                   ),
                   const CustomText(
                     data: 'Search',
-                    fweight: FontWeight.w800,
+                    fontWeight: FontWeight.w800,
                     fSize: 22,
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                   ),
                   const Spacer(),
                   InkWell(
@@ -140,9 +140,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                       child: const Center(
                         child: CustomText(
                           data: 'Search',
-                          fontColor: AppColors.whiteTextColor,
+                          color: AppColors.whiteTextColor,
                           fSize: 16,
-                          fweight: FontWeight.w700,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -242,9 +242,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                 children: [
                   const CustomText(
                     data: 'Rate',
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                     fSize: 18,
-                    fweight: FontWeight.w500,
+                    fontWeight: FontWeight.w500,
                   ),
                   const SizedBox(
                     width: 20,
@@ -291,9 +291,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                 children: [
                   const CustomText(
                     data: 'Add ons',
-                    fweight: FontWeight.w500,
+                    fontWeight: FontWeight.w500,
                     fSize: 17,
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                   ),
                   Switch(
                     value: switchValue,

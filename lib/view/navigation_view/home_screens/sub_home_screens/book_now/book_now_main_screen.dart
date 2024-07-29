@@ -236,9 +236,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
         return AlertDialog(
           title: const CustomText(
             data: 'Select Payment',
-            fontColor: AppColors.blackColor,
+            color: AppColors.blackColor,
             fSize: 20,
-            fweight: FontWeight.w700,
+            fontWeight: FontWeight.w700,
           ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
@@ -249,9 +249,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                     minVerticalPadding: 0,
                     title: const CustomText(
                       data: 'PayPal',
-                      fontColor: AppColors.mainColor,
+                      color: AppColors.mainColor,
                       fSize: 16,
-                      fweight: FontWeight.w700,
+                      fontWeight: FontWeight.w700,
                     ),
                     dense: false,
                     contentPadding: EdgeInsets.zero,
@@ -270,9 +270,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                     minVerticalPadding: 0,
                     title: const CustomText(
                       data: 'Stripe',
-                      fontColor: AppColors.mainColor,
+                      color: AppColors.mainColor,
                       fSize: 16,
-                      fweight: FontWeight.w700,
+                      fontWeight: FontWeight.w700,
                     ),
                     dense: false,
                     contentPadding: EdgeInsets.zero,
@@ -307,9 +307,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                 child: const Center(
                   child: CustomText(
                     data: 'cancel',
-                    fontColor: AppColors.whiteColor,
+                    color: AppColors.whiteColor,
                     fSize: 16,
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -328,9 +328,9 @@ class _BookNowMainScreenState extends State<BookNowMainScreen> {
                 child: const Center(
                   child: CustomText(
                     data: 'Confirm',
-                    fontColor: AppColors.whiteColor,
+                    color: AppColors.whiteColor,
                     fSize: 16,
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

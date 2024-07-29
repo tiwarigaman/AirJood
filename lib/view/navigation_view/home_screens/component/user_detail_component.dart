@@ -87,8 +87,8 @@ class _UserDetailsState extends State<UserDetails> {
                 ),
                 child: CustomText(
                   data: 'About',
-                  fontColor: AppColors.splashTextColor,
-                  fweight: FontWeight.w600,
+                  color: AppColors.splashTextColor,
+                  fontWeight: FontWeight.w600,
                   fSize: 16,
                 ),
               ),
@@ -98,8 +98,8 @@ class _UserDetailsState extends State<UserDetails> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: CustomText(
                   data: widget.about,
-                  fontColor: AppColors.greyTextColor,
-                  fweight: FontWeight.w500,
+                  color: AppColors.greyTextColor,
+                  fontWeight: FontWeight.w500,
                   fSize: 14,
                 ),
               ),
@@ -116,8 +116,8 @@ class _UserDetailsState extends State<UserDetails> {
                     Expanded(
                       child: CustomText(
                         data: result,
-                        fontColor: AppColors.splashTextColor,
-                        fweight: FontWeight.w600,
+                        color: AppColors.splashTextColor,
+                        fontWeight: FontWeight.w600,
                         fSize: 15,
                       ),
                     ),
@@ -138,8 +138,8 @@ class _UserDetailsState extends State<UserDetails> {
                     size,
                     CustomText(
                       data: widget.number,
-                      fontColor: AppColors.splashTextColor,
-                      fweight: FontWeight.w600,
+                      color: AppColors.splashTextColor,
+                      fontWeight: FontWeight.w600,
                       fSize: 15,
                     ),
                   ],
@@ -159,8 +159,8 @@ class _UserDetailsState extends State<UserDetails> {
                     size,
                     CustomText(
                       data: widget.email,
-                      fontColor: AppColors.splashTextColor,
-                      fweight: FontWeight.w600,
+                      color: AppColors.splashTextColor,
+                      fontWeight: FontWeight.w600,
                       fSize: 15,
                     ),
                   ],
@@ -181,6 +181,7 @@ class _UserDetailsState extends State<UserDetails> {
                 list: widget.list,
                 bookingList: widget.bookingList,
                 screen: widget.screen,
+                userId: widget.userId,
               ),
         const SizedBox(
           height: 20,

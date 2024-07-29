@@ -62,8 +62,8 @@ class _PlanDetailsScreenState extends State<PlanDetailsScreen> {
           const CustomText(
             data: 'Plan Details',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],

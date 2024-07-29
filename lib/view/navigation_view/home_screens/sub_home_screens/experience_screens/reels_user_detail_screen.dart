@@ -124,7 +124,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     UserViewModel().getToken().then((value) async {
       final counterProvider =
           Provider.of<ProfileViewModel>(context, listen: false);
-      await counterProvider.profileGetApi(value!, widget.userId!);
+      await counterProvider.profileGetApi(value!,userId: widget.userId!);
     });
   }
 
@@ -168,8 +168,8 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
           const CustomText(
             data: 'Profile',
             fSize: 22,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
           widget.screen == 'MyScreen'

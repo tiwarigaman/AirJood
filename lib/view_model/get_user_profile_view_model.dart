@@ -14,9 +14,9 @@ class ProfileViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> profileGetApi(String token,int userId) async {
+  Future<void> profileGetApi(String token, {int? userId}) async {
     setProfile(ApiResponse.loading());
-    myRepo.getProfile(token,userId).then((value) {
+    myRepo.getProfile(token,userId: userId).then((value) {
       setProfile(ApiResponse.completed(value));
     }).onError((error, stackTrace) {
       setProfile(ApiResponse.error(error.toString()));

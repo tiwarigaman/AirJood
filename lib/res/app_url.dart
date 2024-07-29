@@ -48,4 +48,13 @@ class AppUrl {
   static var messagesConversations = '$baseUrl/api/v1/messages/conversations';
   static var messagesReadAll = '$baseUrl/api/v1/messages/read-all';
   static var readUnreadNotification = '$baseUrl/api/v1/notification/mark-as-read';
+  static var addCommunity = '$baseUrl/api/v1/communities';
+  static var getCommunity = '$baseUrl/api/v1/communities';
+  static var getCommunityDetails = '$baseUrl/api/v1/communities';
+  static var getCommunityComment = '$baseUrl/api/v1/communities/comments';
+  static var joinCommunity = '$baseUrl/api/v1/communities/join';
+  static var addCommunityComment = '$baseUrl/api/v1/communities/comment';
+  static var getContactUS = '$baseUrl/api/v1/general/contact-us';
+  static var addReview = '$baseUrl/api/v1/experience/review';
+  static var getExperianceReview = '$baseUrl/api/v1/experience/reviews';
 }

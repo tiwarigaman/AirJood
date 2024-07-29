@@ -80,16 +80,16 @@ class _PlanningWidgetState extends State<PlanningWidget> {
                     children: [
                       CustomText(
                         data: 'Add to Planning',
-                        fontColor: AppColors.blackTextColor,
+                        color: AppColors.blackTextColor,
                         fSize: 20,
-                        fweight: FontWeight.w600,
+                        fontWeight: FontWeight.w600,
                       ),
                       CustomText(
                         data:
                             'Add this Latqa to your planning and enjoy a easy trip.',
-                        fontColor: AppColors.secondTextColor,
+                        color: AppColors.secondTextColor,
                         fSize: 13,
-                        fweight: FontWeight.w400,
+                        fontWeight: FontWeight.w400,
                       ),
                     ],
                   ),
@@ -132,9 +132,9 @@ class _PlanningWidgetState extends State<PlanningWidget> {
                         child: const Center(
                           child: CustomText(
                             data: 'Create New Plan',
-                            fweight: FontWeight.w700,
+                            fontWeight: FontWeight.w700,
                             fSize: 16,
-                            fontColor: AppColors.mainColor,
+                            color: AppColors.mainColor,
                           ),
                         ),
                       ),
@@ -181,9 +181,9 @@ class _PlanningWidgetState extends State<PlanningWidget> {
                         child: const Center(
                           child: CustomText(
                             data: 'Add to this Plan',
-                            fweight: FontWeight.w700,
+                            fontWeight: FontWeight.w700,
                             fSize: 16,
-                            fontColor: AppColors.whiteTextColor,
+                            color: AppColors.whiteTextColor,
                           ),
                         ),
                       ),

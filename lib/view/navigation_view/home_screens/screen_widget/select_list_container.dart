@@ -98,9 +98,9 @@ class _SelectListContainerState extends State<SelectListContainer> {
                                   children: [
                                     CustomText(
                                       data: data?.title ?? 'Plan Title Name Here',
-                                      fweight: FontWeight.w700,
+                                      fontWeight: FontWeight.w700,
                                       fSize: 16,
-                                      fontColor: AppColors.blackTextColor,
+                                      color: AppColors.blackTextColor,
                                     ),
                                     const Spacer(),
                                     GestureDetector(
@@ -134,9 +134,9 @@ class _SelectListContainerState extends State<SelectListContainer> {
                                       data: data?.stateName != null
                                           ? '${data?.countryName} , ${data?.stateName}'
                                           : '${data?.countryName}',
-                                      fweight: FontWeight.w400,
+                                      fontWeight: FontWeight.w400,
                                       fSize: 15,
-                                      fontColor: AppColors.greyTextColor,
+                                      color: AppColors.greyTextColor,
                                     ),
                                   ],
                                 ),
@@ -153,9 +153,9 @@ class _SelectListContainerState extends State<SelectListContainer> {
                                     const SizedBox(width: 10),
                                     CustomText(
                                       data: formattedStartDate.isNotEmpty || formattedEndDate.isNotEmpty ? '$formattedStartDate - $formattedEndDate (${data?.planDuration} Days)' : '${data?.planDuration} Days',
-                                      fweight: FontWeight.w400,
+                                      fontWeight: FontWeight.w400,
                                       fSize: 14,
-                                      fontColor: AppColors.greyTextColor,
+                                      color: AppColors.greyTextColor,
                                     ),
                                   ],
                                 ),

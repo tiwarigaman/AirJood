@@ -80,8 +80,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
             data:
                 'Followers(${Provider.of<FollowersViewModel>(context).followerData.data?.data?.length ?? 0})',
             fSize: 20,
-            fweight: FontWeight.w700,
-            fontColor: AppColors.blackColor,
+            fontWeight: FontWeight.w700,
+            color: AppColors.blackColor,
           ),
           const Spacer(),
         ],
@@ -191,9 +191,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                               children: [
                                 CustomText(
                                   data: '${data?.createdBy?.name}',
-                                  fontColor: AppColors.blackTextColor,
+                                  color: AppColors.blackTextColor,
                                   fSize: 14,
-                                  fweight: FontWeight.w500,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -210,9 +210,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                                       true
                                                   ? "Following"
                                                   : "+ Follow",
-                                          fontColor: AppColors.blueShadeColor,
+                                          color: AppColors.blueShadeColor,
                                           fSize: 14,
-                                          fweight: FontWeight.w500,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       )
                                     : const SizedBox(),
@@ -220,9 +220,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                             ),
                             subtitle: CustomText(
                               data: '${data?.createdBy?.email}',
-                              fontColor: AppColors.greyTextColor,
+                              color: AppColors.greyTextColor,
                               fSize: 14,
-                              fweight: FontWeight.w500,
+                              fontWeight: FontWeight.w500,
                             ),
                             trailing: widget.screen == 'MyScreen'
                                 ? GestureDetector(
@@ -243,9 +243,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                       child: const Center(
                                         child: CustomText(
                                           data: 'Remove',
-                                          fontColor: Color(0xFFD43672),
+                                          color: Color(0xFFD43672),
                                           fSize: 13,
-                                          fweight: FontWeight.w600,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),

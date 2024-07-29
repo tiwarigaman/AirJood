@@ -1,18 +1,20 @@
 import 'dart:async';
 
+import 'package:airjood/model/experience_rating_model.dart';
 import 'package:airjood/res/components/CustomText.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../res/components/color.dart';
 
 class TabBarWidget extends StatefulWidget {
-  final late;
-  final lang;
-
-  const TabBarWidget({super.key, this.late, this.lang});
+  final double? late;
+  final double? lang;
+  final List<Datum>? data;
+  const TabBarWidget({super.key, this.late, this.lang, this.data});
 
   @override
   State<TabBarWidget> createState() => _TabBarWidgetState();
@@ -24,7 +26,6 @@ class _TabBarWidgetState extends State<TabBarWidget>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
@@ -53,7 +54,9 @@ class _TabBarWidgetState extends State<TabBarWidget>
             ]),
         Center(
           child: [
-            const Review(),
+            Review(
+              data: widget.data,
+            ),
             ExperienceLocation(
               late: widget.late,
               lang: widget.lang,
@@ -66,7 +69,8 @@ class _TabBarWidgetState extends State<TabBarWidget>
 }
 
 class Review extends StatefulWidget {
-  const Review({super.key});
+  final List<Datum>? data;
+  const Review({super.key, this.data});
 
   @override
   State<Review> createState() => _ReviewState();
@@ -85,39 +89,28 @@ class _ReviewState extends State<Review> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const CustomText(
-              data: '250 Reviews',
-              fweight: FontWeight.w700,
+            CustomText(
+              data: '${widget.data?.length} Reviews',
+              fontWeight: FontWeight.w700,
               fSize: 17,
-              fontColor: AppColors.blackTextColor,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                height: 40,
-                width: 120,
-                decoration: BoxDecoration(
-                  color: AppColors.mainColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: CustomText(
-                    data: 'Add Review',
-                    fontColor: AppColors.whiteTextColor,
-                    fSize: 16,
-                    fweight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              color: AppColors.blackTextColor,
             ),
           ],
         ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: 3,
+          itemCount: widget.data?.length,
+          padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
+            var reviewData = widget.data?[index];
+            DateTime utcDateTime = DateTime.parse('${reviewData?.createdAt}').toUtc();
+            DateTime localDateTime = utcDateTime.toLocal();
+            String formattedDate = DateFormat('d MMMM yyyy   @hh:mma').format(localDateTime);
+            formattedDate = formattedDate.replaceFirst('${localDateTime.day}','${localDateTime.day}');
             return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
                   minVerticalPadding: 0,
@@ -125,27 +118,29 @@ class _ReviewState extends State<Review> {
                       left: 0, right: 0, top: 10, bottom: 0),
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      'assets/images/user.png',
+                    child: CachedNetworkImage(
+                      imageUrl: '${reviewData?.user?.profileImageUrl}',
                       fit: BoxFit.cover,
                       height: 45,
+                      width: 45,
                     ),
                   ),
-                  title: const CustomText(
-                    data: 'Selina Gomez',
+                  title: CustomText(
+                    data: reviewData?.user?.name ?? 'Selina Gomez',
                     fSize: 16,
-                    fweight: FontWeight.w700,
-                    fontColor: AppColors.blackTextColor,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.blackTextColor,
                   ),
-                  subtitle: const CustomText(
-                    data: '25th July 2023   @11:45AM',
+                  subtitle:  CustomText(
+                    data: formattedDate,
                     fSize: 13,
-                    fweight: FontWeight.w500,
+                    fontWeight: FontWeight.w500,
                   ),
                   trailing: RatingBar(
-                    initialRating: 3,
+                    initialRating: reviewData!.rating!.toDouble(),
                     direction: Axis.horizontal,
                     allowHalfRating: true,
+                    ignoreGestures: true,
                     itemCount: 5,
                     ratingWidget: RatingWidget(
                       full: const Icon(
@@ -166,38 +161,39 @@ class _ReviewState extends State<Review> {
                     onRatingUpdate: (double value) {},
                   ),
                 ),
-                const CustomText(
-                  data:
-                      'Lorem ipsum dolor sit amet consectetur. Enim justo tellus odio vitae ullamcorper adipiscing est. Phellus proin non orci consectetur Id sit letus morbi null.',
+                CustomText(
+                  data: '${reviewData.comment}',
                   fSize: 13,
-                  fweight: FontWeight.w500,
-                  fontColor: AppColors.secondTextColor,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.secondTextColor,
+                   textAlign: TextAlign.justify,
                 ),
               ],
             );
           },
         ),
         const SizedBox(
-          height: 20,
+          height:
+          20,
         ),
-        Text(
-          'View All Review',
-          style: GoogleFonts.halant(
-            fontSize: 17,
-            fontWeight: FontWeight.w800,
-            color: AppColors.blueShadeColor,
-            decorationColor: AppColors.blueShadeColor,
-            decoration: TextDecoration.underline,
-          ),
-        ),
+        // Text(
+        //   'View All Review',
+        //   style: GoogleFonts.halant(
+        //     fontSize: 17,
+        //     fontWeight: FontWeight.w800,
+        //     color: AppColors.blueShadeColor,
+        //     decorationColor: AppColors.blueShadeColor,
+        //     decoration: TextDecoration.underline,
+        //   ),
+        // ),
       ],
     );
   }
 }
 
 class ExperienceLocation extends StatefulWidget {
-  final late;
-  final lang;
+  final double? late;
+  final double? lang;
 
   const ExperienceLocation({super.key, this.late, this.lang});
 
@@ -213,9 +209,8 @@ class _ExperienceLocationState extends State<ExperienceLocation> {
   @override
   void initState() {
     _kGooglePlex = CameraPosition(
-      target: LatLng(double.parse(widget.late ?? '12.121212'),
-          double.parse(widget.lang ?? '11.121212')),
-      zoom: 14.4746,
+      target: LatLng(widget.late ?? 12.121212, widget.lang ?? 11.121212),
+      zoom: 10.4746,
     );
     super.initState();
   }

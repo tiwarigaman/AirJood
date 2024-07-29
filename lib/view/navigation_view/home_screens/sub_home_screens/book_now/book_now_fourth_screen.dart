@@ -89,15 +89,15 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
             children: [
               const CustomText(
                 data: 'Almost Done !',
-                fweight: FontWeight.w800,
+                fontWeight: FontWeight.w800,
                 fSize: 18,
-                fontColor: AppColors.blackTextColor,
+                color: AppColors.blackTextColor,
               ),
               const CustomText(
                 data: 'Please confirm your given details & proceed boking.',
-                fweight: FontWeight.w600,
+                fontWeight: FontWeight.w600,
                 fSize: 13,
-                fontColor: AppColors.greyTextColor,
+                color: AppColors.greyTextColor,
               ),
               const SizedBox(height: 20),
               ClipRRect(
@@ -134,45 +134,45 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                         ),
                         CustomText(
                           data: '\$${totalCharges.toInt()}',
-                          fweight: FontWeight.w800,
+                          fontWeight: FontWeight.w800,
                           fSize: 18,
-                          fontColor: AppColors.mainColor,
+                          color: AppColors.mainColor,
                         ),
                       ],
                     ),
                     CustomText(
                       data: widget.reelsUserName ?? 'David Warner',
-                      fweight: FontWeight.w700,
+                      fontWeight: FontWeight.w700,
                       fSize: 18,
-                      fontColor: AppColors.blackTextColor,
+                      color: AppColors.blackTextColor,
                     ),
                     CustomText(
                       data: widget.address ?? '9 Al Khayma Camp, Dubai, UAE',
-                      fweight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                       fSize: 13,
-                      fontColor: AppColors.greyTextColor,
+                      color: AppColors.greyTextColor,
                     ),
                     const SizedBox(height: 3),
                     CustomText(
                       data: widget.date ?? 'Mon 15, Mar 23',
-                      fweight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                       fSize: 13,
-                      fontColor: AppColors.blackTextColor,
+                      color: AppColors.blackTextColor,
                     ),
                     const SizedBox(height: 2),
                     const Row(
                       children: [
                         CustomText(
                           data: 'Confirmation : ',
-                          fweight: FontWeight.w600,
+                          fontWeight: FontWeight.w600,
                           fSize: 14,
-                          fontColor: AppColors.blackTextColor,
+                          color: AppColors.blackTextColor,
                         ),
                         CustomText(
                           data: 'Pending',
-                          fweight: FontWeight.w700,
+                          fontWeight: FontWeight.w700,
                           fSize: 14,
-                          fontColor: AppColors.amberTextColor,
+                          color: AppColors.amberTextColor,
                         ),
                       ],
                     )
@@ -182,9 +182,9 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
               const SizedBox(height: 20),
               const CustomText(
                 data: 'Charges to Pay',
-                fweight: FontWeight.w700,
+                fontWeight: FontWeight.w700,
                 fSize: 18,
-                fontColor: AppColors.blackTextColor,
+                color: AppColors.blackTextColor,
               ),
               const SizedBox(height: 10),
               Row(
@@ -192,16 +192,16 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                 children: [
                   const CustomText(
                     data: 'Booking Charges',
-                    fweight: FontWeight.w600,
+                    fontWeight: FontWeight.w600,
                     fSize: 14,
-                    fontColor: AppColors.greyTextColor,
+                    color: AppColors.greyTextColor,
                   ),
                   CustomText(
                     data: '\$${widget.priceType == 'person' ? (int.parse(widget.userCharges.toString()) * int.parse(widget.noOfGuest ?? '1')) : int.parse(widget.userCharges.toString())}',
                     // data: '\$${widget.userCharges ?? "125.32"}',
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                     fSize: 14,
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                   ),
                 ],
               ),
@@ -216,15 +216,15 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                     children: [
                       CustomText(
                         data: widget.addon?[index].name ?? 'Transportation',
-                        fweight: FontWeight.w600,
+                        fontWeight: FontWeight.w600,
                         fSize: 14,
-                        fontColor: AppColors.greyTextColor,
+                        color: AppColors.greyTextColor,
                       ),
                       CustomText(
                         data: '\$${widget.addon?[index].priceType == 'person' ? (int.parse(widget.addon![index].price.toString()) * int.parse(widget.noOfGuest ?? '1')) : int.parse(widget.addon![index].price.toString())}',
-                        fweight: FontWeight.w700,
+                        fontWeight: FontWeight.w700,
                         fSize: 14,
-                        fontColor: AppColors.blackTextColor,
+                        color: AppColors.blackTextColor,
                       ),
                     ],
                   );
@@ -237,15 +237,15 @@ class _BookNowFourthScreenState extends State<BookNowFourthScreen> {
                 children: [
                   const CustomText(
                     data: 'Total',
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                     fSize: 15,
-                    fontColor: AppColors.blackTextColor,
+                    color: AppColors.blackTextColor,
                   ),
                   CustomText(
                     data: '\$${totalCharges.toInt()}',
-                    fweight: FontWeight.w700,
+                    fontWeight: FontWeight.w700,
                     fSize: 14,
-                    fontColor: AppColors.mainColor,
+                    color: AppColors.mainColor,
                   ),
                 ],
               ),

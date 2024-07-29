@@ -110,6 +110,7 @@ class Datum {
   List<Facility>? facility;
   Reel? reel;
   User? user;
+  int? rating;
 
   Datum({
     this.id,
@@ -140,6 +141,7 @@ class Datum {
     this.facility,
     this.reel,
     this.user,
+    this.rating,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -184,6 +186,7 @@ class Datum {
                 json["facility"]!.map((x) => Facility.fromJson(x))),
         reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
+        rating: json["rating"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -219,6 +222,7 @@ class Datum {
             : List<dynamic>.from(facility!.map((x) => x.toJson())),
         "reel": reel?.toJson(),
         "user": user?.toJson(),
+        "rating": rating,
       };
 
   @override

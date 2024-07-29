@@ -166,14 +166,14 @@ class _AllUsersState extends State<AllUsers> {
                           CustomText(
                             data: invitedListProvider.invitedList[index].name ?? 'Saimon Jhonson',
                             fSize: 15,
-                            fontColor: AppColors.blackTextColor,
-                            fweight: FontWeight.w600,
+                            color: AppColors.blackTextColor,
+                            fontWeight: FontWeight.w600,
                           ),
                           CustomText(
                             data: invitedListProvider.invitedList[index].email ?? 'davidwarner21@gmail.com',
                             fSize: 13,
-                            fontColor: AppColors.secondTextColor,
-                            fweight: FontWeight.w500,
+                            color: AppColors.secondTextColor,
+                            fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),
@@ -196,13 +196,13 @@ class _AllUsersState extends State<AllUsers> {
                           child: Center(
                             child: CustomText(
                               data: inviteStatus,
-                              fontColor: inviteStatus == 'Invite Now'
+                              color: inviteStatus == 'Invite Now'
                                   ? const Color(0xFF14C7FF)
                                   : inviteStatus == 'Invited'
                                   ? Colors.black
                                   : Colors.black,
                               fSize: 13,
-                              fweight: FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

@@ -237,6 +237,69 @@ class NetworkApiService extends BaseApiAServices {
   }
 
   @override
+  Future communityPostApiResponse(
+      String url, token, Map<String, String> data, dynamic coverImage,dynamic profileImage) async {
+    dynamic responseJson;
+    try {
+      var headers = {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
+      };
+
+      var request = http.MultipartRequest("POST", Uri.parse(url));
+      if (coverImage != null) {
+        var multipartFile =
+        await http.MultipartFile.fromPath('profile_image', coverImage.path);
+        request.files.add(multipartFile);
+      }
+      if (profileImage != null) {
+        var multipartFile =
+        await http.MultipartFile.fromPath('cover_image', profileImage.path);
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll(headers);
+      request.fields.addAll(data);
+      var response = await request.send();
+      responseJson = await http.Response.fromStream(response).then((value) {
+        return returnResponse(value);
+      });
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  @override
+  Future communityCommentPostApiResponse(
+      String url, token, Map<String, String> data, {dynamic attachment}) async {
+    dynamic responseJson;
+    try {
+      var headers = {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+        'Cookie': 'airjood_session=ancIVzfTWIrBdNUhZRKCfnaEB6fjt4v4B4hJ55GS'
+      };
+
+      var request = http.MultipartRequest("POST", Uri.parse(url));
+      if (attachment != null) {
+        var multipartFile =
+        await http.MultipartFile.fromPath('attachment', attachment.path);
+        request.files.add(multipartFile);
+      }
+      request.headers.addAll(headers);
+      request.fields.addAll(data);
+      var response = await request.send();
+      responseJson = await http.Response.fromStream(response).then((value) {
+        return returnResponse(value);
+      });
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
+  @override
   Future documentPostApiResponse(
       String url, token, image, image1, image2, image3) async {
     dynamic responseJson;
@@ -445,6 +508,5 @@ class NetworkApiService extends BaseApiAServices {
         );
     }
   }
-
 
 }

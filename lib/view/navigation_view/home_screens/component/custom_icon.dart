@@ -1,5 +1,4 @@
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/planning_widget.dart';
-import 'package:airjood/view/navigation_view/home_screens/sub_home_screens/review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_popup/flutter_popup.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,6 +29,7 @@ class CustomIcon extends StatefulWidget {
   final String? screen;
   final String? commentOpen;
   final int? price;
+  final int? rating;
   CustomIcon(
       {super.key,
       this.reelsId,
@@ -45,7 +45,9 @@ class CustomIcon extends StatefulWidget {
       this.commentAdd,
       this.screen,
       this.experianceId,
-      this.commentOpen, this.price});
+      this.commentOpen,
+      this.price,
+      this.rating});
 
   @override
   State<CustomIcon> createState() => _CustomIconState();
@@ -195,8 +197,8 @@ class _CustomIconState extends State<CustomIcon> {
                 : const CustomText(
                     data: 'Planning',
                     fSize: 14,
-                    fweight: FontWeight.w400,
-                    fontColor: AppColors.whiteTextColor,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.whiteTextColor,
                   ),
             const SizedBox(height: 5),
             InkWell(
@@ -218,8 +220,8 @@ class _CustomIconState extends State<CustomIcon> {
             CustomText(
               data: '${widget.likeCount ?? 0}',
               fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
+              fontWeight: FontWeight.w400,
+              color: AppColors.whiteTextColor,
             ),
             const SizedBox(height: 5),
             InkWell(
@@ -252,8 +254,8 @@ class _CustomIconState extends State<CustomIcon> {
             CustomText(
               data: '${widget.commentCount ?? 0}',
               fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
+              fontWeight: FontWeight.w400,
+              color: AppColors.whiteTextColor,
             ),
             const SizedBox(height: 5),
             InkWell(
@@ -269,18 +271,20 @@ class _CustomIconState extends State<CustomIcon> {
             const CustomText(
               data: 'Share',
               fSize: 14,
-              fweight: FontWeight.w400,
-              fontColor: AppColors.whiteTextColor,
+              fontWeight: FontWeight.w400,
+              color: AppColors.whiteTextColor,
             ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
                 : CustomPopup(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
                     content: CustomText(
                       data: '\$${widget.price}',
                       fSize: 18,
-                      fweight: FontWeight.w700,
-                      fontColor: AppColors.mainColor,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.mainColor,
                     ),
                     child: SvgPicture.asset(
                       'assets/svg/pricing.svg',
@@ -293,21 +297,32 @@ class _CustomIconState extends State<CustomIcon> {
                 : const CustomText(
                     data: 'Pricing',
                     fSize: 14,
-                    fweight: FontWeight.w400,
-                    fontColor: AppColors.whiteTextColor,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.whiteTextColor,
                   ),
             const SizedBox(height: 5),
             widget.screen == 'Laqta'
                 ? const SizedBox()
-                : GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ReviewScreen(),
+                : CustomPopup(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    content: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.star_rounded,
+                          size: 18,
+                          color: AppColors.amberColor,
                         ),
-                      );
-                    },
+                        const SizedBox(width: 10),
+                        CustomText(
+                          data: '${widget.rating}',
+                          fSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.mainColor,
+                        ),
+                      ],
+                    ),
                     child: SvgPicture.asset(
                       'assets/svg/rating.svg',
                       height: 25,
@@ -321,8 +336,8 @@ class _CustomIconState extends State<CustomIcon> {
                 : const CustomText(
                     data: 'Reviews',
                     fSize: 14,
-                    fweight: FontWeight.w400,
-                    fontColor: AppColors.whiteTextColor,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.whiteTextColor,
                   ),
           ],
         ),

@@ -36,18 +36,18 @@ class _ContentDetailsWidgetState extends State<ContentDetailsWidget> {
             children: [
               CustomText(
                 data: widget.name ?? "AL khayma Camp",
-                fweight: FontWeight.w700,
+                fontWeight: FontWeight.w700,
                 fSize: 18,
-                fontColor: AppColors.blackTextColor,
+                color: AppColors.blackTextColor,
               ),
               const SizedBox(
                 height: 4,
               ),
               CustomText(
                 data: widget.location ?? "9 Al Khayma Camp, Dubai, UAE",
-                fweight: FontWeight.w600,
+                fontWeight: FontWeight.w600,
                 fSize: 14,
-                fontColor: AppColors.greyTextColor,
+                color: AppColors.greyTextColor,
               ),
               const SizedBox(
                 height: 6,
