@@ -39,6 +39,8 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
     fetchExperianceData();
   }
 
+  int currentPage = 0;
+
   Future<void> fetchExperianceData() async {
     UserViewModel().getToken().then((value) async {
       final experianceProvider =
@@ -110,376 +112,398 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
                         ),
                       ),
                       child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VideoPlayerWidget(
-                                        name: value.getUploadExperianceData.data
-                                            ?.reel?.user?[0].name,
-                                        language: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].languages,
-                                        about: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].about,
-                                        dateTime: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].createdAt,
-                                        userId: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].id,
-                                        email: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].email,
-                                        guide: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].isUpgrade,
-                                        number: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].contactNo,
-                                        createdAt: value.getUploadExperianceData
-                                            .data?.reel?.user?[0].createdAt,
-                                        screen: 'Laqta',
-                                        image: value
-                                            .getUploadExperianceData
-                                            .data
-                                            ?.reel
-                                            ?.user?[0]
-                                            .profileImageUrl,
-                                        commentCount: value
-                                            .getUploadExperianceData
-                                            .data
-                                            ?.reel
-                                            ?.commentCount,
-                                        videoUrl:
-                                            '${value.getUploadExperianceData.data?.reel?.videoUrl}',
-                                        index: 0,
-                                        reelsId: value.getUploadExperianceData
-                                            .data?.reelId,
-                                        isLike: value.getUploadExperianceData
-                                            .data?.reel?.liked,
-                                        videoImage: value
-                                            .getUploadExperianceData
-                                            .data
-                                            ?.reel
-                                            ?.videoThumbnailUrl,
-                                        likeCount: value.getUploadExperianceData
-                                            .data?.reel?.likeCount,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 300,
+                              width: double.infinity,
+                              child: PageView.builder(
+                                itemCount: value
+                                    .getUploadExperianceData.data?.reel?.length,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    currentPage = index;
+                                  });
+                                },
+                                itemBuilder: (context, index) {
+                                  var data = value.getUploadExperianceData.data
+                                      ?.reel?[index].user?[0];
+                                  var data2 = value.getUploadExperianceData.data
+                                      ?.reel?[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                VideoPlayerWidget(
+                                              name: data?.name,
+                                              language: data?.languages,
+                                              about: data?.about,
+                                              dateTime: data?.createdAt,
+                                              userId: data?.id,
+                                              email: data?.email,
+                                              guide: data?.isUpgrade,
+                                              number: data?.contactNo,
+                                              createdAt: data?.createdAt,
+                                              screen: 'Laqta',
+                                              image: data?.profileImageUrl,
+                                              commentCount: data2?.commentCount,
+                                              videoUrl: '${data2?.videoUrl}',
+                                              index: 0,
+                                              reelsId: value
+                                                  .getUploadExperianceData
+                                                  .data
+                                                  ?.reelId,
+                                              isLike: data2?.liked,
+                                              videoImage:
+                                                  data2?.videoThumbnailUrl,
+                                              likeCount: data2?.likeCount,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  '${data2?.videoThumbnailUrl}',
+                                              fit: BoxFit.cover,
+                                              height: 300,
+                                              width: double.infinity,
+                                            ),
+                                          ),
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: BackdropFilter(
+                                              blendMode: BlendMode.srcOver,
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 120.0, sigmaY: 20.0),
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 300,
+                                                color: Colors
+                                                    .transparent, // Make the container transparent
+                                              ),
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment:
+                                                AlignmentDirectional.center,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: SizedBox(
+                                                height: 250,
+                                                width: 200,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      '${data2?.videoThumbnailUrl}',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
                                 },
-                                child: Stack(
-                                  alignment: AlignmentDirectional.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            '${value.getUploadExperianceData.data?.reel?.videoThumbnailUrl}',
-                                        fit: BoxFit.cover,
-                                        height: 300,
-                                        width: double.infinity,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            buildPageIndicator(value
+                                .getUploadExperianceData.data?.reel?.length),
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CustomText(
+                                        data:
+                                            '\$${value.getUploadExperianceData.data?.price}',
+                                        color: AppColors.mainColor,
+                                        fSize: 25,
+                                        fontWeight: FontWeight.w800,
                                       ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: BackdropFilter(
-                                        blendMode: BlendMode.srcOver,
-                                        filter: ImageFilter.blur(
-                                            sigmaX: 120.0, sigmaY: 20.0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 300,
-                                          color: Colors
-                                              .transparent, // Make the container transparent
-                                        ),
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional.center,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: SizedBox(
-                                          height: 250,
-                                          width: 200,
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                '${value.getUploadExperianceData.data?.reel?.videoThumbnailUrl}',
-                                            fit: BoxFit.cover,
+                                      const CustomText(
+                                        data: '/ Experience',
+                                        color: AppColors.secondTextColor,
+                                        fSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      const Spacer(),
+                                      RatingBar(
+                                        initialRating: value
+                                                .getUploadExperianceData
+                                                .data
+                                                ?.rating
+                                                ?.toDouble() ??
+                                            0.0,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        ratingWidget: RatingWidget(
+                                          full: const Icon(
+                                            Icons.star_rounded,
+                                            color: AppColors.amberColor,
+                                          ),
+                                          half: const Icon(
+                                            Icons.star_half_rounded,
+                                            color: AppColors.amberColor,
+                                          ),
+                                          empty: const Icon(
+                                            Icons.star_rounded,
+                                            color: AppColors.deviderColor,
                                           ),
                                         ),
+                                        ignoreGestures: true,
+                                        itemSize: 25.0,
+                                        itemPadding: const EdgeInsets.symmetric(
+                                            horizontal: 0.0),
+                                        onRatingUpdate: (double value) {},
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    data:
-                                        '\$${value.getUploadExperianceData.data?.price}',
-                                    color: AppColors.mainColor,
-                                    fSize: 25,
-                                    fontWeight: FontWeight.w800,
+                                    ],
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    height: 10,
+                                  ),
+                                  ContentDetailsWidget(
+                                    name:
+                                        '${value.getUploadExperianceData.data?.name}',
+                                    discription:
+                                        '${value.getUploadExperianceData.data?.description}',
+                                    location:
+                                        '${value.getUploadExperianceData.data?.location}',
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const CustomText(
+                                        data: "Availability for persons : ",
+                                        fontWeight: FontWeight.w600,
+                                        fSize: 14,
+                                        color: AppColors.greyTextColor,
+                                      ),
+                                      CustomText(
+                                        data:
+                                            "${value.getUploadExperianceData.data?.minPerson}-${value.getUploadExperianceData.data?.maxPerson}",
+                                        fontWeight: FontWeight.w800,
+                                        fSize: 15,
+                                        color: AppColors.mainColor,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const CustomText(
+                                        data: "Start Time : ",
+                                        fontWeight: FontWeight.w600,
+                                        fSize: 14,
+                                        color: AppColors.greyTextColor,
+                                      ),
+                                      CustomText(
+                                        data: formattedTime,
+                                        fontWeight: FontWeight.w800,
+                                        fSize: 15,
+                                        color: AppColors.mainColor,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const CustomText(
+                                        data: "End Time : ",
+                                        fontWeight: FontWeight.w600,
+                                        fSize: 14,
+                                        color: AppColors.greyTextColor,
+                                      ),
+                                      CustomText(
+                                        data: formattedTime2,
+                                        fontWeight: FontWeight.w800,
+                                        fSize: 15,
+                                        color: AppColors.mainColor,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
                                   const CustomText(
-                                    data: '/ Experience',
-                                    color: AppColors.secondTextColor,
-                                    fSize: 14,
+                                    data: 'Mood : ',
                                     fontWeight: FontWeight.w600,
-                                  ),
-                                  const Spacer(),
-                                  RatingBar(
-                                    initialRating: value.getUploadExperianceData.data?.rating?.toDouble() ?? 0.0,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    ratingWidget: RatingWidget(
-                                      full: const Icon(
-                                        Icons.star_rounded,
-                                        color: AppColors.amberColor,
-                                      ),
-                                      half: const Icon(
-                                        Icons.star_half_rounded,
-                                        color: AppColors.amberColor,
-                                      ),
-                                      empty: const Icon(
-                                        Icons.star_rounded,
-                                        color: AppColors.deviderColor,
-                                      ),
-                                    ),
-                                    ignoreGestures: true,
-                                    itemSize: 25.0,
-                                    itemPadding: const EdgeInsets.symmetric(
-                                        horizontal: 0.0),
-                                    onRatingUpdate: (double value) {},
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              ContentDetailsWidget(
-                                name:
-                                    '${value.getUploadExperianceData.data?.name}',
-                                discription:
-                                    '${value.getUploadExperianceData.data?.description}',
-                                location:
-                                    '${value.getUploadExperianceData.data?.location}',
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  const CustomText(
-                                    data: "Availability for persons : ",
-                                    fontWeight: FontWeight.w600,
-                                    fSize: 14,
+                                    fSize: 15,
                                     color: AppColors.greyTextColor,
                                   ),
-                                  CustomText(
-                                    data:
-                                        "${value.getUploadExperianceData.data?.minPerson}-${value.getUploadExperianceData.data?.maxPerson}",
-                                    fontWeight: FontWeight.w800,
-                                    fSize: 15,
-                                    color: AppColors.mainColor,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  const CustomText(
-                                    data: "Start Time : ",
-                                    fontWeight: FontWeight.w600,
-                                    fSize: 14,
-                                    color: AppColors.greyTextColor,
-                                  ),
-                                  CustomText(
-                                    data: formattedTime,
-                                    fontWeight: FontWeight.w800,
-                                    fSize: 15,
-                                    color: AppColors.mainColor,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  const CustomText(
-                                    data: "End Time : ",
-                                    fontWeight: FontWeight.w600,
-                                    fSize: 14,
-                                    color: AppColors.greyTextColor,
-                                  ),
-                                  CustomText(
-                                    data: formattedTime2,
-                                    fontWeight: FontWeight.w800,
-                                    fSize: 15,
-                                    color: AppColors.mainColor,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const CustomText(
-                                data: 'Mood : ',
-                                fontWeight: FontWeight.w600,
-                                fSize: 15,
-                                color: AppColors.greyTextColor,
-                              ),
-                              SizedBox(
-                                height: 40,
-                                child: ListView.builder(
-                                  itemCount: value.getUploadExperianceData.data
-                                      ?.mood?.length,
-                                  //shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    var data = value.getUploadExperianceData
-                                        .data?.mood?[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.all(3),
-                                      child: Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.textFildBGColor,
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5,
-                                              right: 5,
-                                              top: 3,
-                                              bottom: 3),
-                                          child: Center(
-                                            child: CustomText(
-                                              data: '${data?.mood}',
-                                              color: AppColors.greyTextColor,
-                                              fSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                  SizedBox(
+                                    height: 40,
+                                    child: ListView.builder(
+                                      itemCount: value.getUploadExperianceData
+                                          .data?.mood?.length,
+                                      //shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        var data = value.getUploadExperianceData
+                                            .data?.mood?[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: Container(
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.textFildBGColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5,
+                                                  right: 5,
+                                                  top: 3,
+                                                  bottom: 3),
+                                              child: Center(
+                                                child: CustomText(
+                                                  data: '${data?.mood}',
+                                                  color:
+                                                      AppColors.greyTextColor,
+                                                  fSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
                                             ),
                                           ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  value.getUploadExperianceData.data!.facility!
+                                          .isEmpty
+                                      ? const SizedBox()
+                                      : const CustomText(
+                                          data: 'Facilities : ',
+                                          fontWeight: FontWeight.w600,
+                                          fSize: 15,
+                                          color: AppColors.greyTextColor,
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              value.getUploadExperianceData.data!.facility!
-                                      .isEmpty
-                                  ? const SizedBox()
-                                  : const CustomText(
-                                      data: 'Facilities : ',
-                                      fontWeight: FontWeight.w600,
-                                      fSize: 15,
-                                      color: AppColors.greyTextColor,
-                                    ),
-                              value.getUploadExperianceData.data!.facility!
-                                      .isEmpty
-                                  ? const SizedBox()
-                                  : FacilitiesListWidget(
-                                      count: value.getUploadExperianceData.data
-                                          ?.facility?.length,
-                                      data: value.getUploadExperianceData.data
-                                          ?.facility,
-                                    ),
-                              AddonesListWidget(
-                                data:
-                                    value.getUploadExperianceData.data?.addons,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Consumer<GetExperienceReviewViewModel>(
-                                builder: (context, val, child) {
-                                  switch (val.experienceReviewData.status) {
-                                    case Status.LOADING:
-                                      return const ShimmerScreen();
-                                    case Status.ERROR:
+                                  value.getUploadExperianceData.data!.facility!
+                                          .isEmpty
+                                      ? const SizedBox()
+                                      : FacilitiesListWidget(
+                                          count: value.getUploadExperianceData
+                                              .data?.facility?.length,
+                                          data: value.getUploadExperianceData
+                                              .data?.facility,
+                                        ),
+                                  AddonesListWidget(
+                                    data: value
+                                        .getUploadExperianceData.data?.addons,
+                                  ),
+                                  Consumer<GetExperienceReviewViewModel>(
+                                    builder: (context, val, child) {
+                                      switch (val.experienceReviewData.status) {
+                                        case Status.LOADING:
+                                          return const ShimmerScreen();
+                                        case Status.ERROR:
+                                          return Container();
+                                        case Status.COMPLETED:
+                                          return TabBarWidget(
+                                            late: double.tryParse(value
+                                                        .getUploadExperianceData
+                                                        .data
+                                                        ?.latitude ??
+                                                    '') ??
+                                                0.0,
+                                            lang: double.tryParse(value
+                                                        .getUploadExperianceData
+                                                        .data
+                                                        ?.longitude ??
+                                                    '') ??
+                                                0.0,
+                                            data: val.experienceReviewData.data
+                                                ?.data?.data,
+                                          );
+                                        default:
+                                      }
                                       return Container();
-                                    case Status.COMPLETED:
-                                      return TabBarWidget(
-                                        late: double.tryParse(value
-                                            .getUploadExperianceData
-                                            .data
-                                            ?.latitude ??
-                                            '') ??
-                                            0.0,
-                                        lang: double.tryParse(value
-                                            .getUploadExperianceData
-                                            .data
-                                            ?.longitude ??
-                                            '') ??
-                                            0.0,
-                                        data: val.experienceReviewData.data?.data?.data,
-                                      );
-                                    default:
-                                  }
-                                  return Container();
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const CustomIconButton(
-                                data: 'Terms & Conditions',
-                                assetName: 'assets/svg/terms.svg',
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  if (widget.screen == 'UserDetails') {
-                                    showModalBottomSheet(
-                                      backgroundColor: Colors.transparent,
-                                      context: context,
-                                      enableDrag: false,
-                                      isDismissible: false,
-                                      constraints: BoxConstraints.expand(
-                                          height: MediaQuery.of(context)
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  const CustomIconButton(
+                                    data: 'Terms & Conditions',
+                                    assetName: 'assets/svg/terms.svg',
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      if (widget.screen == 'UserDetails') {
+                                        showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          enableDrag: false,
+                                          isDismissible: false,
+                                          constraints: BoxConstraints.expand(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.90,
+                                              width: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.90,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width),
-                                      isScrollControlled: true,
-                                      builder: (_) => BookNowMainScreen(
-                                        experienceId: widget.id,
-                                      ),
-                                    );
-                                  } else {
-                                    Navigator.pop(context);
-                                  }
-                                },
-                                child: MainButton(
-                                  data: widget.screen == 'UserDetails'
-                                      ? 'Book Now'
-                                      : 'Close',
-                                ),
+                                                  .width),
+                                          isScrollControlled: true,
+                                          builder: (_) => BookNowMainScreen(
+                                            experienceId: widget.id,
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: MainButton(
+                                      data: widget.screen == 'UserDetails'
+                                          ? 'Book Now'
+                                          : 'Close',
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -490,6 +514,24 @@ class _UploadExperienceDetailsState extends State<UploadExperienceDetails> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildPageIndicator(array) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        array,
+        (index) => Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          width: 8.0,
+          height: 8.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: currentPage == index ? AppColors.mainColor : Colors.grey,
+          ),
+        ),
       ),
     );
   }

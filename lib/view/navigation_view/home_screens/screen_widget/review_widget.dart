@@ -42,24 +42,17 @@ class _ReviewWidgetState extends State<ReviewWidget> {
           case Status.ERROR:
             return Container();
           case Status.COMPLETED:
-            return value.userReviewData.data == null
-                ? Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/images/rejected.png',
-                          height: 70,
-                          width: 70,
-                        ),
-                        const SizedBox(height: 10),
-                        const CustomText(
-                          data: 'Not found',
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.blueColor,
-                          fSize: 18,
-                        ),
-                      ],
+            return value.userReviewData.data == null || value.userReviewData.data!.data!.data!.isEmpty
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width,
+                    child: const Center(
+                      child: Image(
+                        image: AssetImage('assets/images/noData.png'),
+                        height: 200,
+                        width: 300,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   )
                 : Column(
@@ -123,6 +116,8 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                           formattedDate = formattedDate.replaceFirst(
                               '${localDateTime.day}', '${localDateTime.day}');
                           return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Divider(
                                   height: 15,

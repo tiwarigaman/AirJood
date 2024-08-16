@@ -10,7 +10,7 @@ String searchResultModelToJson(SearchResultModel data) => json.encode(data.toJso
 
 class SearchResultModel {
   int? currentPage;
-  List<Datum>? data;
+  List<SearchData>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -41,7 +41,7 @@ class SearchResultModel {
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) => SearchResultModel(
     currentPage: json["current_page"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    data: json["data"] == null ? [] : List<SearchData>.from(json["data"]!.map((x) => SearchData.fromJson(x))),
     firstPageUrl: json["first_page_url"],
     from: json["from"],
     lastPage: json["last_page"],
@@ -72,17 +72,16 @@ class SearchResultModel {
   };
 }
 
-class Datum {
+class SearchData {
   int? id;
   int? relatedToMyPlan;
-  int? reelId;
   String? latitude;
   String? longitude;
   dynamic availabilityForPersonFrom;
   dynamic availabilityForPersonTo;
-  String? city;
+  dynamic city;
   String? country;
-  String? state;
+  dynamic state;
   DateTime? createdAt;
   int? createdBy;
   String? description;
@@ -99,13 +98,13 @@ class Datum {
   String? fridgetMagnetUrl;
   List<Facility>? mood;
   List<Facility>? facility;
+  int? rating;
   User? user;
-  Reel? reel;
+  List<Reel>? reel;
 
-  Datum({
+  SearchData({
     this.id,
     this.relatedToMyPlan,
-    this.reelId,
     this.latitude,
     this.longitude,
     this.availabilityForPersonFrom,
@@ -129,14 +128,14 @@ class Datum {
     this.fridgetMagnetUrl,
     this.mood,
     this.facility,
+    this.rating,
     this.user,
     this.reel,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory SearchData.fromJson(Map<String, dynamic> json) => SearchData(
     id: json["id"],
     relatedToMyPlan: json["related_to_my_plan"],
-    reelId: json["reel_id"],
     latitude: json["latitude"],
     longitude: json["longitude"],
     availabilityForPersonFrom: json["availability_for_person_from"],
@@ -160,14 +159,14 @@ class Datum {
     fridgetMagnetUrl: json["fridget_magnet_url"],
     mood: json["mood"] == null ? [] : List<Facility>.from(json["mood"]!.map((x) => Facility.fromJson(x))),
     facility: json["facility"] == null ? [] : List<Facility>.from(json["facility"]!.map((x) => Facility.fromJson(x))),
+    rating: json["rating"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
+    reel: json["reel"] == null ? [] : List<Reel>.from(json["reel"]!.map((x) => Reel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "related_to_my_plan": relatedToMyPlan,
-    "reel_id": reelId,
     "latitude": latitude,
     "longitude": longitude,
     "availability_for_person_from": availabilityForPersonFrom,
@@ -191,8 +190,9 @@ class Datum {
     "fridget_magnet_url": fridgetMagnetUrl,
     "mood": mood == null ? [] : List<dynamic>.from(mood!.map((x) => x.toJson())),
     "facility": facility == null ? [] : List<dynamic>.from(facility!.map((x) => x.toJson())),
+    "rating": rating,
     "user": user?.toJson(),
-    "reel": reel?.toJson(),
+    "reel": reel == null ? [] : List<dynamic>.from(reel!.map((x) => x.toJson())),
   };
 }
 
@@ -230,15 +230,31 @@ class Facility {
 
 class Reel {
   int? id;
+  int? userId;
+  int? experienceId;
+  String? caption;
+  DateTime? dateOfShoot;
+  String? location;
+  int? songId;
+  DateTime? updatedAt;
+  DateTime? createdAt;
   String? videoUrl;
   String? videoThumbnailUrl;
   int? likeCount;
   bool? liked;
   int? commentCount;
-  List<dynamic>? user;
+  List<User>? user;
 
   Reel({
     this.id,
+    this.userId,
+    this.experienceId,
+    this.caption,
+    this.dateOfShoot,
+    this.location,
+    this.songId,
+    this.updatedAt,
+    this.createdAt,
     this.videoUrl,
     this.videoThumbnailUrl,
     this.likeCount,
@@ -249,22 +265,38 @@ class Reel {
 
   factory Reel.fromJson(Map<String, dynamic> json) => Reel(
     id: json["id"],
+    userId: json["user_id"],
+    experienceId: json["experience_id"],
+    caption: json["caption"],
+    dateOfShoot: json["date_of_shoot"] == null ? null : DateTime.parse(json["date_of_shoot"]),
+    location: json["location"],
+    songId: json["song_id"],
+    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     videoUrl: json["video_url"],
     videoThumbnailUrl: json["video_thumbnail_url"],
     likeCount: json["like_count"],
     liked: json["liked"],
     commentCount: json["comment_count"],
-    user: json["user"] == null ? [] : List<dynamic>.from(json["user"]!.map((x) => x)),
+    user: json["user"] == null ? [] : List<User>.from(json["user"]!.map((x) => User.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "user_id": userId,
+    "experience_id": experienceId,
+    "caption": caption,
+    "date_of_shoot": dateOfShoot?.toIso8601String(),
+    "location": location,
+    "song_id": songId,
+    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
     "video_url": videoUrl,
     "video_thumbnail_url": videoThumbnailUrl,
     "like_count": likeCount,
     "liked": liked,
     "comment_count": commentCount,
-    "user": user == null ? [] : List<dynamic>.from(user!.map((x) => x)),
+    "user": user == null ? [] : List<dynamic>.from(user!.map((x) => x.toJson())),
   };
 }
 
@@ -287,6 +319,7 @@ class User {
   bool? isFollowing;
   bool? isFollower;
   dynamic planInvitationStatus;
+  int? rating;
 
   User({
     this.id,
@@ -307,6 +340,7 @@ class User {
     this.isFollowing,
     this.isFollower,
     this.planInvitationStatus,
+    this.rating,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -328,6 +362,7 @@ class User {
     isFollowing: json["is_following"],
     isFollower: json["is_follower"],
     planInvitationStatus: json["plan_invitation_status"],
+    rating: json["rating"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -349,6 +384,7 @@ class User {
     "is_following": isFollowing,
     "is_follower": isFollower,
     "plan_invitation_status": planInvitationStatus,
+    "rating": rating,
   };
 }
 

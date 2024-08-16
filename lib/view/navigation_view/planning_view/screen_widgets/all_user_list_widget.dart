@@ -48,7 +48,7 @@ class _AllUsersState extends State<AllUsers> {
     } else if (currentStatus == 'Invited') {
       newStatus = 'Accepted';
     } else {
-      newStatus = currentStatus; // handle other cases if necessary
+      newStatus = currentStatus;
     }
 
     Map<String, String> data = {

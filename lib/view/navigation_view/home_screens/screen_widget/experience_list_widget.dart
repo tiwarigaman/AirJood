@@ -19,6 +19,7 @@ import '../sub_home_screens/book_now/book_now_main_screen.dart';
 class ExperienceListWidget extends StatefulWidget {
   final List<Datum>? list;
   final String? screen;
+
   const ExperienceListWidget({super.key, this.list, this.screen});
 
   @override
@@ -62,105 +63,73 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoPlayerWidget(
-                                      name: data.reel?.user?[0].name,
-                                      description: data.description,
-                                      commentCount: data.reel?.commentCount,
-                                      about: data.reel?.user?[0].about,
-                                      dateTime: data.reel?.user?[0].createdAt,
-                                      userId: data.reel?.user?[0].id,
-                                      email: data.reel?.user?[0].email,
-                                      guide: data.reel?.user?[0].isUpgrade,
-                                      number: data.reel?.user?[0].contactNo,
-                                      createdAt: data.reel?.user?[0].createdAt,
-                                      image:
-                                          data.reel?.user?[0].profileImageUrl,
-                                      language: data.reel?.user?[0].languages,
-                                      videoUrl: '${data.reel?.videoUrl}',
-                                      isLike: data.reel?.liked,
-                                      likeCount: data.reel?.likeCount,
-                                      reelsId: data.reel?.id,
-                                      screen : 'Laqta',
-                                      videoImage:
-                                          '${data.reel?.videoThumbnailUrl}',
-                                      index: index,
+                      SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          itemCount: data.reel?.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, indexs) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 10,top: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VideoPlayerWidget(
+                                        name: data.reel?[indexs].user?[0].name,
+                                        description: data.description,
+                                        commentCount: data.reel?[indexs].commentCount,
+                                        about: data.reel?[index].user?[0].about,
+                                        dateTime:
+                                            data.reel?[indexs].user?[0].createdAt,
+                                        userId: data.reel?[indexs].user?[0].id,
+                                        email: data.reel?[indexs].user?[0].email,
+                                        guide: data.reel?[indexs].user?[0].isUpgrade,
+                                        number: data.reel?[indexs].user?[0].contactNo,
+                                        createdAt:
+                                            data.reel?[indexs].user?[0].createdAt,
+                                        image: data
+                                            .reel?[indexs].user?[0].profileImageUrl,
+                                        language:
+                                            data.reel?[indexs].user?[0].languages,
+                                        videoUrl: '${data.reel?[indexs].videoUrl}',
+                                        isLike: data.reel?[indexs].liked,
+                                        likeCount: data.reel?[indexs].likeCount,
+                                        reelsId: data.reel?[indexs].id,
+                                        screen: 'Laqta',
+                                        videoImage:
+                                            '${data.reel?[indexs].videoThumbnailUrl}',
+                                        index: indexs,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: '${data.reel?.videoThumbnailUrl}',
-                                  height: 100,
-                                  width: 80,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) {
-                                    return Container(
-                                        height: 100,
+                                  );
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        '${data.reel?[indexs].videoThumbnailUrl}',
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) {
+                                      return Container(
                                         width: 80,
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
-                                              color:
-                                                  AppColors.textFildHintColor),
+                                            color: AppColors.textFildHintColor,
+                                          ),
                                         ),
-                                        child: const Icon(Icons.error));
-                                  },
+                                        child: const Icon(Icons.error),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.6,
-                                  child: Text(
-                                    "${data.name}",
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    style: GoogleFonts.nunitoSans(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.blackTextColor,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.6,
-                                  child: CustomText(
-                                    data: "${data.location}",
-                                    fontWeight: FontWeight.w500,
-                                    fSize: 14,
-                                    color: AppColors.secondTextColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       ),
                       Padding(
@@ -205,19 +174,35 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                 ),
                               ],
                             ),
+                            Text(
+                              "${data.name}",
+                              maxLines: 2,
+                              softWrap: true,
+                              style: GoogleFonts.nunitoSans(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.blackTextColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            CustomText(
+                              data: "${data.location}",
+                              fontWeight: FontWeight.w500,
+                              fSize: 14,
+                              color: AppColors.secondTextColor,
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
                             CustomReadMoreText(
-                                content: data.description ??
-                                    'Lorem ipsum dolor sit amet consectetur. Enim justo tellus odio vitae ullamcorper adipiscing est. Phasellus proin non orci consectetur Id sit letus morbi null a Tristique',
+                                content: data.description ?? '',
                                 color: AppColors.secondTextColor,
                                 mColor: AppColors.mainColor,
                                 rColor: AppColors.mainColor,
                                 trimLines: 3),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             Row(
                               children: [
                                 const Icon(
@@ -241,8 +226,10 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                               .size
                                               .width),
                                       isScrollControlled: true,
-                                      builder: (_) =>
-                                          UploadExperienceDetails(id: data.id,screen: widget.screen,),
+                                      builder: (_) => UploadExperienceDetails(
+                                        id: data.id,
+                                        screen: widget.screen,
+                                      ),
                                     );
                                   },
                                   child: Text(
@@ -268,8 +255,13 @@ class _ExperienceListWidgetState extends State<ExperienceListWidget> {
                                         enableDrag: false,
                                         isDismissible: false,
                                         constraints: BoxConstraints.expand(
-                                            height: MediaQuery.of(context).size.height * 0.90,
-                                            width: MediaQuery.of(context).size.width),
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.90,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width),
                                         isScrollControlled: true,
                                         builder: (_) => BookNowMainScreen(
                                           experienceId: data.id!,

@@ -31,7 +31,6 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 0;
 
-  //final PageController _pageController = PageController();
   final List<Widget> _screens = [
     const HomeScreen(),
     const CommunityScreen(),
@@ -82,32 +81,32 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         context,
         MaterialPageRoute(
           builder: (context) => VideoPlayerWidget(
-            videoUrl: '${experianceProvider.getShareReelsData.data?.videoUrl}',
+            videoUrl: '${experianceProvider.getShareReelsData.data?.data?.videoUrl}',
             commentCount:
-                experianceProvider.getShareReelsData.data?.commentCount,
-            about: experianceProvider.getShareReelsData.data?.user?[0].about,
+                experianceProvider.getShareReelsData.data?.data?.commentCount,
+            about: experianceProvider.getShareReelsData.data?.data?.user?[0].about,
             dateTime:
-                experianceProvider.getShareReelsData.data?.user?[0].createdAt,
-            userId: experianceProvider.getShareReelsData.data?.user?[0].id,
-            email: experianceProvider.getShareReelsData.data?.user?[0].email,
+                experianceProvider.getShareReelsData.data?.data?.user?[0].createdAt,
+            userId: experianceProvider.getShareReelsData.data?.data?.user?[0].id,
+            email: experianceProvider.getShareReelsData.data?.data?.user?[0].email,
             guide:
-                experianceProvider.getShareReelsData.data?.user?[0].isUpgrade,
+                experianceProvider.getShareReelsData.data?.data?.user?[0].isUpgrade,
             number:
-                experianceProvider.getShareReelsData.data?.user?[0].contactNo,
+                experianceProvider.getShareReelsData.data?.data?.user?[0].contactNo,
             createdAt:
-                experianceProvider.getShareReelsData.data?.user?[0].createdAt,
+                experianceProvider.getShareReelsData.data?.data?.user?[0].createdAt,
             image: experianceProvider
-                .getShareReelsData.data?.user?[0].profileImageUrl,
-            name: experianceProvider.getShareReelsData.data?.user?[0].name,
-            description: experianceProvider.getShareReelsData.data?.caption,
+                .getShareReelsData.data?.data?.user?[0].profileImageUrl,
+            name: experianceProvider.getShareReelsData.data?.data?.user?[0].name,
+            description: experianceProvider.getShareReelsData.data?.data?.caption,
             language:
-                experianceProvider.getShareReelsData.data?.user?[0].languages,
+                experianceProvider.getShareReelsData.data?.data?.user?[0].languages,
             index: 1,
-            likeCount: experianceProvider.getShareReelsData.data?.likeCount,
+            likeCount: experianceProvider.getShareReelsData.data?.data?.likeCount,
             videoImage:
-                experianceProvider.getShareReelsData.data?.videoThumbnailUrl,
-            isLike: experianceProvider.getShareReelsData.data?.liked,
-            reelsId: experianceProvider.getShareReelsData.data?.id,
+                experianceProvider.getShareReelsData.data?.data?.videoThumbnailUrl,
+            isLike: experianceProvider.getShareReelsData.data?.data?.liked,
+            reelsId: experianceProvider.getShareReelsData.data?.data?.id,
             screen: 'UserDetails',
           ),
         ),

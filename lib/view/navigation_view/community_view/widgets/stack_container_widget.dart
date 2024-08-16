@@ -76,7 +76,7 @@ class _StackContainerWidgetState extends State<StackContainerWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Spacer(),
+                const SizedBox(width: 120),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,6 +130,7 @@ class _StackContainerWidgetState extends State<StackContainerWidget> {
                     ),
                   ],
                 ),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     if (widget.hasJoined == true) {

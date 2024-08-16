@@ -2,7 +2,7 @@ import 'package:airjood/model/booking_list_model.dart';
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiServices.dart';
 import '../res/app_url.dart';
-
+// BookingData
 class GetBookingListRepository {
   BaseApiAServices apiAServices = NetworkApiService();
 

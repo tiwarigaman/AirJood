@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -17,7 +16,6 @@ import '../../../../res/components/maintextfild.dart';
 import '../../../../view_model/music_view_model.dart';
 
 class CustomBottomContainer extends StatefulWidget {
-  // final musicDataModel;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onPreviewTap;
   final GestureTapCallback? onPreviewTapV;
@@ -30,7 +28,6 @@ class CustomBottomContainer extends StatefulWidget {
 
   const CustomBottomContainer(
       {super.key,
-      // this.musicDataModel,
       this.onTap,
       this.onPreviewTap,
       this.controller,
@@ -102,7 +99,6 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                   enabledBorder: InputBorder.none,
                 ),
                 debounceTime: 400,
-                // countries: const ["in", "fr"],
                 isLatLngRequired: false,
                 itemClick: (Prediction prediction) {
                   setState(() {
@@ -210,8 +206,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
       ),
       isScrollControlled: true,
       constraints: BoxConstraints.expand(
-        height: MediaQuery.of(context).size.height/1.2
-      ),
+          height: MediaQuery.of(context).size.height / 1.2),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -264,8 +259,8 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  widget.onValue!(value
-                                      .musicData.data?.data?[index].songPathUrl);
+                                  widget.onValue!(value.musicData.data
+                                      ?.data?[index].songPathUrl);
                                   widget.onId!(
                                       value.musicData.data?.data?[index].id);
                                   widget.artistName!(value
@@ -277,42 +272,31 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                                   leading: ClipRRect(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
-                                    child: value.musicData.data?.data?[index]
-                                                    .thumbnailPathUrl ==
-                                                null ||
-                                            value.musicData.data?.data?[index]
-                                                    .thumbnailPathUrl ==
-                                                ''
-                                        ? Image.asset(
-                                            'assets/images/music_image.png',
-                                            height: 40,
-                                            width: 40,
-                                          )
-                                        : Image.network(
-                                            '${value.musicData.data?.data?[index].thumbnailPathUrl}',
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.fill,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: const Center(
-                                                  child: Icon(
-                                                    Icons.error,
-                                                    color: AppColors.mainColor,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                    child: Image.network(
+                                      '${value.musicData.data?.data?[index].thumbnailPathUrl}',
+                                      height: 40,
+                                      width: 40,
+                                      fit: BoxFit.fill,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.error,
+                                              color: AppColors.mainColor,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                   title: CustomText(
                                     data:
@@ -353,6 +337,7 @@ class _CustomBottomContainerState extends State<CustomBottomContainer> {
                                     ],
                                   ),
                                   trailing: InkWell(
+                                    borderRadius: BorderRadius.circular(100),
                                     onTap: () async {
                                       if (value.musicData.data!.data![index]
                                           .isPlaying!) {

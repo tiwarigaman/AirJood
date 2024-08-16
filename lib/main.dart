@@ -212,7 +212,7 @@ class _MyAppState extends State<MyApp> {
             seedColor: Colors.blue,
             brightness: Brightness.light,
           ),
-          useMaterial3: true,
+          useMaterial3: true, 
         ),
         initialRoute: RoutesName.splash,
         onGenerateRoute: Routes.generateRoute,

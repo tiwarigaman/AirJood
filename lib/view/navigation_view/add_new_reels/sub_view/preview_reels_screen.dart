@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:airjood/res/components/custom_shimmer.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -63,7 +65,9 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
       final info = await videoFile.length();
       double fileSizeInMB = info / (1024 * 1024);
     } catch (e) {
-      print("Error getting video information");
+      if (kDebugMode) {
+        print("Error getting video information");
+      }
     }
   }
 
@@ -111,15 +115,15 @@ class _PreviewReelsScreenState extends State<PreviewReelsScreen> {
                       ),
                     ],
                   )
-                : Image.asset(
-                    'assets/images/reels_bg_image.png',
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    fit: BoxFit.fill,
-                  ),
+                : const ReelShimmer()
+                // : Image.asset(
+                //     'assets/images/reels_bg_image.png',
+                //     width: MediaQuery.of(context).size.width,
+                //     height: MediaQuery.of(context).size.height,
+                //     fit: BoxFit.fill,
+                //   ),
           ),
           _buildPerview(context),
-          //const Spacer(),
           _buildContaint(context),
         ],
       ),

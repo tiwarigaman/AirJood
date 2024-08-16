@@ -129,7 +129,7 @@ class _AddonesListWidgetState extends State<AddonesListWidget> {
                         mColor: AppColors.mainColor,
                         rColor: AppColors.mainColor,
                         trimLines: 3,
-                        content: '${newData?.description}',
+                        content: '${newData.description}',
                         color: AppColors.secondTextColor,
                       )
                     ],

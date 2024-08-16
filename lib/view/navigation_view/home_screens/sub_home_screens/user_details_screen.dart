@@ -143,6 +143,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             onTap: () {
               Navigator.pop(context);
             },
+            borderRadius: BorderRadius.circular(100),
             child: const Icon(
               Icons.keyboard_arrow_left_rounded,
               size: 35,

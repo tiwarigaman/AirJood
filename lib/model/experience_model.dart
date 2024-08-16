@@ -38,8 +38,8 @@ class ExperienceModel {
   List<Facility>? mood;
   List<Facility>? facility;
   List<Addon>? addons;
-  Reel? reel;
   int? rating;
+  List<Reel>? reel;
 
   ExperienceModel({
     this.id,
@@ -117,7 +117,9 @@ class ExperienceModel {
         addons: json["addons"] == null
             ? []
             : List<Addon>.from(json["addons"]!.map((x) => Addon.fromJson(x))),
-        reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
+        reel: json["reel"] == null
+            ? []
+            : List<Reel>.from(json["reel"]!.map((x) => Reel.fromJson(x))),
         rating: json["rating"],
       );
 
@@ -155,7 +157,9 @@ class ExperienceModel {
         "addons": addons == null
             ? []
             : List<dynamic>.from(addons!.map((x) => x.toJson())),
-        "reel": reel?.toJson(),
+        "reel": reel == null
+            ? []
+            : List<dynamic>.from(reel!.map((x) => x.toJson())),
         "rating": rating,
       };
 }

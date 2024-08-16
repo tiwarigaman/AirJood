@@ -72,14 +72,14 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
               {
                 "experience_id": experiance?.id,
                 'name':experiance?.name,
-                'reelsUserProfileImage':experiance?.reel?.user?[0].profileImageUrl,
+                'reelsUserProfileImage':experiance?.reel?[0].user?[0].profileImageUrl,
                 'addon':selectedAddons,
-                'reelsUserName' :experiance?.reel?.user?[0].name,
-                'reels':experiance?.reel?.id,
+                'reelsUserName' :experiance?.reel?[0].user?[0].name,
+                'reels':experiance?.reel?[0].id,
                 'totalPrice':(calculateSelectedAddonsPrice() + (experiance?.price ?? 0)).toStringAsFixed(0),
                 'userCharges':experiance?.price.toString(),
-                'reelsUrl':experiance?.reel?.videoUrl,
-                'videoThumbnailUrl':experiance?.reel?.videoThumbnailUrl,
+                'reelsUrl':experiance?.reel?[0].videoUrl,
+                'videoThumbnailUrl':experiance?.reel?[0].videoThumbnailUrl,
                 'address':experiance?.location,
                 'price': calculateSelectedAddonsPrice().toStringAsFixed(0),
                 'facilitates': experiance?.facility,
@@ -162,7 +162,7 @@ class _BookNowFirstScreenState extends State<BookNowFirstScreen> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: CachedNetworkImage(
-                          imageUrl:'${data?.reel?.videoThumbnailUrl}',
+                          imageUrl:'${data?.reel?[0].videoThumbnailUrl}',
                           height: 110,
                           width: 85,
                           fit: BoxFit.cover,

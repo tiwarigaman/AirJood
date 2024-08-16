@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:airjood/main.dart';
 import 'package:airjood/utils/routes/routes_name.dart';
+import 'package:airjood/view_model/user_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import '../app_exception.dart';
 import 'BaseApiServices.dart';
 
@@ -180,7 +182,7 @@ class NetworkApiService extends BaseApiAServices {
 
   @override
   Future experiancePostApiResponse(
-      String url, token, Map<String, String> data, dynamic image) async {
+      String url, token, Map<String, dynamic> data, dynamic image) async {
     dynamic responseJson;
     try {
       var headers = {
@@ -196,7 +198,9 @@ class NetworkApiService extends BaseApiAServices {
         request.files.add(multipartFile);
       }
       request.headers.addAll(headers);
-      request.fields.addAll(data);
+      Map<String, String> stringData =
+          data.map((key, value) => MapEntry(key, value.toString()));
+      request.fields.addAll(stringData);
       var response = await request.send();
       responseJson = await http.Response.fromStream(response).then((value) {
         return returnResponse(value);
@@ -237,8 +241,8 @@ class NetworkApiService extends BaseApiAServices {
   }
 
   @override
-  Future communityPostApiResponse(
-      String url, token, Map<String, String> data, dynamic coverImage,dynamic profileImage) async {
+  Future communityPostApiResponse(String url, token, Map<String, String> data,
+      dynamic coverImage, dynamic profileImage) async {
     dynamic responseJson;
     try {
       var headers = {
@@ -250,12 +254,12 @@ class NetworkApiService extends BaseApiAServices {
       var request = http.MultipartRequest("POST", Uri.parse(url));
       if (coverImage != null) {
         var multipartFile =
-        await http.MultipartFile.fromPath('profile_image', coverImage.path);
+            await http.MultipartFile.fromPath('profile_image', coverImage.path);
         request.files.add(multipartFile);
       }
       if (profileImage != null) {
         var multipartFile =
-        await http.MultipartFile.fromPath('cover_image', profileImage.path);
+            await http.MultipartFile.fromPath('cover_image', profileImage.path);
         request.files.add(multipartFile);
       }
       request.headers.addAll(headers);
@@ -272,7 +276,8 @@ class NetworkApiService extends BaseApiAServices {
 
   @override
   Future communityCommentPostApiResponse(
-      String url, token, Map<String, String> data, {dynamic attachment}) async {
+      String url, token, Map<String, String> data,
+      {dynamic attachment}) async {
     dynamic responseJson;
     try {
       var headers = {
@@ -284,7 +289,7 @@ class NetworkApiService extends BaseApiAServices {
       var request = http.MultipartRequest("POST", Uri.parse(url));
       if (attachment != null) {
         var multipartFile =
-        await http.MultipartFile.fromPath('attachment', attachment.path);
+            await http.MultipartFile.fromPath('attachment', attachment.path);
         request.files.add(multipartFile);
       }
       request.headers.addAll(headers);
@@ -482,8 +487,12 @@ class NetworkApiService extends BaseApiAServices {
     if (kDebugMode) {
       print('Response =>${response.body}');
     }
-    if(responseData['message'] == 'Unauthenticated.'){
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);
+    if (responseData['message'] == 'Unauthenticated.') {
+      Provider.of<UserViewModel>(navigatorKey.currentContext!, listen: false).remove();
+      Provider.of<UserViewModel>(navigatorKey.currentContext!, listen: false).removeDeviceToken();
+      Provider.of<UserViewModel>(navigatorKey.currentContext!, listen: false).removeUser();
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil(RoutesName.login, (route) => false);
     }
     switch (response.statusCode) {
       case 200:
@@ -508,5 +517,4 @@ class NetworkApiService extends BaseApiAServices {
         );
     }
   }
-
 }

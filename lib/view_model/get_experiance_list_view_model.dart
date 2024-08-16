@@ -25,32 +25,35 @@ class GetExperianceListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void likeUpdates(bool liked, int id) {
+  void likeUpdates(bool liked, int id, int index) {
     if (liked == true) {
       for (var element in _data2) {
-        if (element.reelId == id) {
-          element.reel?.likeCount = (element.reel?.likeCount ?? 0) - 1;
+        if (element.reel?[index].id == id) {
+          element.reel?[index].likeCount =
+              (element.reel?[index].likeCount ?? 0) - 1;
         }
       }
     } else {
       for (var element in _data2) {
-        if (element.reelId == id) {
-          element.reel?.likeCount = (element.reel?.likeCount ?? 0) + 1;
+        if (element.reel?[index].id == id) {
+          element.reel?[index].likeCount =
+              (element.reel?[index].likeCount ?? 0) + 1;
         }
       }
     }
     for (var element in _data2) {
-      if (element.reelId == id) {
-        element.reel?.liked = !(element.reel?.liked ?? true);
+      if (element.reel?[index].id == id) {
+        element.reel?[index].liked = !(element.reel?[index].liked ?? true);
       }
     }
     notifyListeners();
   }
 
-  void commentUpdates(int id) {
+  void commentUpdates(int id, int index) {
     for (var element in _data2) {
-      if (element.reelId == id) {
-        element.reel?.commentCount = (element.reel?.commentCount ?? 0) + 1;
+      if (element.reel?[index].id == id) {
+        element.reel?[index].commentCount =
+            (element.reel?[index].commentCount ?? 0) + 1;
       }
     }
     notifyListeners();

@@ -37,7 +37,7 @@ abstract class BaseApiAServices {
   Future<dynamic> experiancePostApiResponse(
     String url,
     String token,
-    Map<String, String> data,
+    Map<String, dynamic> data,
     File image,
   );
 

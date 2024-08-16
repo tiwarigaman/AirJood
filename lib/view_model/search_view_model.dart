@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-
 import '../data/response/api_response.dart';
+import '../model/invite_user_list_model.dart';
 import '../model/search_model.dart';
 import '../repository/sesrch_repository.dart';
 import '../utils/utils.dart';
@@ -23,6 +23,43 @@ class SearchViewModel with ChangeNotifier {
     } catch (error) {
       setSearchList(ApiResponse.error(error.toString()));
       Utils.toastMessage('$error');
+      rethrow;
+    }
+  }
+
+  int _page = 1;
+  List<Datum> usersList = [];
+
+  void setPage(int page) {
+    _page = page;
+    notifyListeners();
+  }
+
+  void clearData() {
+    usersList.clear();
+    notifyListeners();
+  }
+
+  ApiResponse<InviteUserListModel> userListData = ApiResponse.loading();
+
+  setUserList(ApiResponse<InviteUserListModel> response) {
+    userListData = response;
+    response.data?.data?.forEach((element) {
+      usersList.add(element);
+    });
+    notifyListeners();
+  }
+
+  Future<void> userListGetApi(String token, {String? search}) async {
+    setUserList(ApiResponse.loading());
+    try {
+      final value = await myRepo.getUserList(token, _page, search: search);
+      setUserList(ApiResponse.completed(value));
+      _page++;
+    } catch (error) {
+      setUserList(ApiResponse.error(error.toString()));
+      Utils.toastMessage('$error');
+      rethrow;
     }
   }
 }

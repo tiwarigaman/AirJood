@@ -42,10 +42,9 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
   }
 
   String? token;
-  int? id;
+  List<int> id = [];
   String? image;
   String? video;
-
   String? activity;
   String? description;
   String? location;
@@ -65,7 +64,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
   String? price;
   List? mood;
   List? facilities;
-
+  List selectedReels = [];
   @override
   Widget build(BuildContext context) {
     final authViewModel = Provider.of<AddExperianceViewModel>(context);
@@ -91,7 +90,7 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
         },
         onLaqtaTap: (ReelsData value) {
           Navigator.pop(context);
-          id = value.id;
+          id = [value.id!.toInt()];
           image = value.videoThumbnailUrl;
           video = value.videoUrl;
           pagecontroller.nextPage(
@@ -101,10 +100,13 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
         },
       ),
       AddExperienceStep2(
-        id: id,
+        id: id.isEmpty ? 0 : id[0],
         image: image,
         video: video,
         onNextTap: (value) {
+          for (int i = 0; i < value['reels'].length; i++) {
+            id.add(value['reels'][i].reelsId);
+          }
           activity = value['name'];
           description = value['description'];
           pagecontroller.nextPage(
@@ -114,7 +116,6 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
         },
       ),
       AddExperienceStep3(
-        id: id,
         image: image,
         video: video,
         activity: activity,
@@ -144,7 +145,8 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
         },
       ),
       AddExperienceStep4(onTap: (List<AddonData> val) {
-        Map<String, String> data = {
+        print(id);
+        Map<String, dynamic> data = {
           'name': '$activity',
           'description': '$description',
           'location': '$location',
@@ -157,10 +159,13 @@ class _AddExperienceScreenState extends State<AddExperienceScreen> {
           'min_person': '$minPerson',
           'price_type': '$radioValue',
           'price': '$price',
-          'reel_id': '$id',
+          // 'reel_id': id,
           'longitude': '$lng',
           'latitude': '$lat',
         };
+        for (int i = 0; i < id.length; i++) {
+          data['reel_id[$i]'] = id[i];
+        }
         if (val[0].name.trim().isNotEmpty &&
             val[0].description.trim().isNotEmpty &&
             val[0].price.trim().isNotEmpty &&

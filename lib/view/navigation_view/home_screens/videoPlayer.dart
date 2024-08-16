@@ -27,11 +27,12 @@ class VideoPlayerData extends StatefulWidget {
 
 class _VideoPlayerDataState extends State<VideoPlayerData> {
   late VideoPlayerController _videoPlayerController;
-
+  final PageController _pageController = PageController();
+  int currentPage = 0;
   @override
   void initState() {
     _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse('${widget.data[widget.index].reel?.videoUrl}'))
+        Uri.parse('${widget.data[widget.index].reel?[currentPage].videoUrl}'))
       ..initialize().then((_) {
         if (mounted) {
           setState(() {
@@ -58,6 +59,7 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -77,10 +79,20 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                 children: [
                   Center(
                     child: AspectRatio(
-                      // aspectRatio: MediaQuery.of(context).size.width /
-                      //     MediaQuery.of(context).size.height,
                       aspectRatio: _videoPlayerController.value.aspectRatio,
-                      child: VideoPlayer(_videoPlayerController),
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: widget.data[widget.index].reel?.length,
+                        scrollDirection: Axis.horizontal,
+                        onPageChanged: (value) {
+                          currentPage = value;
+                          setState(() {});
+                        },
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return VideoPlayer(_videoPlayerController);
+                        },
+                      ),
                     ),
                   ),
                   Column(
@@ -91,19 +103,19 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                         rating: widget.data[widget.index].rating,
                         experianceId: widget.data[widget.index].id,
                         description: widget.data[widget.index].description,
-                        reelsId: widget.data[widget.index].reelId,
-                        videoUrl: widget.data[widget.index].reel?.videoUrl,
+                        reelsId: widget.data[widget.index].reel?[0].id,
+                        videoUrl: widget.data[widget.index].reel?[0].videoUrl,
                         videoImage:
-                            widget.data[widget.index].reel?.videoThumbnailUrl,
-                        likeCount: widget.data[widget.index].reel?.likeCount,
-                        isLike: widget.data[widget.index].reel?.liked,
+                            widget.data[widget.index].reel?[0].videoThumbnailUrl,
+                        likeCount: widget.data[widget.index].reel?[0].likeCount,
+                        isLike: widget.data[widget.index].reel?[0].liked,
                         index: widget.index,
                         commentCount:
-                            widget.data[widget.index].reel?.commentCount,
+                            widget.data[widget.index].reel?[0].commentCount,
                         commentAdd: () {
                           setState(() {
-                            widget.data[widget.index].reel?.commentCount =
-                                (widget.data[widget.index].reel?.commentCount ??
+                            widget.data[widget.index].reel?[0].commentCount =
+                                (widget.data[widget.index].reel?[0].commentCount ??
                                         0) +
                                     1;
                           });
@@ -111,25 +123,29 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                         price: widget.data[widget.index].price,
                         onLikeTap: () {
                           setState(() {
-                            if (widget.data[widget.index].reel?.liked == true) {
-                              widget.data[widget.index].reel?.likeCount =
-                                  (widget.data[widget.index].reel?.likeCount ??
+                            if (widget.data[widget.index].reel?[0].liked == true) {
+                              widget.data[widget.index].reel?[0].likeCount =
+                                  (widget.data[widget.index].reel?[0].likeCount ??
                                           0) -
                                       1;
                             } else {
-                              widget.data[widget.index].reel?.likeCount =
-                                  (widget.data[widget.index].reel?.likeCount ??
+                              widget.data[widget.index].reel?[0].likeCount =
+                                  (widget.data[widget.index].reel?[0].likeCount ??
                                           0) +
                                       1;
                             }
-                            widget.data[widget.index].reel?.liked =
-                                !(widget.data[widget.index].reel?.liked ??
+                            widget.data[widget.index].reel?[0].liked =
+                                !(widget.data[widget.index].reel?[0].liked ??
                                     true);
                           });
                         },
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      buildPageIndicator(),
+                      const SizedBox(
+                        height: 10,
                       ),
                       ReelsUser(
                         dateTime: widget.data[widget.index].createdAt,
@@ -147,7 +163,7 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                         isFollow: widget.data[widget.index].user?.isFollower,
                         gender: widget.data[widget.index].user?.gender,
                         dob: widget.data[widget.index].user?.dob,
-                        role:widget.data[widget.index].user?.role,
+                        role: widget.data[widget.index].user?.role,
                         screen: 'UserDetails',
                       ),
                       const SizedBox(
@@ -174,6 +190,26 @@ class _VideoPlayerDataState extends State<VideoPlayerData> {
                 ],
               )
             : const ReelsShimmer(),
+      ),
+    );
+  }
+
+  Widget buildPageIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        widget.data[widget.index].reel!.length, // +1 for the initial image
+        (index) => Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          width: 8.5,
+          height: 8.5,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: currentPage == index
+                ? AppColors.whiteColor
+                : AppColors.whiteColor.withOpacity(0.5),
+          ),
+        ),
       ),
     );
   }

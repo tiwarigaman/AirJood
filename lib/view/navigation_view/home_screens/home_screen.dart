@@ -9,6 +9,7 @@ import 'package:airjood/view/navigation_view/home_screens/videoPlayer.dart';
 import 'package:airjood/view_model/home_reels_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_popup/flutter_popup.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 import '../../../res/components/color.dart';
@@ -43,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen>
       image = value?.profileImageUrl;
       setState(() {});
     });
-
   }
 
   void notification() {
@@ -111,7 +111,8 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final homeReelsProvider = Provider.of<HomeReelsViewModel>(context);
-    final notificationProvider = Provider.of<NotificationListViewModel>(context);
+    final notificationProvider =
+        Provider.of<NotificationListViewModel>(context);
     return RefreshIndicator(
       onRefresh: refreshData,
       child: Scaffold(
@@ -178,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen>
                 showModalBottomSheet(
                   backgroundColor: Colors.transparent,
                   context: context,
-                  constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height * 0.85),
+                  constraints: BoxConstraints.expand(
+                      height: MediaQuery.of(context).size.height * 0.85),
                   isScrollControlled: true,
                   enableDrag: false,
                   builder: (_) => const NotificationScreen(),
@@ -188,13 +190,17 @@ class _HomeScreenState extends State<HomeScreen>
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: notificationProvider.notificationListData.data?.unreadCount == 0 ? const Image(
-                  image: AssetImage('assets/icons/notification.png'),
-                  height: 20,
-                ) : const Image(
-                  image: AssetImage('assets/icons/notification_on.png'),
-                  height: 20,
-                ),
+                child: notificationProvider
+                            .notificationListData.data?.unreadCount ==
+                        0
+                    ? const Image(
+                        image: AssetImage('assets/icons/notification.png'),
+                        height: 20,
+                      )
+                    : const Image(
+                        image: AssetImage('assets/icons/notification_on.png'),
+                        height: 20,
+                      ),
               ),
             ),
             const SizedBox(
@@ -279,22 +285,22 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             homeReelsProvider.mainReelsData.isEmpty
                 ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
                         'assets/images/rejected.png',
                         height: 100,
                         width: 100,
                       ),
-                    const SizedBox(height: 30),
-                    const CustomText(
-                      data: 'Not found',
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.whiteTextColor,
-                      fSize: 18,
-                    ),
-                  ],
-                )
+                      const SizedBox(height: 30),
+                      const CustomText(
+                        data: 'Not found',
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.whiteTextColor,
+                        fSize: 18,
+                      ),
+                    ],
+                  )
                 : Stack(
                     children: [
                       PreloadPageView.builder(
@@ -334,11 +340,3 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 }
-
-// LoginUser(
-//   image: image,
-//   getImage: ((val) {
-//     image = val;
-//     setState(() {});
-//   }),
-// ),

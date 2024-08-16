@@ -37,20 +37,20 @@ class HomeReelsViewModel with ChangeNotifier {
   void likeUpdates(bool liked, int id) {
     if (liked == true) {
       for (var element in mainReelsData) {
-        if (element.reelId == id) {
-          element.reel?.likeCount = (element.reel?.likeCount ?? 0) - 1;
+        if (element.reel?[0].id == id) {
+          element.reel?[0].likeCount = (element.reel?[0].likeCount ?? 0) - 1;
         }
       }
     } else {
       for (var element in mainReelsData) {
-        if (element.reelId == id) {
-          element.reel?.likeCount = (element.reel?.likeCount ?? 0) + 1;
+        if (element.reel?[0].id == id) {
+          element.reel?[0].likeCount = (element.reel?[0].likeCount ?? 0) + 1;
         }
       }
     }
     for (var element in mainReelsData) {
-      if (element.reelId == id) {
-        element.reel?.liked = !(element.reel?.liked ?? true);
+      if (element.reel?[0].id == id) {
+        element.reel?[0].liked = !(element.reel?[0].liked ?? true);
       }
     }
     notifyListeners();
@@ -58,8 +58,8 @@ class HomeReelsViewModel with ChangeNotifier {
 
   void commentUpdates(int id) {
     for (var element in mainReelsData) {
-      if (element.reelId == id) {
-        element.reel?.commentCount = (element.reel?.commentCount ?? 0) + 1;
+      if (element.reel?[0].id == id) {
+        element.reel?[0].commentCount = (element.reel?[0].commentCount ?? 0) + 1;
       }
     }
     notifyListeners();

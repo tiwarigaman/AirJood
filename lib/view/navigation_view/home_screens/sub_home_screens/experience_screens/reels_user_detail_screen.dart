@@ -91,7 +91,7 @@ class _ReelsUserDetailScreenState extends State<ReelsUserDetailScreen> {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
       await reelsProvider.reelsUserGetApi(widget.userId!, value!, currentPage);
-      reelsProvider.reelsData.data?.data?.forEach((element) {
+      reelsProvider.reelsData.data?.data?.data?.forEach((element) {
         data.add(element);
       });
     });

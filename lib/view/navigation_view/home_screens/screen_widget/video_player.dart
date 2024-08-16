@@ -52,7 +52,9 @@ class VideoPlayerWidget extends StatefulWidget {
     this.dateTime,
     this.commentCount,
     this.description,
-    this.screen, this.commentOpen, this.experienceId,
+    this.screen,
+    this.commentOpen,
+    this.experienceId,
   });
 
   @override
@@ -121,6 +123,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                           onTap: () {
                             Navigator.pop(context);
                           },
+                          borderRadius: BorderRadius.circular(10),
                           child: const Row(
                             children: [
                               Icon(Icons.arrow_back_ios_new_rounded,
@@ -128,7 +131,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                               CustomText(
                                 data: 'Previous',
                                 fontWeight: FontWeight.w700,
-                                fSize: 18,
+                                fSize: 20,
                                 color: AppColors.whiteTextColor,
                               ),
                             ],
@@ -164,7 +167,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                               reelViewProvider.likeUpdates(
                                   widget.isLike!, widget.reelsId!);
                               experianceProvider.likeUpdates(
-                                  widget.isLike!, widget.reelsId!);
+                                  widget.isLike!, widget.reelsId! , widget.index!);
                               if (widget.isLike == true) {
                                 widget.likeCount = (widget.likeCount ?? 0) - 1;
                               } else {

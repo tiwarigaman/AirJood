@@ -67,7 +67,7 @@ class _PlanningReelsSheetWidgetState extends State<PlanningReelsSheetWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    widget.imageUrl ?? 'assets/images/image1.png',
+                    widget.imageUrl ?? '',
                     height: 110,
                     width: 85,
                     fit: BoxFit.cover,

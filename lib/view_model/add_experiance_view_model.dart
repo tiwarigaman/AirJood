@@ -19,7 +19,7 @@ class AddExperianceViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addExperianceApi(String token, Map<String, String> data,
+  Future<void> addExperianceApi(String token, Map<String, dynamic> data,
       File image, BuildContext context) async {
     addExperianceLoading(true);
     myRepo.addExperianceApi(token, data, image).then((value) {

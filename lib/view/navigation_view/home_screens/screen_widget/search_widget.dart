@@ -3,6 +3,7 @@ import 'package:airjood/res/components/color.dart';
 import 'package:airjood/res/components/datebutton.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_result_widget.dart';
 import 'package:airjood/view/navigation_view/home_screens/screen_widget/search_slider_widget.dart';
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -62,14 +63,16 @@ class _SearchWidgetState extends State<SearchWidget> {
     });
   }
 
+  final CustomSegmentedController controller =
+      CustomSegmentedController(value: 0);
   TextEditingController location = TextEditingController();
-  TextEditingController price = TextEditingController();
   TextEditingController keyword = TextEditingController();
+  TextEditingController userController = TextEditingController();
   String? token;
   String? priceForm;
   String? priceTo;
   List? selectedMood;
-
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,28 +110,49 @@ class _SearchWidgetState extends State<SearchWidget> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      Provider.of<SearchViewModel>(context, listen: false)
-                          .searchGetApi(
-                              token!,
-                              location.text,
-                              selectedDate?.day == null
-                                  ? ''
-                                  : '${selectedDate?.year}-${selectedDate?.month}-${selectedDate?.day}',
-                              priceTo ?? '30',
-                              priceForm ?? '420',
-                              selectedMood ?? [],
-                              switchValue)
-                          .then((value) {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          constraints: BoxConstraints.expand(
-                              height: MediaQuery.of(context).size.height * 0.75,
-                              width: MediaQuery.of(context).size.width),
-                          isScrollControlled: true,
-                          builder: (_) => const SearchResultWidget(),
-                        );
-                      });
+                      if (index == 0) {
+                        Provider.of<SearchViewModel>(context, listen: false)
+                            .searchGetApi(
+                                token!,
+                                location.text,
+                                selectedDate?.day == null
+                                    ? ''
+                                    : '${selectedDate?.year}-${selectedDate?.month}-${selectedDate?.day}',
+                                priceTo ?? '30',
+                                priceForm ?? '420',
+                                selectedMood ?? [],
+                                switchValue)
+                            .then((value) {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            constraints: BoxConstraints.expand(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.75,
+                                width: MediaQuery.of(context).size.width),
+                            isScrollControlled: true,
+                            builder: (_) => const SearchResultWidget(search: 'reel'),
+                          );
+                        });
+                      } else {
+                        Provider.of<SearchViewModel>(context, listen: false)
+                            .setPage(1);
+                        Provider.of<SearchViewModel>(context, listen: false)
+                            .clearData();
+                        Provider.of<SearchViewModel>(context, listen: false)
+                            .userListGetApi(token!, search: userController.text.toString()).then((value) {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            constraints: BoxConstraints.expand(
+                                height:
+                                MediaQuery.of(context).size.height * 0.75,
+                                width: MediaQuery.of(context).size.width),
+                            isScrollControlled: true,
+                            builder: (_) => const SearchResultWidget(search: 'user'),
+                          );
+                        });
+                      }
                     },
                     child: Container(
                       height: 40,
@@ -152,158 +176,202 @@ class _SearchWidgetState extends State<SearchWidget> {
               const SizedBox(
                 height: 30,
               ),
-              MainTextFild(
-                controller: location,
-                prefixIcon: const Icon(
-                  Icons.search_rounded,
-                  color: AppColors.textFildHintColor,
+              CustomSlidingSegmentedControl(
+                initialValue: 1,
+                children: const {
+                  1: Text('Experiance'),
+                  2: Text('User'),
+                },
+                fixedWidth: MediaQuery.of(context).size.width / 2.2,
+                decoration: BoxDecoration(
+                  color: CupertinoColors.lightBackgroundGray,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                hintText: "Location, Experience, Venue....",
-                maxLines: 1,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              DateButton(
-                data: 'Select Date',
-                onTap: () {
-                  _selectDate(context);
-                },
-                formattedDate: formattedDate,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SearchSliderWidget(
-                high: (val) {
-                  priceForm = val.toString();
-                  setState(() {});
-                },
-                low: (val) {
-                  priceTo = val.toString();
+                thumbDecoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInToLinear,
+                controller: controller,
+                onValueChanged: (v) {
+                  index = v == 1 ? 0 : 1;
                   setState(() {});
                 },
               ),
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
-              Consumer<MoodViewModel>(
-                builder: (context, value, child) {
-                  switch (value.moodData.status) {
-                    case Status.LOADING:
-                      return MoodDrop(
-                        items: value.moodData.data?.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.mood}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {},
-                      );
-                    case Status.ERROR:
-                      return MoodDrop(
-                        items: value.moodData.data?.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.mood}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {},
-                      );
-                    case Status.COMPLETED:
-                      List<Map<String, String>> itemsList = [];
-                      for (int i = 0; i < value.moodData.data!.data!.length; i++) {
-                        final moodItem = value.moodData.data!.data![i];
-                        itemsList.add({
-                          'id': '${moodItem.id}',
-                          'name': '${moodItem.mood}'
-                        });
-                      }
-                      return MoodDrop(
-                        initialValue: selectedMood,
-                        items: value.moodData.data?.data?.map((item) {
-                              return MultiSelectItem(
-                                  '${item.id}', '${item.mood}');
-                            }).toList() ??
-                            [],
-                        onConfirm: (results) {
-                          setState(() {
-                            selectedMood = results;
-                          });
+              Center(
+                child: [
+                  Column(
+                    children: [
+                      MainTextFild(
+                        controller: location,
+                        prefixIcon: const Icon(
+                          Icons.search_rounded,
+                          color: AppColors.textFildHintColor,
+                        ),
+                        hintText: "Location, Experience, Venue....",
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      DateButton(
+                        data: 'Select Date',
+                        onTap: () {
+                          _selectDate(context);
                         },
-                      );
-                    default:
-                  }
-                  return Container();
-                },
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  const CustomText(
-                    data: 'Rate',
-                    color: AppColors.blackTextColor,
-                    fSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  RatingBar(
-                    initialRating: 3,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    ratingWidget: RatingWidget(
-                      full: const Icon(
-                        Icons.star_rounded,
-                        color: AppColors.amberColor,
+                        formattedDate: formattedDate,
                       ),
-                      half: const Icon(
-                        Icons.star_half_rounded,
-                        color: AppColors.amberColor,
+                      const SizedBox(
+                        height: 20,
                       ),
-                      empty: const Icon(
-                        Icons.star_outline_rounded,
-                        color: AppColors.secondTextColor,
+                      SearchSliderWidget(
+                        high: (val) {
+                          priceForm = val.toString();
+                          setState(() {});
+                        },
+                        low: (val) {
+                          priceTo = val.toString();
+                          setState(() {});
+                        },
                       ),
-                    ),
-                    itemSize: 30.0,
-                    itemPadding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                    onRatingUpdate: (double value) {},
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Consumer<MoodViewModel>(
+                        builder: (context, value, child) {
+                          switch (value.moodData.status) {
+                            case Status.LOADING:
+                              return MoodDrop(
+                                items: const [],
+                                onConfirm: (p0) {},
+                              );
+                            case Status.ERROR:
+                              return MoodDrop(
+                                items: const [],
+                                onConfirm: (p0) {},
+                              );
+                            case Status.COMPLETED:
+                              List<Map<String, String>> itemsList = [];
+                              for (int i = 0;
+                                  i < value.moodData.data!.data!.length;
+                                  i++) {
+                                final moodItem = value.moodData.data!.data![i];
+                                itemsList.add({
+                                  'id': '${moodItem.id}',
+                                  'name': '${moodItem.mood}'
+                                });
+                              }
+                              return MoodDrop(
+                                initialValue: selectedMood,
+                                items: value.moodData.data?.data?.map((item) {
+                                      return MultiSelectItem(
+                                          '${item.id}', '${item.mood}');
+                                    }).toList() ??
+                                    [],
+                                onConfirm: (results) {
+                                  setState(() {
+                                    selectedMood = results;
+                                  });
+                                },
+                              );
+                            default:
+                          }
+                          return Container();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          const CustomText(
+                            data: 'Rate',
+                            color: AppColors.blackTextColor,
+                            fSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          RatingBar(
+                            initialRating: 3,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            ratingWidget: RatingWidget(
+                              full: const Icon(
+                                Icons.star_rounded,
+                                color: AppColors.amberColor,
+                              ),
+                              half: const Icon(
+                                Icons.star_half_rounded,
+                                color: AppColors.amberColor,
+                              ),
+                              empty: const Icon(
+                                Icons.star_outline_rounded,
+                                color: AppColors.secondTextColor,
+                              ),
+                            ),
+                            itemSize: 30.0,
+                            itemPadding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
+                            onRatingUpdate: (double value) {},
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      MainTextFild(
+                        controller: keyword,
+                        labelText: "# Keywords",
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const CustomText(
+                            data: 'Add ons',
+                            fontWeight: FontWeight.w500,
+                            fSize: 17,
+                            color: AppColors.blackTextColor,
+                          ),
+                          Switch(
+                            value: switchValue,
+                            onChanged: onSwitchValueChanged,
+                            activeColor: AppColors.whiteTextColor,
+                            activeTrackColor: AppColors.mainColor,
+                            inactiveThumbColor: AppColors.whiteTextColor,
+                            inactiveTrackColor: AppColors.textFildBorderColor,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MainTextFild(
-                controller: keyword,
-                labelText: "# Keywords",
-                maxLines: 1,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const CustomText(
-                    data: 'Add ons',
-                    fontWeight: FontWeight.w500,
-                    fSize: 17,
-                    color: AppColors.blackTextColor,
+                  Column(
+                    children: [
+                      MainTextFild(
+                        controller: userController,
+                        prefixIcon: const Icon(
+                          Icons.search_rounded,
+                          color: AppColors.textFildHintColor,
+                        ),
+                        hintText: "Search....",
+                        maxLines: 1,
+                      ),
+                      const SizedBox(
+                        height: 400,
+                      ),
+                    ],
                   ),
-                  Switch(
-                    value: switchValue,
-                    onChanged: onSwitchValueChanged,
-                    activeColor: AppColors.whiteTextColor,
-                    activeTrackColor: AppColors.mainColor,
-                    inactiveThumbColor: AppColors.whiteTextColor,
-                    inactiveTrackColor: AppColors.textFildBorderColor,
-                  ),
-                ],
+                ][index],
               ),
             ],
           ),
@@ -312,41 +380,3 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 }
-// Row(
-//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//   children: [
-//     const CustomText(
-//       data: 'Visa Required ',
-//       fweight: FontWeight.w500,
-//       fSize: 17,
-//       fontColor: AppColors.blackTextColor,
-//     ),
-//     Switch(
-//       value: switchValue,
-//       onChanged: onSwitchValueChanged,
-//       activeColor: AppColors.whiteTextColor,
-//       activeTrackColor: AppColors.mainColor,
-//       inactiveThumbColor: AppColors.whiteTextColor,
-//       inactiveTrackColor: AppColors.textFildBorderColor,
-//     ),
-//   ],
-// ),
-// Row(
-//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//   children: [
-//     const CustomText(
-//       data: 'Related to my Plan',
-//       fweight: FontWeight.w500,
-//       fSize: 17,
-//       fontColor: AppColors.blackTextColor,
-//     ),
-//     Switch(
-//       value: switchValue,
-//       onChanged: onSwitchValueChanged,
-//       activeColor: AppColors.whiteTextColor,
-//       activeTrackColor: AppColors.mainColor,
-//       inactiveThumbColor: AppColors.whiteTextColor,
-//       inactiveTrackColor: AppColors.textFildBorderColor,
-//     ),
-//   ],
-// ),

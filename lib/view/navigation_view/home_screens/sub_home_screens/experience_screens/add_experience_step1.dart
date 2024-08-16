@@ -31,7 +31,6 @@ class AddExperienceStep1 extends StatefulWidget {
 class _AddExperienceStep1State extends State<AddExperienceStep1> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchData();
   }
@@ -41,7 +40,7 @@ class _AddExperienceStep1State extends State<AddExperienceStep1> {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
       await reelsProvider.reelsGetApi(value!, currentPage);
-      reelsProvider.reelsData.data?.data?.forEach((element) {
+      reelsProvider.reelsData.data?.data?.data?.forEach((element) {
         data.add(element);
       });
     });

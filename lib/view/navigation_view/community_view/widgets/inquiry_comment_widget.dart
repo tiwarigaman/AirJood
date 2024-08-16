@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -357,9 +358,9 @@ class _InquiryCommentWidgetState extends State<InquiryCommentWidget> {
           ),
           const SizedBox(height: 15),
           const Divider(height: 0, thickness: 1, color: AppColors.deviderColor),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Stack(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: ExpansionTile(
@@ -368,7 +369,7 @@ class _InquiryCommentWidgetState extends State<InquiryCommentWidget> {
                   collapsedShape: InputBorder.none,
                   collapsedIconColor: AppColors.transperent,
                   iconColor: AppColors.transperent,
-                  childrenPadding: const EdgeInsets.only(left: 20),
+                  childrenPadding: const EdgeInsets.all(10),
                   shape: InputBorder.none,
                   title: CustomText(
                     data: '${widget.replies?.length} Replies',
@@ -456,7 +457,6 @@ class _InquiryCommentWidgetState extends State<InquiryCommentWidget> {
                               textAlign: TextAlign.justify,
                             ),
                             const SizedBox(height: 15),
-                            const SizedBox(height: 15),
                           ],
                         );
                       },
@@ -464,42 +464,46 @@ class _InquiryCommentWidgetState extends State<InquiryCommentWidget> {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  if (widget.hasJoined == false) {
-                    Utils.toastMessage('Please Join Community...');
-                  } else if (widget.typeId == 'question') {
-                    _showReplyInput(formattedDate, context);
-                  } else {
-                    showModalBottomSheet(
-                      context: context,
-                      constraints: BoxConstraints.expand(
-                        height: MediaQuery.of(context).size.height * 0.70,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      isScrollControlled: true,
-                      builder: (_) => PostInquiryScreen(
+              Positioned(
+                right: 0,
+                width: 70,
+                child: InkWell(
+                  onTap: () {
+                    if (widget.hasJoined == false) {
+                      Utils.toastMessage('Please Join Community...');
+                    } else if (widget.typeId == 'question') {
+                      _showReplyInput(formattedDate, context);
+                    } else {
+                      showModalBottomSheet(
                         context: context,
-                        parentId: widget.parentId,
-                        token: widget.token,
-                        communityId: widget.communityId,
-                      ),
-                    );
-                  }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.only(top: 18),
-                  child: Row(
-                    children: [
-                      Icon(CupertinoIcons.reply, size: 20),
-                      SizedBox(width: 5),
-                      CustomText(
-                        data: 'Reply',
-                        fSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.blackTextColor,
-                      ),
-                    ],
+                        constraints: BoxConstraints.expand(
+                          height: MediaQuery.of(context).size.height * 0.70,
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                        isScrollControlled: true,
+                        builder: (_) => PostInquiryScreen(
+                          context: context,
+                          parentId: widget.parentId,
+                          token: widget.token,
+                          communityId: widget.communityId,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 18),
+                    child: Row(
+                      children: [
+                        Icon(CupertinoIcons.reply, size: 20),
+                        SizedBox(width: 5),
+                        CustomText(
+                          data: 'Reply',
+                          fSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.blackTextColor,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

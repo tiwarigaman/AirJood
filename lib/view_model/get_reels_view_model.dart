@@ -14,7 +14,7 @@ class ReelsViewModel with ChangeNotifier {
   setReelsList(ApiResponse<ReelsModel> response) {
     reelsData = response;
     laqtaData.clear();
-    response.data?.data?.forEach((element) {
+    response.data?.data?.data?.forEach((element) {
       laqtaData.add(element);
     });
     notifyListeners();
@@ -22,7 +22,7 @@ class ReelsViewModel with ChangeNotifier {
 
   setReelsList2(ApiResponse<ReelsModel> response) {
     reelsData = response;
-    response.data?.data?.forEach((element) {
+    response.data?.data?.data?.forEach((element) {
       laqtaData.add(element);
     });
     notifyListeners();
@@ -32,11 +32,9 @@ class ReelsViewModel with ChangeNotifier {
     setReelsList(ApiResponse.loading());
     await myRepo.getReels(token, page).then((value) {
       setReelsList(ApiResponse.completed(value));
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setReelsList(ApiResponse.error(error.toString()));
       throw error!;
-      Utils.toastMessage('$error');
     });
   }
 

@@ -34,7 +34,7 @@ class _AddExperienceStep4State extends State<AddExperienceStep4> {
     UserViewModel().getToken().then((value) async {
       final reelsProvider = Provider.of<ReelsViewModel>(context, listen: false);
       await reelsProvider.reelsGetApi(value!, currentPage);
-      reelsProvider.reelsData.data?.data?.forEach((element) {
+      reelsProvider.reelsData.data?.data?.data?.forEach((element) {
         data.add(element);
       });
       setState(() {});

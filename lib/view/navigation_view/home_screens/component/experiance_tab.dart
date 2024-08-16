@@ -19,6 +19,7 @@ import '../../../../view_model/delete_experiance_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
 import '../../ExitBar.dart';
 import '../../planning_view/Add_planning_screen.dart';
+import '../screen_widget/fridge_door_widget.dart';
 import '../sub_home_screens/show_upload_reels.dart';
 
 class ExperianceTabData extends StatefulWidget {
@@ -48,13 +49,13 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
     super.initState();
     if (widget.screen != 'UserDetails') {
       _tabController = TabController(
-        length: 5,
+        length: 6,
         vsync: this,
         initialIndex: 0,
       );
     } else {
       _tabController = TabController(
-        length: 4,
+        length: 5,
         vsync: this,
         initialIndex: 0,
       );
@@ -140,6 +141,14 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                 color: index == (widget.screen != 'UserDetails' ? 4 : 3)
                     ? AppColors.whiteTextColor
                     : AppColors.mainColor,
+              ),
+            ),
+            Tab(
+              text: 'Fridge Door',
+              icon: SvgPicture.asset(
+                'assets/svg/frige.svg',
+                color:
+                index == (widget.screen != 'UserDetails' ? 5 : 4) ? AppColors.whiteTextColor : AppColors.mainColor,
               ),
             ),
           ],
@@ -252,6 +261,10 @@ class _ExperianceTabDataState extends State<ExperianceTabData>
                 child: ReviewWidget(
                   userId: widget.userId,
                 ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                child: FridgeDoor(),
               ),
             ][_tabController.index],
           ),

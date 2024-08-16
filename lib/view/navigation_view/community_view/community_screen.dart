@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:airjood/view/navigation_view/community_view/add_community_screen.dart';
 import 'package:airjood/view/navigation_view/community_view/community_details_screen.dart';
 import 'package:airjood/view/navigation_view/community_view/widgets/list_container_widget.dart';
@@ -59,7 +61,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
         child: Container(
           height: 56,
           width: 56,
-          margin: const EdgeInsets.only(bottom: 60),
+          margin: EdgeInsets.only(bottom: Platform.isIOS ? 60 : 80),
           decoration: BoxDecoration(
             color: AppColors.mainColor,
             borderRadius: BorderRadius.circular(100),
@@ -149,14 +151,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 onChanged: (values) {
                   if (values.length == 3 || values.isEmpty) {
                     UserViewModel().getToken().then((value) {
-                      Provider.of<GetCommunityListViewModel>(context, listen: false)
+                      Provider.of<GetCommunityListViewModel>(context,
+                              listen: false)
                           .communityListGetApi(value!, values);
                     });
                   }
                 },
                 onFieldSubmitted: (values) {
                   UserViewModel().getToken().then((value) {
-                    Provider.of<GetCommunityListViewModel>(context, listen: false)
+                    Provider.of<GetCommunityListViewModel>(context,
+                            listen: false)
                         .communityListGetApi(value!, values);
                   });
                 },
@@ -180,6 +184,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      const SizedBox(height: 200),
                                       Image.asset(
                                         'assets/images/rejected.png',
                                         height: 70,
@@ -197,11 +202,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 )
                               : ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: value.communityData.data!.data!.data?.length,
+                                  itemCount: value
+                                      .communityData.data!.data!.data?.length,
                                   padding: EdgeInsets.zero,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
-                                    var community = value.communityData.data!.data!.data?[index];
+                                    var community = value
+                                        .communityData.data!.data!.data?[index];
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.push(
@@ -209,8 +216,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 CommunityDetailsScreen(
-                                                  communityId: community?.id,
-                                                ),
+                                              communityId: community?.id,
+                                            ),
                                           ),
                                         );
                                       },

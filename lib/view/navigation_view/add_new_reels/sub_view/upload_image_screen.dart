@@ -15,7 +15,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../res/components/color.dart';
 import '../../../../view_model/music_view_model.dart';
 import '../../../../view_model/user_view_model.dart';
@@ -212,13 +211,12 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
           String command =
               "-i $videoFilePath -i $musicFilePath -y -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 -shortest $outputFilePath";
-          print("Executing FFmpeg command: $command");
 
           FFmpegKit.execute(command).then((session) async {
             final returnCode = await session.getReturnCode();
-            final output = await session.getOutput();
-            final log = await session.getLogs();
-            final error = await session.getFailStackTrace();
+            // final output = await session.getOutput();
+            // final log = await session.getLogs();
+            // final error = await session.getFailStackTrace();
 
             if (ReturnCode.isSuccess(returnCode)) {
               if (captionController.text.trim().isEmpty) {
@@ -248,10 +246,6 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               Utils.toastMessage('Something went wrong!');
             } else {
               Utils.toastMessage('Something went wrong!');
-              print('FFmpeg command failed with return code: $returnCode');
-              print('FFmpeg output: $output');
-              print('FFmpeg log: $log');
-              print('FFmpeg error: $error');
             }
           });
         } else {

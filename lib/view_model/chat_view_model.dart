@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:airjood/data/response/api_response.dart';
 import 'package:airjood/model/conversations_model.dart';
 import 'package:airjood/model/invite_user_list_model.dart';
@@ -163,7 +161,6 @@ class ChatViewModel extends ChangeNotifier {
     myRepo.messagesConversations(token).then((value) {
       setLoading(false);
       setConversationsData(value['data']);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.toastMessage('$error');
@@ -174,8 +171,6 @@ class ChatViewModel extends ChangeNotifier {
     setLoading(true);
     myRepo.sendMessage(token, data).then((value) {
       setLoading(false);
-      print(value);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.toastMessage('$error');
@@ -187,8 +182,6 @@ class ChatViewModel extends ChangeNotifier {
     setLoading(true);
     await myRepo.sendMedia(token, data, file).then((value) {
       setLoading(false);
-      print(value);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.toastMessage('$error');
@@ -199,8 +192,6 @@ class ChatViewModel extends ChangeNotifier {
     setLoading(true);
     myRepo.readAll(token, data).then((value) {
       setLoading(false);
-      print(value);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.toastMessage('$error');
@@ -213,27 +204,11 @@ class ChatViewModel extends ChangeNotifier {
         token, {"message_ids": selectedMessageIds}).then((value) {
       deleteSelectedMessages();
       setLoading(false);
-      print(value);
-      // Utils.tostMessage('${value['message']}');
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.toastMessage('$error');
     });
   }
-
-  // Future<void> deleteMessageApi(String token, int? id) async {
-  //   setLoading(true);
-  //   _messagesData.removeWhere((item) => item.id == id);
-  //   notifyListeners();
-  //   myRepo.deleteMessage(token, '/$id').then((value) {
-  //     setLoading(false);
-  //     print(value);
-  //     // Utils.tostMessage('${value['message']}');
-  //   }).onError((error, stackTrace) {
-  //     setLoading(false);
-  //     Utils.toastMessage('$error');
-  //   });
-  // }
 
   int _page = 1;
   List<Datum> usersList = [];

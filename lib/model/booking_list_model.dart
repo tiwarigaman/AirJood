@@ -78,10 +78,12 @@ class BookingData {
   String? paymentMethod;
   int? experienceId;
   DateTime? date;
-  dynamic addons;
+  String? addons;
   int? noOfGuests;
-  dynamic bookingCharges;
+  int? bookingCharges;
   String? comment;
+  int? reviewId;
+  int? reviewNotificationSent;
   DateTime? updatedAt;
   DateTime? createdAt;
   int? createdBy;
@@ -101,6 +103,8 @@ class BookingData {
     this.noOfGuests,
     this.bookingCharges,
     this.comment,
+    this.reviewId,
+    this.reviewNotificationSent,
     this.updatedAt,
     this.createdAt,
     this.createdBy,
@@ -121,6 +125,8 @@ class BookingData {
     noOfGuests: json["no_of_guests"],
     bookingCharges: json["booking_charges"],
     comment: json["comment"],
+    reviewId: json["review_id"],
+    reviewNotificationSent: json["review_notification_sent"],
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     createdBy: json["created_by"],
@@ -141,6 +147,8 @@ class BookingData {
     "no_of_guests": noOfGuests,
     "booking_charges": bookingCharges,
     "comment": comment,
+    "review_id": reviewId,
+    "review_notification_sent": reviewNotificationSent,
     "updated_at": updatedAt?.toIso8601String(),
     "created_at": createdAt?.toIso8601String(),
     "created_by": createdBy,
@@ -211,6 +219,7 @@ class Addonss {
 class Reel {
   int? id;
   int? userId;
+  int? experienceId;
   String? caption;
   DateTime? dateOfShoot;
   String? location;
@@ -227,6 +236,7 @@ class Reel {
   Reel({
     this.id,
     this.userId,
+    this.experienceId,
     this.caption,
     this.dateOfShoot,
     this.location,
@@ -244,6 +254,7 @@ class Reel {
   factory Reel.fromJson(Map<String, dynamic> json) => Reel(
     id: json["id"],
     userId: json["user_id"],
+    experienceId: json["experience_id"],
     caption: json["caption"],
     dateOfShoot: json["date_of_shoot"] == null ? null : DateTime.parse(json["date_of_shoot"]),
     location: json["location"],
@@ -261,6 +272,7 @@ class Reel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "user_id": userId,
+    "experience_id": experienceId,
     "caption": caption,
     "date_of_shoot": dateOfShoot?.toIso8601String(),
     "location": location,
@@ -278,7 +290,7 @@ class Reel {
 
 class User {
   int? id;
-  List<String>? languages;
+  List<Language>? languages;
   dynamic about;
   String? contactNo;
   DateTime? dob;
@@ -295,6 +307,7 @@ class User {
   bool? isFollowing;
   bool? isFollower;
   dynamic planInvitationStatus;
+  int? rating;
 
   User({
     this.id,
@@ -315,17 +328,18 @@ class User {
     this.isFollowing,
     this.isFollower,
     this.planInvitationStatus,
+    this.rating,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
-    languages: json["languages"] == null ? [] : List<String>.from(json["languages"]!.map((x) => x)),
+    languages: json["languages"] == null ? [] : List<Language>.from(json["languages"]!.map((x) => languageValues.map[x]!)),
     about: json["about"],
     contactNo: json["contact_no"],
     dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-    gender: json["gender"]!,
+    gender: json["gender"],
     name: json["name"],
-    role: json["role"]!,
+    role: json["role"],
     email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
@@ -336,11 +350,12 @@ class User {
     isFollowing: json["is_following"],
     isFollower: json["is_follower"],
     planInvitationStatus: json["plan_invitation_status"],
+    rating: json["rating"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => x)),
+    "languages": languages == null ? [] : List<dynamic>.from(languages!.map((x) => languageValues.reverse[x])),
     "about": about,
     "contact_no": contactNo,
     "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
@@ -357,20 +372,32 @@ class User {
     "is_following": isFollowing,
     "is_follower": isFollower,
     "plan_invitation_status": planInvitationStatus,
+    "rating": rating,
   };
 }
+
+enum Language {
+  AMHARIC,
+  ARABIC,
+  EMPTY
+}
+
+final languageValues = EnumValues({
+  "Amharic": Language.AMHARIC,
+  "Arabic": Language.ARABIC,
+  "": Language.EMPTY
+});
 
 class Experience {
   int? id;
   int? relatedToMyPlan;
-  int? reelId;
   String? latitude;
   String? longitude;
   dynamic availabilityForPersonFrom;
   dynamic availabilityForPersonTo;
-  String? city;
+  dynamic city;
   String? country;
-  String? state;
+  dynamic state;
   DateTime? createdAt;
   int? createdBy;
   String? description;
@@ -387,13 +414,13 @@ class Experience {
   String? fridgetMagnetUrl;
   List<Facility>? mood;
   List<Facility>? facility;
+  int? rating;
   User? user;
-  Reel? reel;
+  List<Reel>? reel;
 
   Experience({
     this.id,
     this.relatedToMyPlan,
-    this.reelId,
     this.latitude,
     this.longitude,
     this.availabilityForPersonFrom,
@@ -417,6 +444,7 @@ class Experience {
     this.fridgetMagnetUrl,
     this.mood,
     this.facility,
+    this.rating,
     this.user,
     this.reel,
   });
@@ -424,7 +452,6 @@ class Experience {
   factory Experience.fromJson(Map<String, dynamic> json) => Experience(
     id: json["id"],
     relatedToMyPlan: json["related_to_my_plan"],
-    reelId: json["reel_id"],
     latitude: json["latitude"],
     longitude: json["longitude"],
     availabilityForPersonFrom: json["availability_for_person_from"],
@@ -448,14 +475,14 @@ class Experience {
     fridgetMagnetUrl: json["fridget_magnet_url"],
     mood: json["mood"] == null ? [] : List<Facility>.from(json["mood"]!.map((x) => Facility.fromJson(x))),
     facility: json["facility"] == null ? [] : List<Facility>.from(json["facility"]!.map((x) => Facility.fromJson(x))),
+    rating: json["rating"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    reel: json["reel"] == null ? null : Reel.fromJson(json["reel"]),
+    reel: json["reel"] == null ? [] : List<Reel>.from(json["reel"]!.map((x) => Reel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "related_to_my_plan": relatedToMyPlan,
-    "reel_id": reelId,
     "latitude": latitude,
     "longitude": longitude,
     "availability_for_person_from": availabilityForPersonFrom,
@@ -479,8 +506,9 @@ class Experience {
     "fridget_magnet_url": fridgetMagnetUrl,
     "mood": mood == null ? [] : List<dynamic>.from(mood!.map((x) => x.toJson())),
     "facility": facility == null ? [] : List<dynamic>.from(facility!.map((x) => x.toJson())),
+    "rating": rating,
     "user": user?.toJson(),
-    "reel": reel?.toJson(),
+    "reel": reel == null ? [] : List<dynamic>.from(reel!.map((x) => x.toJson())),
   };
 }
 

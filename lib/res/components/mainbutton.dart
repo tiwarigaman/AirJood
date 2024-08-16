@@ -48,7 +48,6 @@ class _MainButtonState extends State<MainButton> {
                   style: GoogleFonts.nunito(
                     color: Colors.white,
                     fontSize: 18,
-                    //fontFamily: 'Euclid Circular A',
                     fontWeight: FontWeight.w500,
                   ),
                 ),

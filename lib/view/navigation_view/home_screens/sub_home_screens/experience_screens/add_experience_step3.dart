@@ -33,7 +33,6 @@ class AddExperienceStep3 extends StatefulWidget {
   final String? video;
   final String? activity;
   final String? description;
-
   const AddExperienceStep3(
       {super.key,
       this.onNextTap,

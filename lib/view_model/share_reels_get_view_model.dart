@@ -17,7 +17,6 @@ class ShareReelsGetViewModel with ChangeNotifier {
     setGetShareReelsData(ApiResponse.loading());
     await myRepo.getShareReels(token, id).then((value) {
       setGetShareReelsData(ApiResponse.completed(value));
-      //Utils.tostMessage('$value');
     }).onError((error, stackTrace) {
       setGetShareReelsData(ApiResponse.error(error.toString()));
       Utils.toastMessage('$error');
