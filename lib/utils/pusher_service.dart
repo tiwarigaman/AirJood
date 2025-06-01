@@ -12,7 +12,7 @@ class PusherService {
     pusher = PusherChannelsFlutter.getInstance();
     try {
       await pusher.init(
-        apiKey: '1ac9ae8342bef0097d45',
+        apiKey: '///',
         cluster: 'ap2',
       );
       await pusher.connect();
