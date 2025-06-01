@@ -76,7 +76,7 @@ void main() async {
       debug: true,
       ignoreSsl: true,
   );
-  Stripe.publishableKey = "pk_test_Pyu4oj7fU3CFtbcP0gH16Ila";
+  Stripe.publishableKey = "/////////";
   await dotenv.load(fileName: "assets/.env");
   runApp(const MyApp());
 }
