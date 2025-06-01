@@ -19,7 +19,7 @@ import flutter_downloader
         UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
       
-    GMSServices.provideAPIKey("AIzaSyDnq6Apb0gbBTP8Nq6tSxRwVIrgnqpaugw")
+    GMSServices.provideAPIKey("////")
     GeneratedPluginRegistrant.register(with: self)
     FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
